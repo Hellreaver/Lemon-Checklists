@@ -215,6 +215,7 @@
     },
     "specTable": "card fill inside a 1px line, radius 10px; Barlow Condensed uppercase muted head; first column Barlow, spec column mono tabular; qualifiers in 12px muted on their own line",
     "sequenceDiagram": "bolt order drawn as a 5-column grid of mono pills on idle-bg, first bolt on accent-soft/accent-ink, dashed line outline; orientation matches the manual figure",
-    "footer": "13px muted, 1px line top border; names the LEMON manual year, model, engine and every section used"
+    "footer": "13px muted, 1px line top border; names the LEMON manual year, model, engine and every section used",
+    "images": "Include the manual's figures wherever a step, sequence or spec table has one (bolt orders, timing marks, exploded views, scanned torque tables). Fetch with the Lemon MCP get_image tool, save under guides/img/<guide-name>/, reference with a relative path, give each a caption naming the manual figure, 100% max width on a white card so the black-on-white scans stay readable in the dark theme."
   }
 }
