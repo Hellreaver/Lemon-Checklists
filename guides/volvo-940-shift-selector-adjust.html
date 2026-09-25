@@ -101,6 +101,7 @@ tbody tr:last-child td{border-bottom:none;}
 .chip{display:inline-block;font:600 12px "IBM Plex Mono",monospace;padding:1px 8px;border-radius:999px;background:var(--idle-bg);color:var(--muted);white-space:nowrap;vertical-align:1px;margin-left:4px;}
 ul.plain{margin:10px 0 0;padding-left:20px;} ul.plain li{margin:0 0 8px;}
 .reset{font:inherit;font-size:13px;background:none;border:0;color:var(--accent);text-decoration:underline;padding:0;cursor:pointer;margin-top:10px;}
+.foot a{color:var(--accent);}
 .foot{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;}
 </style>
 </head>
@@ -116,6 +117,7 @@ ul.plain{margin:10px 0 0;padding-left:20px;} ul.plain li{margin:0 0 8px;}
     <a href="../index.html">&larr; All guides</a>
     <a href="#normal">Normal gate</a>
     <a href="#check">Check it</a>
+    <a href="#bushings">Bushings</a>
     <a href="#adjust">Adjust</a>
     <a href="#locks">Locks</a>
     <a href="#unit">Selector unit</a>
@@ -161,10 +163,30 @@ ul.plain{margin:10px 0 0;padding-left:20px;} ul.plain li{margin:0 0 8px;}
   </div>
   <ol class="steps">
     <li class="step"><p><strong>Park test, engine off.</strong> Lever in P. Under the car, try to turn the propeller shaft by hand. It must be locked. This is Volvo's own check in step GG3. If it turns, the transmission is not in P while the lever is.</p></li>
-    <li class="step"><p><strong>Start test.</strong> The engine should start only in P and N, and the reverse lights should come on only in R. If these fail, the switch at the lever is out, not necessarily the linkage.</p></li>
+    <li class="step"><p><strong>Start test.</strong> The engine should start only in P and N, and the reverse lights should come on only in R. If these fail, the switch at the lever is out, not necessarily the linkage. <strong>Passing it proves the switch and the lever agree; it does not prove the transmission is in the same detent</strong>, because the switch never sees the transmission.</p></li>
     <li class="step"><p><strong>Drive-direction test, engine idling, foot hard on the brake.</strong> Put the lever in R, N and D one at a time and note what the car tries to do: pull backward, nothing, or pull forward. <span class="chip">shop practice</span></p></li>
     <li class="step"><p>Write down the lever position against what the transmission did. A lever that reads N while the car pulls backward, or D while nothing happens, confirms the linkage is off by one detent.</p></li>
     <li class="step"><p>Look at the joint under the car where the control rod meets the gear lever arm. In GG1 Volvo loosens this nut so the rod is <strong>free to move in its slot</strong>. It is the only adjustable joint in the procedure, so a loose nut here lets the rod slide and shifts every position by the same amount.</p></li>
+    <li class="step"><p><strong>Bushing wiggle test.</strong> Brakes set, ignition on, lever in R. Move the lever back and forth inside its R notch. If the reverse lights go out, the linkage bushings are worn out. Fix those before adjusting; an adjustment on worn bushings won't hold. <span class="chip">VOC FAQ</span></p></li>
+    <li class="step"><p><strong>Clearance check.</strong> Lever in D: feel the free play forward toward the N stop. Lever in 2: feel the free play rearward toward the 1 stop. Volvo's GG5 wants clearance in both, and the B230FD book says the distance to the stop should be <strong>equal</strong> in D and in 2. No clearance toward N from D means the rod is set too far one way: go to the adjustment.</p></li>
+  </ol>
+</section>
+
+<section id="bushings">
+  <h2>Worn linkage bushings</h2>
+  <div class="rule"></div>
+  <p class="sub">Not in the LEMON books. From the Volvo Owners Club 700/900 automatic transmission FAQ.</p>
+  <div class="callout c-warn">
+    <span class="tag">Fit not confirmed</span>
+    <p>The FAQ gives Volvo <strong>381704-6</strong> for the rubber bushings and <strong>951669-1</strong> for the C-clips, and says there are three bushings, or two on later AW71s. It does not say which years. Confirm both numbers against your VIN at the parts counter before ordering.</p>
+  </div>
+  <ol class="steps">
+    <li class="step"><p>Raise and support the front of the car. <strong>Mark the linkage pin position on the rod with a chisel</strong> so it goes back without readjusting. <span class="chip">VOC FAQ</span></p></li>
+    <li class="step"><p>Do one end at a time. Remove the C-clip holding the rod on its pin or arm (often rusted; soak it), take the pin out of the rod, push out the old bushing. <span class="chip">VOC FAQ</span></p></li>
+    <li class="step"><p>Soak the new bushing in very hot water so it flexes, start one side in the hole and push it home with a screwdriver. Refit the pin and <strong>drive the C-clip fully home</strong>. <span class="chip">VOC FAQ</span></p></li>
+    <li class="step"><p>The FAQ's access notes: the rear linkages need a 15 mm backup wrench, and the front pin is often rusted in place; penetrating oil, lever it out with a wide screwdriver, then turn it free with locking pliers. <span class="chip">VOC FAQ</span></p></li>
+    <li class="step"><p>While the console is open: the selector box is held by four 10 mm bolts, and loose ones also give play at the lever. Tighten them. <span class="chip">VOC FAQ</span></p></li>
+    <li class="step"><p>Repeat the wiggle test and the clearance check. If the clearance is still off, adjust.</p></li>
   </ol>
 </section>
 
@@ -259,7 +281,7 @@ ul.plain{margin:10px 0 0;padding-left:20px;} ul.plain li{margin:0 0 8px;}
   <button class="reset" id="reset" type="button">Clear all checkmarks</button>
 </section>
 
-<p class="foot">Source: LEMON manual for the 1994 Volvo 940 Base 4D Sedan (AW71): Automatic Trans, Servicing - Gearshift Linkage adjustment; Shift Interlock Systems (Shift Lock, KEYLOCK &amp; Shift Lock and Start Inhibitor descriptions; Gear Selector Mechanism 1993-95 (GG); Gear Lever Unit 1993-95 (GH); Key Lock Cable (GK16 to GK19)). Also the LEMON manual for the 1994 Volvo 940 L4-2320cc 2.3L SOHC VIN 83 B230FD: Shift Linkage Adjustments and Start Inhibitor/Reversing Light Switch replacement. Figures are the manuals' own scans; tap one to open it full size.</p>
+<p class="foot">Source: LEMON manual for the 1994 Volvo 940 Base 4D Sedan (AW71): Automatic Trans, Servicing - Gearshift Linkage adjustment; Shift Interlock Systems (Shift Lock, KEYLOCK &amp; Shift Lock and Start Inhibitor descriptions; Gear Selector Mechanism 1993-95 (GG); Gear Lever Unit 1993-95 (GH); Key Lock Cable (GK16 to GK19)). Also the LEMON manual for the 1994 Volvo 940 L4-2320cc 2.3L SOHC VIN 83 B230FD: Shift Linkage Adjustments and Start Inhibitor/Reversing Light Switch replacement. Bushing test, bushing part numbers and replacement notes: <a href="https://www.volvoclub.org.uk/faq/TransmissionAuto.html">Volvo Owners Club 700/900 FAQ, Automatic Transmission</a> (tips credited to Dave Stevens, Mark and Ariel Rocchio). Figures are the manuals' own scans; tap one to open it full size.</p>
 
 </div>
 
