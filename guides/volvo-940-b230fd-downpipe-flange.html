@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1B1917">
+<title>940 Downpipe Flange</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Tokens from style-guide.json. Always dark; no light theme. */
+:root{
+  --bg:#1B1917; --card:#232019; --text:#ECE8E0; --muted:#B6AFA0;
+  --line:#3A362F; --field:#1B1917;
+  --accent:#7BAFA9; --accent-soft:#243B37; --accent-ink:#BFE0DA; --on-accent:#13201E;
+  --good:#7BAFA9; --good-bg:#243B37;
+  --warn:#D9A95B; --warn-bg:#3A2F1C;
+  --bad:#D97A7A; --bad-bg:#3B2323;
+  --idle-bg:#2C2923; --track:#3A362F; --plate:#FFFFFF;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;background:var(--bg);color:var(--text);
+  font:16px/1.5 "Barlow",system-ui,Arial,sans-serif;-webkit-text-size-adjust:100%;}
+h1,h2,h3,.eyebrow,nav.jump a,th{font-family:"Barlow Condensed","Arial Narrow",sans-serif;}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px calc(48px + env(safe-area-inset-bottom));}
+
+.topbar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:3px solid var(--accent);}
+.topbar-inner{max-width:720px;margin:0 auto;padding:calc(12px + env(safe-area-inset-top)) 16px 4px;}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0;}
+.topbar h1{font-size:24px;font-weight:700;letter-spacing:.01em;line-height:1.1;color:var(--accent-ink);margin:2px 0 0;}
+.progress{display:flex;align-items:center;gap:10px;margin:8px 0 0;}
+.bar{flex:1;height:10px;border-radius:5px;background:var(--track);overflow:hidden;}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s;}
+.count{font:600 12px "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap;}
+nav.jump{display:flex;gap:6px;overflow-x:auto;padding:8px 16px 10px;max-width:720px;margin:0 auto;scrollbar-width:none;}
+nav.jump::-webkit-scrollbar{display:none;}
+nav.jump a{flex:0 0 auto;font-size:15px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:8px;
+  padding:8px 12px;line-height:1;display:flex;align-items:center;min-height:36px;}
+nav.jump a:hover{border-color:var(--accent);color:var(--accent);}
+nav.jump a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+section{padding-top:32px;scroll-margin-top:150px;}
+h2{font-size:26px;font-weight:700;line-height:1.1;color:var(--accent-ink);margin:0;text-wrap:balance;}
+h3{font-size:19px;font-weight:700;color:var(--accent-ink);margin:26px 0 8px;}
+.rule{height:3px;background:var(--accent);width:40px;margin:8px 0 12px;border-radius:2px;}
+.sub{color:var(--muted);font-size:15px;margin:4px 0 14px;}
+p{margin:0 0 12px;}
+strong{color:var(--text);font-weight:700;}
+
+ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+.step{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--line);border-radius:10px;
+  padding:12px 14px;display:grid;grid-template-columns:28px 1fr;gap:10px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;transition:border-color .15s,opacity .15s;}
+.step .n{font:600 13px "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;color:var(--muted);
+  width:26px;height:26px;border:1px solid var(--line);border-radius:999px;display:flex;align-items:center;justify-content:center;}
+.step p{margin:0;font-size:16px;}
+.step p + p{margin-top:6px;}
+.step.done{border-left-color:var(--good);opacity:.62;}
+.step.done .n{background:var(--good-bg);border-color:var(--good);color:var(--good);}
+.step:focus-visible{outline:2px solid var(--accent);outline-offset:-1px;}
+
+.torq{font:600 .92em "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  color:var(--accent-ink);background:var(--accent-soft);padding:1px 6px;border-radius:6px;white-space:nowrap;}
+code{font:500 .9em "IBM Plex Mono",monospace;background:var(--idle-bg);padding:1px 5px;border-radius:6px;}
+
+.callout{border-radius:8px;padding:10px 12px;margin:14px 0 0;font-size:15px;border-left:4px solid;}
+.callout .tag{display:block;font:700 12px "Barlow Condensed",sans-serif;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+.callout p{margin:0;} .callout p + p{margin-top:8px;}
+.c-warn{background:var(--warn-bg);border-color:var(--warn);} .c-warn .tag{color:var(--warn);}
+.c-note{background:var(--accent-soft);border-color:var(--accent);} .c-note .tag{color:var(--accent-ink);}
+.c-bad{background:var(--bad-bg);border-color:var(--bad);} .c-bad .tag{color:var(--bad);}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);margin-top:10px;}
+table{border-collapse:collapse;width:100%;font-size:14px;}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+th{font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+td{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;}
+td:first-child{font-family:"Barlow",sans-serif;}
+td:last-child{white-space:nowrap;}
+td em{font-style:normal;color:var(--muted);font-size:12px;display:block;}
+tbody tr:last-child td{border-bottom:none;}
+
+.seq{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;}
+.seq > figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;}
+.seq > figure > figcaption{font:700 13px "Barlow Condensed",sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;border:1px dashed var(--line);border-radius:8px;padding:8px;}
+.grid5 span{font:600 14px "IBM Plex Mono",monospace;text-align:center;padding:6px 0;border-radius:999px;background:var(--idle-bg);color:var(--text);}
+.grid5 span.first{background:var(--accent-soft);color:var(--accent-ink);}
+.seq .hint{font-size:12px;color:var(--muted);margin:6px 0 0;}
+@media (max-width:420px){.seq{grid-template-columns:1fr;}}
+.fig{margin:10px 0 0;}
+.fig .plate{display:block;background:var(--plate);border-radius:8px;padding:8px;}
+.fig img{display:block;max-width:100%;height:auto;margin:0 auto;}
+.fig figcaption{font-size:12px;line-height:1.35;color:var(--muted);margin-top:5px;}
+.callout .fig{margin-top:10px;}
+
+.reset{font:inherit;font-size:13px;background:none;border:0;color:var(--accent);text-decoration:underline;padding:0;cursor:pointer;margin-top:10px;}
+.chip{display:inline-block;font:600 12px "IBM Plex Mono",monospace;padding:1px 8px;border-radius:999px;
+  background:var(--idle-bg);color:var(--muted);white-space:nowrap;vertical-align:1px;margin-left:4px;}
+.tablewrap + .tablewrap{margin-top:12px;}
+table.t4 th,table.t4 td{padding:9px 8px;white-space:nowrap;}
+.foot a{color:var(--accent);}
+.foot ul{margin:6px 0 0;padding-left:18px;}
+.reset{font:inherit;font-size:13px;background:none;border:0;color:var(--accent);text-decoration:underline;padding:0;cursor:pointer;margin-top:10px;}
+.foot{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <p class="eyebrow">1994 Volvo 940 sedan &middot; B230FD 2.3L SOHC non-turbo &middot; from the shop manual</p>
+    <h1>Manifold-to-downpipe studs, nuts &amp; gasket</h1>
+    <div class="progress" aria-live="polite"><div class="bar"><i id="fill"></i></div><span class="count" id="count">0 / 0</span></div>
+  </div>
+  <nav class="jump">
+    <a href="#parts">Parts</a>
+    <a href="#removal">Removal</a>
+    <a href="#studs">Studs</a>
+    <a href="#install">Install</a>
+    <a href="#specs">Specs</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+<section id="scope" style="padding-top:18px;">
+  <div class="callout c-warn">
+    <span class="tag">Check your engine first</span>
+    <p>This is the <strong>B230FD non-turbo</strong> joint: the front pipe bolts straight to the cast manifold outlet on copper nuts. On the <strong>B230FT</strong> turbo the pipe bolts to the turbo instead. The 1994 940 sedan book lists that joint at <span class="torq">30 Nm</span> (22 ft-lb) and calls for Volvo thread sealant 1161035-9 on any stud refitted to the turbo housing. None of that applies here.</p>
+  </div>
+  <div class="callout c-note">
+    <span class="tag">Where each step comes from</span>
+    <p>The LEMON books for this car cover the joint in one line: disconnect the exhaust pipe. Everything the books do say is used below. Steps tagged <span class="chip">shop practice</span> are standard technique that no book prints. Steps tagged <span class="chip">VOC FAQ</span> come from the Volvo Owners Club 700/900 exhaust FAQ, and part numbers tagged <span class="chip">web</span> come from parts suppliers' listings (full list at the bottom).</p>
+  </div>
+  <p class="sub" style="margin-top:12px;">Tap a step to check it off. Progress is saved in this browser only. Book labor: <span class="torq">0.8 h</span> for the front pipe.</p>
+</section>
+
+<section id="parts">
+  <h2>Parts to have on the bench</h2>
+  <div class="rule"></div>
+  <p class="sub">Count the studs on your flange before you order.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Part</th><th>Number</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Flange gasket</strong>, manifold to front pipe <em>superseded by 671822; Elring 599921 is sold as header pipe to manifold <span class="chip">web</span></em></td><td>Volvo 3531326</td></tr>
+        <tr><td><strong>Flange stud</strong>, M10 &times; 40 <em>one per stud; older number 924077; listed for the 1994 940 non-turbo <span class="chip">web</span></em></td><td>Volvo 978343</td></tr>
+        <tr><td><strong>Flange nut</strong>, copper M10 &times; 1.5 <em>one per stud; the originals take a 16 mm wrench, replacements can be 15, 16 or 17 mm <span class="chip">web</span></em></td><td>Volvo 977211</td></tr>
+        <tr><td>Oxygen sensor, if you pull it <em>LEMON spec</em></td><td>45 Nm</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout c-warn">
+    <span class="tag">Wrong gasket on the parts page</span>
+    <p>The LEMON parts page lists <strong>2717049</strong> as the exhaust manifold gasket. That is the manifold-to-head set, sold as 271704 for B21, B23 and B230 engines. It does not seal the downpipe joint. You only need it if the manifold comes off.</p>
+  </div>
+  <p class="sub" style="margin-top:12px;">Also: penetrating oil, nickel anti-seize, a thread pitch gauge, a torque wrench that reads down to 20 Nm, and a propane or oxy-acetylene torch if the nuts are rusted solid.</p>
+</section>
+
+<section id="removal">
+  <h2>Removal</h2>
+  <div class="rule"></div>
+  <ol class="steps">
+    <li class="step"><p>Soak every flange nut with penetrating oil. Drive the car between soaks so the joint heats and cools, then soak again. Do this for a couple of days before the job. <span class="chip">VOC FAQ</span></p></li>
+    <li class="step"><p>Work on a <strong>cold</strong> exhaust. The book's own caution: the converter burns.</p></li>
+    <li class="step"><p>Disconnect the battery negative cable. This is the first line of the manifold removal procedure in the 1994 940 sedan book.</p></li>
+    <li class="step"><p>Raise the front of the car and set it on stands. <span class="chip">shop practice</span></p></li>
+    <li class="step"><p>If your car has an EGR valve, find out whether a pipe runs from it to the front pipe before you drop anything. The book says EGR was fitted to <strong>California-market cars only</strong>, and the parts list carries two front pipes: 68425651 with EGR and 68425669 without.</p></li>
+    <li class="step"><p>Find the oxygen sensor. The book puts it in or ahead of the catalytic converter on the front pipe. If the pipe has to drop farther than the lead allows, unplug the sensor at its connector on the firewall.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-downpipe-flange/o2-sensor.png"><img src="img/volvo-940-b230fd-downpipe-flange/o2-sensor.png" width="640" height="372" loading="lazy" alt="Oxygen sensor screwed into the exhaust pipe beside a flanged joint, with an alternate position marked Alt"></a><figcaption>Manual figure: Oxygen Sensor (Lambda Sond) location. Alt marks the two positions the sensor can sit in.</figcaption></figure><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-downpipe-flange/o2-connector.png"><img src="img/volvo-940-b230fd-downpipe-flange/o2-connector.png" width="624" height="320" loading="lazy" alt="Engine bay drawing with an arrow on the oxygen sensor connector at the firewall"></a><figcaption>Manual figure: Oxygen Sensor Connector, at the firewall in the engine bay</figcaption></figure></li>
+    <li class="step"><p>Loosen the downpipe bracket bolts at the bellhousing so the pipe can move. <span class="chip">VOC FAQ</span></p></li>
+    <li class="step"><p>Take the flange nuts off. If one won't break loose, heat the nut with the torch and hit it with more oil. The FAQ says not to hesitate with acetylene here. <span class="chip">VOC FAQ</span></p></li>
+    <li class="step"><p>If the <strong>stud</strong> starts turning with the nut, stop. Work the nut back and forth a quarter turn at a time with more oil. A stud that comes out with its nut still on is fine, since you're replacing it; one that snaps is the next section's problem. <span class="chip">shop practice</span></p></li>
+    <li class="step"><p>Pull the pipe down off the studs and hang it with wire so its weight isn't on the rubber hangers. <span class="chip">shop practice</span></p></li>
+    <li class="step"><p>Scrape the old gasket off both faces. The sedan book's manifold notes: check for cracks, burned or eroded areas, corrosion and damaged fasteners, and make sure the mating faces are <strong>flat and free of burrs</strong>. The same notes say heat and combustion products corrode fastener threads, so replace studs as needed.</p></li>
+  </ol>
+</section>
+
+<section id="studs">
+  <h2>Stud replacement</h2>
+  <div class="rule"></div>
+  <p class="sub">Skip this section if the old studs came out clean and you are only changing the gasket and nuts.</p>
+  <ol class="steps">
+    <li class="step"><p>Check one old stud with the pitch gauge. The stud listed for this car is <strong>M10 &times; 40</strong>; the copper nut sold for it is M10 &times; 1.5. <span class="chip">web</span></p></li>
+    <li class="step"><p>Lock two nuts together on each old stud and turn the lower one to back the stud out. Heat the manifold boss, not the stud, if it fights. <span class="chip">shop practice</span></p></li>
+    <li class="step"><p>Run a thread chaser or a matching tap through each hole to clear rust and carbon. <span class="chip">shop practice</span></p></li>
+    <li class="step"><p>Coat the new stud threads with nickel anti-seize. The FAQ calls for high-temperature nickel anti-seize on B230 exhaust manifold nuts; the same goes here. <span class="chip">VOC FAQ</span></p></li>
+    <li class="step"><p>Double-nut each new <strong>978343</strong> stud and turn it in until it stops at the end of its thread. Take the locked nuts off. <span class="chip">shop practice</span></p></li>
+  </ol>
+
+  <div class="callout c-bad">
+    <span class="tag">If a stud snaps flush</span>
+    <p>This joint is easier than a head stud. The manifold flange is exposed on top, so you can drill straight through it, then tap the hole for M10 or put a bolt through and nut it on the far side. That fix comes from Rob Bareiss in the Volvo Owners Club FAQ.</p>
+    <p>The B230FD book gives the same repair for the converter's pin studs: drill the damaged stud out and fit a nut and bolt, <strong>grade 5 or higher</strong>. It doesn't cover the manifold flange, but the grade floor is the one figure the book gives for a bolt-through exhaust repair.</p>
+    <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-downpipe-flange/converter-stud-repair.png"><img src="img/volvo-940-b230fd-downpipe-flange/converter-stud-repair.png" width="928" height="452" loading="lazy" alt="Converter flange with two studs, a drill aimed at the third hole, and a bolt and nut to replace the drilled-out stud"></a><figcaption>Manual figure: Fig. 143a, Stud Repair on Catalytic Converter. Drill out the damaged stud and replace it with a bolt and nut.</figcaption></figure>
+  </div>
+
+  <div class="callout c-warn">
+    <span class="tag">If the manifold has to come off</span>
+    <p>The sedan book: with the pipe off, remove the manifold nuts and the manifold. Refit with <strong>new gaskets</strong>; if they are stamped <strong>UT</strong>, that side faces away from the head. The FAQ adds that the B230 has one gasket per runner (replace all four), the cupped washers go concave side to the manifold, and the manifold nuts retorque to <span class="torq">14&ndash;27 Nm</span> (10&ndash;20 ft-lb). Nuts are Volvo 948645, washers 949362, non-turbo studs 953049. Book labor for this is <span class="torq">0.7 h</span>.</p>
+  </div>
+</section>
+
+<section id="install">
+  <h2>Installation</h2>
+  <div class="rule"></div>
+  <ol class="steps">
+    <li class="step"><p>Slide the new flange gasket over the studs. Clean and dry, <strong>no sealer</strong>. The book bans silicone products on any car with an oxygen sensor; they damage the sensor.</p></li>
+    <li class="step"><p>Lift the pipe onto the studs. Put anti-seize on the stud threads and start the new copper nuts by hand. <span class="chip">shop practice</span></p></li>
+    <li class="step"><p>Snug the nuts a turn at a time, alternating, so the flange pulls up square on the gasket. <span class="chip">shop practice</span></p></li>
+    <li class="step"><p>Torque the flange nuts. No Volvo figure for this joint turned up in the LEMON books or online. The book's standard table puts M10 &times; 1.5 at <span class="torq">20&ndash;33 Nm</span> (14&ndash;25 ft-lb) in its softest column (4T). The nuts are copper, so use that column. See the table under Specs.</p></li>
+    <li class="step"><p>Now tighten the bracket at the bellhousing. The FAQ's note on this joint: it often leaks right after installation because the pipes weren't lined up. Flange first, bracket second, lets the pipe sit where the flange puts it. <span class="chip">VOC FAQ</span></p></li>
+    <li class="step"><p>Plug the oxygen sensor back in if you unplugged it. If you pulled the sensor, it goes in at <span class="torq">45 Nm</span>.</p></li>
+    <li class="step"><p>Reconnect the battery negative cable and lower the car.</p></li>
+    <li class="step"><p>Start it and check the joint for leaks. The book's 10,000-mile exhaust inspection covers condition, leaks, alignment and suspension.</p></li>
+    <li class="step"><p>After the first full heat cycle, let it cool and check the nuts against the same torque. <span class="chip">shop practice</span></p></li>
+  </ol>
+</section>
+
+<section id="specs">
+  <h2>Specs &amp; torque chart</h2>
+  <div class="rule"></div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Item</th><th>Spec</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Flange nuts</strong>, pipe to manifold <em>no Volvo figure found; book standard table, M10 &times; 1.5, 4T</em></td><td>20&ndash;33 Nm</td></tr>
+        <tr><td>Oxygen sensor</td><td>45 Nm</td></tr>
+        <tr><td>Manifold-to-head nuts, retorque <em>B230F/T, VOC FAQ</em></td><td>14&ndash;27 Nm</td></tr>
+        <tr><td>Front pipe, replace <em>book labor</em></td><td>0.8 h</td></tr>
+        <tr><td>Manifold gasket, replace <em>book labor</em></td><td>0.7 h</td></tr>
+        <tr><td>Bolt-through stud repair, min grade <em>converter flange, book</em></td><td>grade 5</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Book standard torque, M10 rows</h3>
+  <p class="sub" style="margin-top:0;">The book prints kg-m with ft-lb in brackets. Top figure in each cell is Nm (kg-m &times; 9.807, rounded); the small figure under it is the book's own ft-lb. The asterisked M10 &times; 1.5 row is the one the book marks for threads in soft castings.</p>
+  <div class="tablewrap">
+    <table class="t4">
+      <thead><tr><th>Thread</th><th>4T</th><th>7T</th><th>9T</th></tr></thead>
+      <tbody>
+        <tr><td>M10 &times; 1.25</td><td>21&ndash;34<em>15&ndash;25</em></td><td>27&ndash;46<em>20&ndash;34</em></td><td>37&ndash;63<em>27&ndash;46</em></td></tr>
+        <tr><td>M10 &times; 1.5 *</td><td>20&ndash;33<em>14&ndash;25</em></td><td>27&ndash;45<em>20&ndash;33</em></td><td>36&ndash;60<em>27&ndash;44</em></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-downpipe-flange/standard-torque.png"><img src="img/volvo-940-b230fd-downpipe-flange/standard-torque.png" width="1440" height="1104" loading="lazy" alt="Standard bolt torque table by thread size for 4T, 7T and 9T bolts, in kg-m with ft-lb in brackets"></a><figcaption>Manual figure: Standardized Bolt Torque Specifications. Grade is read from the number on the bolt head; an asterisk marks bolts into soft castings.</figcaption></figure>
+  <button class="reset" id="reset" type="button">Clear all checkmarks</button>
+</section>
+
+<div class="foot">
+  <p>Source: LEMON manual for the 1994 Volvo 940 L4-2320cc 2.3L SOHC VIN 83 B230FD: Catalytic Converter (Service and Repair, Locations), Exhaust System Testing and Inspection, Emission Service Precautions (Engine and Exhaust), EGR Description and Operation, Oxygen Sensor (Locations, Mechanical Specifications), Standard Torque Values, and Parts and Labor for the exhaust pipe, manifold and manifold gasket. Also the LEMON 1994 Volvo 940 Base 4D Sedan book: 2.3L 4-cyl Exhaust Manifold removal and installation, Torque Specifications, and Engine Overhaul general information on manifolds. Figures are the manual's own scans; tap one to open it full size.</p>
+  <p>Not in either book:</p>
+  <ul>
+    <li><a href="https://www.volvoclub.org.uk/faq/Exhaust.html">Volvo Owners Club 700/900 FAQ, Exhaust Systems</a>: soaking and heating the nuts, the bellhousing bracket, drilling a snapped flange stud, 16 mm copper nuts, manifold nut, washer and stud numbers, UT gasket side, 14&ndash;27 Nm manifold retorque.</li>
+    <li><a href="https://www.fcpeuro.com/products/volvo-exhaust-manifold-stud-genuine-volvo-978343">FCP Euro, Volvo 978343</a>: flange stud, M10 &times; 40.</li>
+    <li><a href="https://www.ipdusa.com/products/12460/1066/1994-Volvo-940-Non-Turbo-EXHAUST-STUD-MANIFOLD-TO-DOWNPIPE-VARIOUS-RWD-Genuine-Volvo-978343">IPD, 978343 / 924077</a>: listed as the manifold-to-downpipe stud for the 1994 940 non-turbo.</li>
+    <li><a href="https://www.fcpeuro.com/products/volvo-exhaust-pipe-flange-gasket-header-pipe-to-manifold-elring-3531326e">FCP Euro, Elring 3531326</a>: flange gasket, header pipe to manifold.</li>
+    <li><a href="https://vp-autoparts.com/en/artiklar/volvo/940-960/fuel-exhaust-system/exhaust-system-7/exhaust-system-940-b200-b230-b204-b234/index.html">VP Autoparts, 940 B200/B230 exhaust</a>: gasket 671822 replacing 3531326, stud 978343, copper nut 977211 (M10 &times; 1.5).</li>
+    <li><a href="https://www.ipdusa.com/products/5534/Exhaust-Manifold-Gasket-Set-B21-B23-B230-Aftermarket-Volvo-271704">IPD, 271704</a>: the B230 manifold-to-head gasket set.</li>
+  </ul>
+</div>
+
+</div>
+
+<script>
+(function(){
+  var KEY='volvo-940-b230fd-downpipe-flange';
+  var steps=[].slice.call(document.querySelectorAll('.step'));
+  var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function render(){
+    var n=steps.filter(function(s){return s.classList.contains('done');}).length;
+    document.getElementById('count').textContent=n+' / '+steps.length;
+    document.getElementById('fill').style.width=(steps.length?100*n/steps.length:0)+'%';
+  }
+  function save(){
+    var o={};steps.forEach(function(s,i){if(s.classList.contains('done'))o[i]=1;});
+    try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}
+  }
+  steps.forEach(function(s,i){
+    var n=document.createElement('span');n.className='n';n.textContent=[].indexOf.call(s.parentNode.children,s)+1;s.insertBefore(n,s.firstChild);
+    var body=document.createElement('div');
+    while(s.childNodes.length>1)body.appendChild(s.childNodes[1]);
+    s.appendChild(body);
+    s.tabIndex=0;s.setAttribute('role','checkbox');
+    if(saved[i])s.classList.add('done');
+    s.setAttribute('aria-checked',s.classList.contains('done'));
+    function toggle(){s.classList.toggle('done');s.setAttribute('aria-checked',s.classList.contains('done'));save();render();}
+    s.addEventListener('click',function(e){if(!e.target.closest('.fig'))toggle();});
+    s.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'){e.preventDefault();toggle();}});
+  });
+  document.getElementById('reset').addEventListener('click',function(){
+    steps.forEach(function(s){s.classList.remove('done');s.setAttribute('aria-checked','false');});save();render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
