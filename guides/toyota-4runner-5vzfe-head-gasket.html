@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1B1917">
+<title>4Runner Head Gasket</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Tokens from style-guide.json. Always dark; no light theme. */
+:root{
+  --bg:#1B1917; --card:#232019; --text:#ECE8E0; --muted:#B6AFA0;
+  --line:#3A362F; --field:#1B1917;
+  --accent:#7BAFA9; --accent-soft:#243B37; --accent-ink:#BFE0DA; --on-accent:#13201E;
+  --good:#7BAFA9; --good-bg:#243B37;
+  --warn:#D9A95B; --warn-bg:#3A2F1C;
+  --bad:#D97A7A; --bad-bg:#3B2323;
+  --idle-bg:#2C2923; --track:#3A362F; --plate:#FFFFFF;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;background:var(--bg);color:var(--text);
+  font:16px/1.5 "Barlow",system-ui,Arial,sans-serif;-webkit-text-size-adjust:100%;}
+h1,h2,h3,.eyebrow,nav.jump a,th{font-family:"Barlow Condensed","Arial Narrow",sans-serif;}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px calc(48px + env(safe-area-inset-bottom));}
+
+.topbar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:3px solid var(--accent);}
+.topbar-inner{max-width:720px;margin:0 auto;padding:calc(12px + env(safe-area-inset-top)) 16px 4px;}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0;}
+.topbar h1{font-size:24px;font-weight:700;letter-spacing:.01em;line-height:1.1;color:var(--accent-ink);margin:2px 0 0;}
+.progress{display:flex;align-items:center;gap:10px;margin:8px 0 0;}
+.bar{flex:1;height:10px;border-radius:5px;background:var(--track);overflow:hidden;}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s;}
+.count{font:600 12px "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap;}
+nav.jump{display:flex;gap:6px;overflow-x:auto;padding:8px 16px 10px;max-width:720px;margin:0 auto;scrollbar-width:none;}
+nav.jump::-webkit-scrollbar{display:none;}
+nav.jump a{flex:0 0 auto;font-size:15px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:8px;
+  padding:8px 12px;line-height:1;display:flex;align-items:center;min-height:36px;}
+nav.jump a:hover{border-color:var(--accent);color:var(--accent);}
+nav.jump a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+section{padding-top:32px;scroll-margin-top:150px;}
+h2{font-size:26px;font-weight:700;line-height:1.1;color:var(--accent-ink);margin:0;text-wrap:balance;}
+h3{font-size:19px;font-weight:700;color:var(--accent-ink);margin:26px 0 8px;}
+.rule{height:3px;background:var(--accent);width:40px;margin:8px 0 12px;border-radius:2px;}
+.sub{color:var(--muted);font-size:15px;margin:4px 0 14px;}
+p{margin:0 0 12px;}
+strong{color:var(--text);font-weight:700;}
+
+ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+.step{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--line);border-radius:10px;
+  padding:12px 14px;display:grid;grid-template-columns:28px 1fr;gap:10px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;transition:border-color .15s,opacity .15s;}
+.step .n{font:600 13px "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;color:var(--muted);
+  width:26px;height:26px;border:1px solid var(--line);border-radius:999px;display:flex;align-items:center;justify-content:center;}
+.step p{margin:0;font-size:16px;}
+.step p + p{margin-top:6px;}
+.step.done{border-left-color:var(--good);opacity:.62;}
+.step.done .n{background:var(--good-bg);border-color:var(--good);color:var(--good);}
+.step:focus-visible{outline:2px solid var(--accent);outline-offset:-1px;}
+
+.torq{font:600 .92em "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  color:var(--accent-ink);background:var(--accent-soft);padding:1px 6px;border-radius:6px;white-space:nowrap;}
+code{font:500 .9em "IBM Plex Mono",monospace;background:var(--idle-bg);padding:1px 5px;border-radius:6px;}
+
+.callout{border-radius:8px;padding:10px 12px;margin:14px 0 0;font-size:15px;border-left:4px solid;}
+.callout .tag{display:block;font:700 12px "Barlow Condensed",sans-serif;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+.callout p{margin:0;} .callout p + p{margin-top:8px;}
+.c-warn{background:var(--warn-bg);border-color:var(--warn);} .c-warn .tag{color:var(--warn);}
+.c-note{background:var(--accent-soft);border-color:var(--accent);} .c-note .tag{color:var(--accent-ink);}
+.c-bad{background:var(--bad-bg);border-color:var(--bad);} .c-bad .tag{color:var(--bad);}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);margin-top:10px;}
+table{border-collapse:collapse;width:100%;font-size:14px;}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+th{font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+td{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;}
+td:first-child{font-family:"Barlow",sans-serif;}
+td:last-child{white-space:nowrap;}
+td em{font-style:normal;color:var(--muted);font-size:12px;display:block;}
+tbody tr:last-child td{border-bottom:none;}
+
+.seq{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;}
+.seq > figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;}
+.seq > figure > figcaption{font:700 13px "Barlow Condensed",sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;border:1px dashed var(--line);border-radius:8px;padding:8px;}
+.grid5 span{font:600 14px "IBM Plex Mono",monospace;text-align:center;padding:6px 0;border-radius:999px;background:var(--idle-bg);color:var(--text);}
+.grid5 span.first{background:var(--accent-soft);color:var(--accent-ink);}
+.seq .hint{font-size:12px;color:var(--muted);margin:6px 0 0;}
+@media (max-width:420px){.seq{grid-template-columns:1fr;}}
+.fig{margin:10px 0 0;}
+.fig .plate{display:block;background:var(--plate);border-radius:8px;padding:8px;}
+.fig img{display:block;max-width:100%;height:auto;margin:0 auto;}
+.fig figcaption{font-size:12px;line-height:1.35;color:var(--muted);margin-top:5px;}
+.callout .fig{margin-top:10px;}
+
+.reset{font:inherit;font-size:13px;background:none;border:0;color:var(--accent);text-decoration:underline;padding:0;cursor:pointer;margin-top:10px;}
+.foot{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;border:1px dashed var(--line);border-radius:8px;padding:8px;}
+.grid4 span{font:600 14px "IBM Plex Mono",monospace;text-align:center;padding:6px 0;border-radius:999px;background:var(--idle-bg);color:var(--text);}
+.grid4 span.first{background:var(--accent-soft);color:var(--accent-ink);}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <p class="eyebrow">1997 Toyota 4Runner &middot; 5VZ-FE 3.4L V6 DOHC &middot; from the shop manual</p>
+    <h1>Head gasket replacement</h1>
+    <div class="progress" aria-live="polite"><div class="bar"><i id="fill"></i></div><span class="count" id="count">0 / 0</span></div>
+  </div>
+  <nav class="jump">
+    <a href="#confirm">Confirm it</a>
+    <a href="#removal">Removal</a>
+    <a href="#heads-off">Cams &amp; heads</a>
+    <a href="#inspect">Inspect</a>
+    <a href="#install">Install</a>
+    <a href="#valves">Valves</a>
+    <a href="#belt">Belt</a>
+    <a href="#finish">Finish</a>
+    <a href="#specs">Specs</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+<section id="scope" style="padding-top:18px;">
+  <div class="callout c-warn">
+    <span class="tag">Check your engine first</span>
+    <p>This is the <strong>5VZ-FE 3.4L V6</strong> procedure. The 1997 4Runner was also sold with a <strong>2.7L four-cylinder</strong> (listed in the manual tree as L4-2693cc 2.7L DOHC MFI). That is a different engine, and nothing on this page applies to it.</p>
+    <p>The manual tree has four 5VZ-FE books: SR5 and Limited, each in 2WD and 4WD. The head installation page is word for word the same in the SR5 4WD and Limited 2WD books. The only drivetrain line in the procedure is the <strong>A.D.D. vacuum hose</strong>, which the manual marks 4WD only.</p>
+  </div>
+  <div class="callout c-note">
+    <span class="tag">Both heads come off</span>
+    <p>The manual's procedure pulls both heads, both pairs of camshafts and the timing belt, and fits <strong>2 new head gaskets</strong>. Budget for a timing belt too: the manual's replacement interval is <strong>5 years / 60,000 miles</strong>, and the old one has to come off anyway.</p>
+  </div>
+  <p class="sub" style="margin-top:12px;">Tap a step to check it off. Progress is saved in this browser only.</p>
+</section>
+
+<section id="confirm">
+  <h2>Confirm it is the gasket</h2>
+  <div class="rule"></div>
+  <p class="sub">This book has no head gasket diagnosis page. These are the two checks it does give that point at one.</p>
+  <ol class="steps">
+    <li class="step"><p>Engine cold, pull the radiator cap and look at the coolant. The manual's standard: no heavy rust or scale around the cap or filler hole, and <strong>the coolant should be free from oil</strong>.</p></li>
+    <li class="step"><p>Compression test. Warm the engine to operating temperature and shut it off. Remove the ignition coils, high-tension cords and all 6 spark plugs (16 mm plug wrench). Throttle wide open, fully charged battery so the engine cranks at <span class="torq">250 rpm</span> or more, and test each cylinder as fast as you can.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/compression.png"><img src="img/toyota-4runner-5vzfe-head-gasket/compression.png" width="560" height="306" loading="lazy" alt="Compression gauge held in a spark plug hole"></a><figcaption>Manual figure: Compression Check, gauge in the plug hole</figcaption></figure></li>
+    <li class="step"><p>Compare the readings: standard is <span class="torq">1,200 kPa (174 psi)</span> or more, minimum <span class="torq">1,000 kPa (145 psi)</span>, and no more than <span class="torq">100 kPa (15 psi)</span> between cylinders.</p></li>
+    <li class="step"><p>On any low cylinder, squirt a little engine oil in through the plug hole and test it again. If the number comes up, the manual points at rings or bore. If it stays low, it points at a sticking or badly seated valve, <strong>or leakage past the gasket</strong>.</p></li>
+    <li class="step"><p>Plugs back in at <span class="torq">20 Nm (14 ft-lb)</span>, then the coils and cords.</p></li>
+  </ol>
+</section>
+
+<section id="removal">
+  <h2>Removal</h2>
+  <div class="rule"></div>
+  <p class="sub">Order follows the manual's Cylinder Head Removal page. Its step 16 is the timing belt; that job is written out in full below from the Timing Belt Removal page, minus the steps already done.</p>
+
+  <div class="callout c-note">
+    <span class="tag">Special tools the manual calls for</span>
+    <p><strong>09213-54015</strong> crankshaft pulley holding tool and <strong>09330-00021</strong> companion flange holding tool (crank pulley bolt). <strong>09950-50010</strong> puller C set if the pulley sticks. <strong>09960-10010</strong> variable pin wrench set (cam pulleys and exhaust cam sub-gears). <strong>09248-55040</strong> for valve shims. Also an 8 mm hex bit for the recessed head bolts, a 1.27 mm hex wrench for the belt tensioner, a press to reset the tensioner, snap ring pliers, and an M6 &times; 1.0 service bolt, <span class="torq">16&ndash;20 mm</span> long, for each exhaust cam sub-gear. The manual accepts equivalents for every SST.</p>
+  </div>
+
+  <figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/exploded-accessories.png"><img src="img/toyota-4runner-5vzfe-head-gasket/exploded-accessories.png" width="1360" height="1644" loading="lazy" alt="Exploded view of air cleaner, ignition coils, cables, PS pump, A/C compressor and bracket, drive belts, fan, fan shroud and engine under cover"></a><figcaption>Manual figure: Cylinder Head Removal, components removed first</figcaption></figure>
+
+  <h3>Prep</h3>
+  <ol class="steps">
+    <li class="step"><p>If the check engine light has stored anything, read the codes now. The manual notes that disconnecting the battery erases them.</p></li>
+    <li class="step"><p>Relieve fuel pressure. Disconnect the fuel pump connection, start the engine, and once it stalls on its own turn the key to <strong>LOCK</strong>.</p></li>
+    <li class="step"><p>Disconnect the battery negative (&minus;) cable.</p></li>
+    <li class="step"><p>Remove the engine under cover.</p></li>
+    <li class="step"><p>Drain the coolant. Take the radiator cap off, open the drain plugs, and close them when it's empty.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/coolant-drain.png"><img src="img/toyota-4runner-5vzfe-head-gasket/coolant-drain.png" width="512" height="328" loading="lazy" alt="Radiator and engine with arrows on two drain plug locations"></a><figcaption>Manual figure: Coolant drain plugs</figcaption></figure></li>
+    <li class="step"><p>Remove the front exhaust pipe. The manual sends you to its Exhaust System section for this one.</p></li>
+    <li class="step"><p>Disconnect the heater hose.</p></li>
+    <li class="step"><p>Remove the air cleaner assembly.</p></li>
+    <li class="step"><p>Remove the high-tension cords with the ignition coils, and the spark plugs.</p></li>
+  </ol>
+  <div class="callout c-bad">
+    <span class="tag">Warning, from the manual</span>
+    <p>Do not take the radiator cap off while the engine and radiator are hot. Fluid and steam can blow out under pressure.</p>
+  </div>
+
+  <h3>Cables, hoses and intake chamber stay</h3>
+  <ol class="steps">
+    <li class="step"><p>Disconnect the cables: (1) cruise control actuator cable if fitted, (2) accelerator cable, (3) A/T throttle cable.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/cables.png"><img src="img/toyota-4runner-5vzfe-head-gasket/cables.png" width="560" height="342" loading="lazy" alt="Throttle body linkage with three cables numbered 1 to 3"></a><figcaption>Manual figure: 1 = cruise control actuator cable, 2 = accelerator cable, 3 = A/T throttle cable</figcaption></figure></li>
+    <li class="step"><p>Disconnect (1) the brake booster vacuum hose, (2) the EVAP hose, and on 4WD (3) the <strong>A.D.D. vacuum hose</strong>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/hoses-vacuum.png"><img src="img/toyota-4runner-5vzfe-head-gasket/hoses-vacuum.png" width="560" height="352" loading="lazy" alt="Engine bay with three hoses numbered 1 to 3"></a><figcaption>Manual figure: 1 = brake booster vacuum hose, 2 = EVAP hose, 3 = A.D.D. vacuum hose (4WD only)</figcaption></figure></li>
+    <li class="step"><p>Disconnect (4) the fuel return hose and (5) the fuel inlet hose. Put a container under the joint, loosen it slowly, and plug the line once it's off.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/hoses-fuel.png"><img src="img/toyota-4runner-5vzfe-head-gasket/hoses-fuel.png" width="544" height="362" loading="lazy" alt="Fuel line joints numbered 4 and 5 with arrows"></a><figcaption>Manual figure: 4 = fuel return hose, 5 = fuel inlet hose</figcaption></figure></li>
+    <li class="step"><p>Intake chamber stay: remove the 2 bolts and the No. 1 throttle cable clamp, then the 2 bolts and the stay.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/chamber-stay.png"><img src="img/toyota-4runner-5vzfe-head-gasket/chamber-stay.png" width="384" height="322" loading="lazy" alt="Intake chamber stay with arrows on its top and bottom bolts"></a><figcaption>Manual figure: intake chamber stay bolts</figcaption></figure></li>
+    <li class="step"><p>No. 2 timing belt cover: unclip the 4 high-tension cord clamps from it, remove the 6 bolts and the cover, and disconnect the camshaft position sensor connector.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/no2-cover.png"><img src="img/toyota-4runner-5vzfe-head-gasket/no2-cover.png" width="560" height="320" loading="lazy" alt="Upper timing belt cover with arrows on six bolts and the cord clamps"></a><figcaption>Manual figure: No. 2 timing belt cover bolts and high-tension cord clamps</figcaption></figure></li>
+  </ol>
+
+  <h3>Intake off</h3>
+  <figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/exploded-intake.png"><img src="img/toyota-4runner-5vzfe-head-gasket/exploded-intake.png" width="1424" height="1926" loading="lazy" alt="Exploded view of air intake chamber, intake air connector, engine wire protectors, intake manifold and No. 2 timing belt cover with torque values"></a><figcaption>Manual figure: intake side, exploded. Every torque printed on it is 18 Nm; gaskets and the regulator O-ring are marked non-reusable.</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>At the air intake chamber, disconnect (1) the throttle position sensor connector, (2) the IAC valve connector, (3) 2 PCV hoses, (4) 2 water bypass hoses and (5) the air assist hose from the throttle body.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/chamber-hoses.png"><img src="img/toyota-4runner-5vzfe-head-gasket/chamber-hoses.png" width="576" height="360" loading="lazy" alt="Throttle body area with connectors and hoses numbered 1 to 5"></a><figcaption>Manual figure: 1 = TPS, 2 = IAC valve, 3 = PCV hoses, 4 = water bypass hoses, 5 = air assist hose</figcaption></figure></li>
+    <li class="step"><p>Remove the 4 bolts, 2 nuts, the air intake chamber and its gasket.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/chamber-bolts.png"><img src="img/toyota-4runner-5vzfe-head-gasket/chamber-bolts.png" width="560" height="314" loading="lazy" alt="Air intake chamber with arrows on four bolts and two nuts"></a><figcaption>Manual figure: air intake chamber fasteners</figcaption></figure></li>
+    <li class="step"><p>Intake air connector: remove the bolt and move the engine wire aside. Disconnect the fuel return hose (1) and the fuel pressure regulator vacuum hose (2). Remove the bolt holding the ground strap to the connector, and unclip the DLC1 from its bracket.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/intake-connector-hoses.png"><img src="img/toyota-4runner-5vzfe-head-gasket/intake-connector-hoses.png" width="560" height="354" loading="lazy" alt="Intake air connector with fuel return hose and regulator vacuum hose numbered"></a><figcaption>Manual figure: 1 = fuel return hose, 2 = vacuum hose to the fuel pressure regulator</figcaption></figure></li>
+    <li class="step"><p>Remove the 3 bolts, 2 nuts, the intake air connector and its gasket.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/intake-connector-bolts.png"><img src="img/toyota-4runner-5vzfe-head-gasket/intake-connector-bolts.png" width="544" height="338" loading="lazy" alt="Intake air connector with arrows on its bolts and nuts"></a><figcaption>Manual figure: intake air connector fasteners</figcaption></figure></li>
+    <li class="step"><p>Engine wire protector: disconnect the 6 injector connectors (1), the ECT sensor connector (2) and the ECT sender gauge connector (3). Release the 2 engine wire clamps, remove the 3 bolts, and lift the protector off the head.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/wire-protector.png"><img src="img/toyota-4runner-5vzfe-head-gasket/wire-protector.png" width="576" height="700" loading="lazy" alt="Both fuel rails with injector connectors numbered 1, ECT sensor 2 and ECT sender 3"></a><figcaption>Manual figure: 1 = injector connectors, 2 = ECT sensor, 3 = ECT sender gauge; arrows on the protector bolts</figcaption></figure></li>
+    <li class="step"><p>Release the other 2 engine wire clamps from the engine.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/wire-clamps.png"><img src="img/toyota-4runner-5vzfe-head-gasket/wire-clamps.png" width="560" height="298" loading="lazy" alt="Wiring harness clamp with a close-up of the clip"></a><figcaption>Manual figure: engine wire clamp</figcaption></figure></li>
+    <li class="step"><p>Remove the fuel pressure regulator.</p></li>
+    <li class="step"><p>Intake manifold: remove the 2 bolts and the manifold stay. Then the 8 bolts, 4 nuts, 4 plate washers, and lift the manifold off with the delivery pipes and injectors still on it. Pull the 2 gaskets.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/intake-manifold.png"><img src="img/toyota-4runner-5vzfe-head-gasket/intake-manifold.png" width="560" height="308" loading="lazy" alt="Top view of intake manifold with arrows on its bolts and nuts"></a><figcaption>Manual figure: intake manifold fasteners</figcaption></figure></li>
+  </ol>
+
+  <h3>Timing belt off</h3>
+  <figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/exploded-timing.png"><img src="img/toyota-4runner-5vzfe-head-gasket/exploded-timing.png" width="1328" height="1858" loading="lazy" alt="Exploded view of fan bracket, No. 1 timing belt cover, crankshaft pulley, cam timing pulleys, No. 2 idler, tensioner and timing belt"></a><figcaption>Manual figure: timing parts removed for the head job. Crank pulley bolt 250 Nm, cam pulley bolts 110 Nm, No. 2 idler 40 Nm.</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Disconnect the upper radiator hose.</p></li>
+    <li class="step"><p>Power steering pump: disconnect the 2 PS air hoses, remove the bolt holding the pressure tube clamp to the frame, take the belt off, then remove the bolt and nut and move the pump off the engine.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/ps-pump.png"><img src="img/toyota-4runner-5vzfe-head-gasket/ps-pump.png" width="528" height="342" loading="lazy" alt="PS pump pulley with arrows on its bolt and nut"></a><figcaption>Manual figure: PS pump mounting bolt and nut</figcaption></figure></li>
+    <li class="step"><p>With A/C: unplug the compressor connector, take the belt off, remove the 4 bolts and move the compressor off the engine.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/ac-compressor.png"><img src="img/toyota-4runner-5vzfe-head-gasket/ac-compressor.png" width="528" height="346" loading="lazy" alt="A/C compressor with arrows on four mounting bolts"></a><figcaption>Manual figure: A/C compressor mounting bolts</figcaption></figure></li>
+    <li class="step"><p>Loosen the fan-with-fluid-coupling nuts, remove the generator drive belt, remove the No. 2 fan shroud, then take off the fan with its fluid coupling and fan pulleys.</p></li>
+    <li class="step"><p>With A/C: remove the 5 bolts and the compressor bracket.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/ac-bracket.png"><img src="img/toyota-4runner-5vzfe-head-gasket/ac-bracket.png" width="576" height="326" loading="lazy" alt="A/C compressor bracket with arrows on five bolts"></a><figcaption>Manual figure: A/C compressor bracket bolts</figcaption></figure></li>
+    <li class="step"><p>Remove the bolt, the oil dipstick and guide, and the O-ring.</p></li>
+    <li class="step"><p>Fan bracket: remove the nut and the PS pump adjusting strut, then the bolt, nut and bracket.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/fan-bracket.png"><img src="img/toyota-4runner-5vzfe-head-gasket/fan-bracket.png" width="544" height="326" loading="lazy" alt="Fan bracket with arrows on its bolt and nuts"></a><figcaption>Manual figure: fan bracket fasteners</figcaption></figure></li>
+    <li class="step"><p>Crankshaft pulley: hold it with <strong>09213-54015</strong> and <strong>09330-00021</strong> and break the bolt loose. Remove the tools, bolt and pulley.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/crank-pulley-sst.png"><img src="img/toyota-4runner-5vzfe-head-gasket/crank-pulley-sst.png" width="544" height="334" loading="lazy" alt="Two special tools holding the crank pulley while the bolt is turned"></a><figcaption>Manual figure: crank pulley bolt with the holding tools</figcaption></figure></li>
+    <li class="step"><p>If the pulley won't come off by hand, pull it with <strong>09950-50010</strong> and a service bolt.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/crank-pulley-puller.png"><img src="img/toyota-4runner-5vzfe-head-gasket/crank-pulley-puller.png" width="496" height="336" loading="lazy" alt="Three-jaw style puller on the crank pulley"></a><figcaption>Manual figure: crank pulley with puller set 09950-50010</figcaption></figure></li>
+    <li class="step"><p>Remove the 2 bolts and the starter wire bracket, then the 4 bolts and the No. 1 timing belt cover.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/no1-cover.png"><img src="img/toyota-4runner-5vzfe-head-gasket/no1-cover.png" width="512" height="328" loading="lazy" alt="Lower timing belt cover with arrows on its bolts and the starter wire bracket"></a><figcaption>Manual figure: No. 1 timing belt cover and starter wire bracket</figcaption></figure></li>
+    <li class="step"><p>Remove the timing belt guide.</p></li>
+    <li class="step"><p>Set <strong>No. 1 cylinder at TDC/compression</strong>. Thread the crank pulley bolt back in temporarily and turn the crank <strong>clockwise</strong> until the mark on the crankshaft timing pulley lines up with the mark on the oil pump body. Check that both cam pulley marks line up with the marks on the No. 3 timing belt cover. If they don't, turn the crank one more full turn (<span class="torq">360&deg;</span>). Remove the bolt.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/timing-marks.png"><img src="img/toyota-4runner-5vzfe-head-gasket/timing-marks.png" width="560" height="334" loading="lazy" alt="Timing belt drawing with close-ups of both cam pulley marks and the crank pulley mark"></a><figcaption>Manual figure: TDC marks. Top insets: cam pulleys against the No. 3 cover. Bottom inset: crank timing pulley against the oil pump body.</figcaption></figure></li>
+    <li class="step"><p>If you plan to reuse the belt, check it has <strong>3 installation marks</strong> and a <strong>front mark</strong>. If they've worn off, paint 3 new ones matching the pulley timing marks, plus a front mark, before it comes off.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/belt-marks.png"><img src="img/toyota-4runner-5vzfe-head-gasket/belt-marks.png" width="544" height="346" loading="lazy" alt="Timing belt with close-ups of the installation marks at each pulley and the FR front mark"></a><figcaption>Manual figure: belt installation marks and the FR front mark</figcaption></figure></li>
+    <li class="step"><p>Timing belt tensioner: loosen the 2 bolts alternately, remove them, then the tensioner and its dust boot.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/tensioner-bolts.png"><img src="img/toyota-4runner-5vzfe-head-gasket/tensioner-bolts.png" width="560" height="330" loading="lazy" alt="Tensioner body with arrows on its two bolts"></a><figcaption>Manual figure: timing belt tensioner bolts</figcaption></figure></li>
+    <li class="step"><p>RH cam pulley: hold it with the variable pin wrench (<strong>09960-10010</strong>, arm 09962-01000, pin 10 09963-01000) and loosen the bolt. Remove the bolt, knock pin and pulley; the timing belt comes off with it.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/rh-cam-pulley.png"><img src="img/toyota-4runner-5vzfe-head-gasket/rh-cam-pulley.png" width="480" height="328" loading="lazy" alt="Pin wrench holding the RH cam pulley while a wrench turns the bolt"></a><figcaption>Manual figure: RH camshaft timing pulley with the variable pin wrench</figcaption></figure></li>
+    <li class="step"><p>LH cam pulley: same tool, same way. Remove the bolt, knock pin and pulley.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/lh-cam-pulley.png"><img src="img/toyota-4runner-5vzfe-head-gasket/lh-cam-pulley.png" width="512" height="330" loading="lazy" alt="Pin wrench holding the LH cam pulley while a wrench turns the bolt"></a><figcaption>Manual figure: LH camshaft timing pulley with the variable pin wrench</figcaption></figure></li>
+    <li class="step"><p>Remove the bolt and the No. 2 idler pulley.</p></li>
+  </ol>
+  <div class="callout c-note">
+    <span class="tag">Where the belt job stops</span>
+    <p>The manual's belt page goes on to remove the No. 1 idler and the crankshaft timing pulley. The exploded view on the head removal page doesn't include either, so they stay on for a head job.</p>
+  </div>
+
+  <h3>Front of the heads and exhaust</h3>
+  <figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/exploded-exhaust.png"><img src="img/toyota-4runner-5vzfe-head-gasket/exploded-exhaust.png" width="1456" height="1866" loading="lazy" alt="Exploded view of exhaust manifolds, heat insulators, crossover pipe, front pipe, PS pump bracket, generator and bracket, No. 3 timing belt cover and cam position sensor"></a><figcaption>Manual figure: exhaust side and No. 3 cover, exploded. Manifold nuts 40 Nm; every gasket is marked non-reusable.</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Camshaft position sensor: unplug it, unclip its clamp from the No. 3 timing belt cover, remove the bolt and the sensor.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/cam-sensor-no3-cover.png"><img src="img/toyota-4runner-5vzfe-head-gasket/cam-sensor-no3-cover.png" width="560" height="354" loading="lazy" alt="Rear timing cover with arrows on its six bolts and the cam position sensor, inset of the sensor clamp"></a><figcaption>Manual figure: camshaft position sensor and No. 3 timing belt cover bolts</figcaption></figure></li>
+    <li class="step"><p>Remove the 6 bolts and the No. 3 timing belt cover.</p></li>
+    <li class="step"><p>Remove the generator. The manual sends you to its Starting and Charging section.</p></li>
+    <li class="step"><p>Generator bracket: remove the 2 bolts and the bracket insulator, then the 2 bolts and the bracket.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/generator-bracket.png"><img src="img/toyota-4runner-5vzfe-head-gasket/generator-bracket.png" width="560" height="334" loading="lazy" alt="Generator bracket with arrows on its bolts, inset of the insulator bolt"></a><figcaption>Manual figure: generator bracket and insulator bolts</figcaption></figure></li>
+    <li class="step"><p>Remove the 3 bolts and the PS pump bracket.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/ps-bracket.png"><img src="img/toyota-4runner-5vzfe-head-gasket/ps-bracket.png" width="560" height="340" loading="lazy" alt="PS pump bracket with arrows on three bolts"></a><figcaption>Manual figure: PS pump bracket bolts</figcaption></figure></li>
+    <li class="step"><p>Remove the 6 nuts, the exhaust crossover pipe and its 2 gaskets.</p></li>
+    <li class="step"><p>Remove the 6 nuts and the exhaust manifold heat insulators, then the 12 nuts, both exhaust manifolds and their gaskets.</p></li>
+    <li class="step"><p>Remove the 8 bolts and seal washers from each cylinder head cover, and lift off both covers and gaskets.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/head-covers.png"><img src="img/toyota-4runner-5vzfe-head-gasket/head-covers.png" width="544" height="346" loading="lazy" alt="Both cylinder head covers with arrows on their bolts"></a><figcaption>Manual figure: cylinder head cover bolts</figcaption></figure></li>
+  </ol>
+</section>
+
+<section id="heads-off">
+  <h2>Camshafts and heads out</h2>
+  <div class="rule"></div>
+  <p class="sub">RH and LH are the right and left banks, seen from the driver's seat. Each head has an intake and an exhaust cam, geared together; the exhaust cam carries a spring-loaded sub-gear that has to be pinned before the cam comes out.</p>
+  <figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/exploded-head.png"><img src="img/toyota-4runner-5vzfe-head-gasket/exploded-head.png" width="1440" height="1902" loading="lazy" alt="Exploded view of both cylinder head covers, four camshafts with sub-gear parts, bearing caps, both heads and head gaskets"></a><figcaption>Manual figure: heads and camshafts, exploded. Head bolts 34 Nm, then 90&deg;, then 90&deg;. Cam caps 16 Nm.</figcaption></figure>
+  <div class="callout c-bad">
+    <span class="tag">Caution, from the manual</span>
+    <p>Camshaft thrust clearance is small. Keep each camshaft <strong>level</strong> while it comes out and goes in. If it tilts, the part of the head that takes the thrust can crack, and the cam can seize or break.</p>
+  </div>
+
+  <h3>RH head camshafts</h3>
+  <ol class="steps">
+    <li class="step"><p>Exhaust cam: turn it with a wrench on the hex portion until the <strong>service bolt hole</strong> in the driven sub-gear points up.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/rh-exh-service-hole.png"><img src="img/toyota-4runner-5vzfe-head-gasket/rh-exh-service-hole.png" width="544" height="340" loading="lazy" alt="Wrench on the exhaust cam hex with an inset of the sub-gear hole marked Align"></a><figcaption>Manual figure: turning the RH exhaust cam to bring the sub-gear service hole up</figcaption></figure></li>
+    <li class="step"><p>Keep turning with the wrench until the <strong>2-dot</strong> timing marks on the drive and driven gears line up.</p></li>
+    <li class="step"><p>Pin the exhaust cam sub-gear to its main gear with the service bolt: M6, <span class="torq">1.0 mm</span> pitch, <span class="torq">16&ndash;20 mm</span> long. The spring force on the sub-gear must be off before the cam comes out.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/service-bolt.png"><img src="img/toyota-4runner-5vzfe-head-gasket/service-bolt.png" width="544" height="346" loading="lazy" alt="Exhaust cam gears with the sub-gear, driven gear and service bolt labeled"></a><figcaption>Manual figure: service bolt through the exhaust cam sub-gear</figcaption></figure></li>
+    <li class="step"><p>Loosen the 8 exhaust bearing cap bolts evenly, in several passes, in this order. Remove the 4 caps and the exhaust cam.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/rh-exh-caps-loosen.png"><img src="img/toyota-4runner-5vzfe-head-gasket/rh-exh-caps-loosen.png" width="544" height="350" loading="lazy" alt="RH exhaust cam caps with bolts numbered 1 to 8"></a><figcaption>Manual figure: RH exhaust camshaft bearing cap loosening order</figcaption></figure></li>
+    <li class="step"><p>Loosen the 10 intake bearing cap bolts evenly, in several passes, in this order. Remove the 5 caps, the oil seal and the intake cam.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/rh-int-caps-loosen.png"><img src="img/toyota-4runner-5vzfe-head-gasket/rh-int-caps-loosen.png" width="512" height="328" loading="lazy" alt="RH intake cam caps with bolts numbered 1 to 10"></a><figcaption>Manual figure: RH intake camshaft bearing cap loosening order</figcaption></figure></li>
+  </ol>
+
+  <h3>LH head camshafts</h3>
+  <ol class="steps">
+    <li class="step"><p>Exhaust cam: turn it with a wrench until the <strong>1-dot</strong> timing marks on the drive and driven gears line up, then fit the service bolt the same way as on the RH side.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/lh-exh-align.png"><img src="img/toyota-4runner-5vzfe-head-gasket/lh-exh-align.png" width="528" height="342" loading="lazy" alt="LH exhaust cam with a wrench and an inset of the gear marks labeled Align"></a><figcaption>Manual figure: aligning the LH cam gear marks</figcaption></figure></li>
+    <li class="step"><p>Loosen the 8 exhaust bearing cap bolts evenly, in several passes, in this order. Remove the 4 caps and the exhaust cam.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/lh-exh-caps-loosen.png"><img src="img/toyota-4runner-5vzfe-head-gasket/lh-exh-caps-loosen.png" width="512" height="328" loading="lazy" alt="LH exhaust cam caps with bolts numbered 1 to 8"></a><figcaption>Manual figure: LH exhaust camshaft bearing cap loosening order</figcaption></figure></li>
+    <li class="step"><p>Loosen the 10 intake bearing cap bolts evenly, in several passes, in this order. Remove the 5 caps, the oil seal and the intake cam.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/lh-int-caps-loosen.png"><img src="img/toyota-4runner-5vzfe-head-gasket/lh-int-caps-loosen.png" width="528" height="340" loading="lazy" alt="LH intake cam caps with bolts numbered 1 to 10"></a><figcaption>Manual figure: LH intake camshaft bearing cap loosening order</figcaption></figure></li>
+    <li class="step"><p>Lay out all 4 camshafts and all 18 bearing caps in order. Every cap goes back where it came from.</p></li>
+  </ol>
+
+  <h3>Strip the exhaust cam sub-gears</h3>
+  <ol class="steps">
+    <li class="step"><p>Clamp the exhaust cam in a vise by its hex portion, without marking the cam.</p></li>
+    <li class="step"><p>With the pin wrench (<strong>09960-10010</strong>, arm 09962-01000, pin 5 09963-00500), turn the sub-gear <strong>clockwise</strong> and pull the service bolt.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/subgear-pin-wrench.png"><img src="img/toyota-4runner-5vzfe-head-gasket/subgear-pin-wrench.png" width="544" height="290" loading="lazy" alt="Cam in a vise with the pin wrench turning the sub-gear"></a><figcaption>Manual figure: taking load off the sub-gear to remove the service bolt</figcaption></figure></li>
+    <li class="step"><p>Remove the snap ring with snap ring pliers, then the wave washer, the sub-gear and the gear spring.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/subgear-snap-ring.png"><img src="img/toyota-4runner-5vzfe-head-gasket/subgear-snap-ring.png" width="480" height="314" loading="lazy" alt="Snap ring pliers on the exhaust cam sub-gear"></a><figcaption>Manual figure: removing the sub-gear snap ring</figcaption></figure></li>
+    <li class="step"><p>Keep the RH and LH sub-gears and springs apart. Do both exhaust cams.</p></li>
+  </ol>
+
+  <h3>Heads off</h3>
+  <ol class="steps">
+    <li class="step"><p>Remove the bolt and disconnect the ground strap.</p></li>
+    <li class="step"><p>Remove the one <strong>recessed</strong> head bolt on each head with an <strong>8 mm hex</strong> bit. RH is at the rear, LH at the front.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/recessed-bolt-remove.png"><img src="img/toyota-4runner-5vzfe-head-gasket/recessed-bolt-remove.png" width="560" height="724" loading="lazy" alt="8 mm hex bit on the recessed head bolt; plan views of both heads with the recessed bolt circled"></a><figcaption>Manual figure: recessed head bolt locations, front to the left</figcaption></figure></li>
+    <li class="step"><p>Loosen the <strong>8 twelve-point bolts</strong> on one head evenly, in several passes, in the order shown, then do the other head. Remove all 16 bolts and their plate washers.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/head-bolt-loosening.png"><img src="img/toyota-4runner-5vzfe-head-gasket/head-bolt-loosening.png" width="544" height="728" loading="lazy" alt="Twelve-point head bolt and plan views of both heads with bolts numbered 1 to 8"></a><figcaption>Manual figure: head bolt removal order, front to the left</figcaption></figure></li>
+    <li class="step"><p>Lift each head off its dowels and set both on <strong>wooden blocks</strong> on the bench. If one sticks, pry between head and block with a screwdriver. Keep track of which head is which.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/head-pry.png"><img src="img/toyota-4runner-5vzfe-head-gasket/head-pry.png" width="512" height="308" loading="lazy" alt="Screwdriver prying between the cylinder head and block"></a><figcaption>Manual figure: prying a stuck head off the dowels</figcaption></figure></li>
+  </ol>
+
+  <div class="seq">
+    <figure>
+      <figcaption>RH bank (upper in figure)</figcaption>
+      <div class="grid4">
+        <span>7</span><span>2</span><span>4</span><span>6</span>
+        <span>5</span><span>3</span><span class="first">1</span><span>8</span>
+      </div>
+      <p class="hint">Front to the left.</p>
+    </figure>
+    <figure>
+      <figcaption>LH bank (lower in figure)</figcaption>
+      <div class="grid4">
+        <span>8</span><span class="first">1</span><span>3</span><span>5</span>
+        <span>6</span><span>4</span><span>2</span><span>7</span>
+      </div>
+      <p class="hint">Front to the left.</p>
+    </figure>
+  </div>
+  <div class="callout c-warn">
+    <span class="tag">The removal figure repeats the tightening numbers</span>
+    <p>The manual's removal figure (P21150) carries exactly the same numbers as its tightening figure (P21149): bolt 1 in the middle of each head, 7 and 8 at the ends. Its text says only "in several passes, in the sequence shown" and warns that <strong>loosening in the wrong order can warp or crack the head</strong>. Whichever way you count, take every bolt down a little at a time over several passes so no single bolt carries the load.</p>
+  </div>
+</section>
+
+<section id="inspect">
+  <h2>Clean and inspect</h2>
+  <div class="rule"></div>
+  <p class="sub">From the manual's Cylinder Head Assembly: Testing and Inspection page. The same page covers valves, guides, springs and cams for a full rebuild; the limits for a gasket job are here.</p>
+  <ol class="steps">
+    <li class="step"><p>Turn the crank to bring each piston to TDC in turn and scrape the carbon off the piston tops with a gasket scraper.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/piston-tops.png"><img src="img/toyota-4runner-5vzfe-head-gasket/piston-tops.png" width="560" height="318" loading="lazy" alt="Gasket scraper on a piston crown in the block"></a><figcaption>Manual figure: cleaning the piston tops</figcaption></figure></li>
+    <li class="step"><p>Scrape all gasket material off the block deck, then blow carbon and oil out of the bolt holes with compressed air. Protect your eyes.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/block-gasket.png"><img src="img/toyota-4runner-5vzfe-head-gasket/block-gasket.png" width="560" height="336" loading="lazy" alt="Gasket scraper on the block deck"></a><figcaption>Manual figure: cleaning the block surface</figcaption></figure></li>
+    <li class="step"><p>Scrape the gasket material off each head face. Don't scratch it.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/head-gasket-face.png"><img src="img/toyota-4runner-5vzfe-head-gasket/head-gasket-face.png" width="560" height="316" loading="lazy" alt="Gasket scraper on the head gasket face"></a><figcaption>Manual figure: cleaning the head surface</figcaption></figure></li>
+    <li class="step"><p>Wire-brush the carbon out of the combustion chambers, then clean the heads with a soft brush and solvent.</p></li>
+    <li class="step"><p>Check each head for warp with a precision straightedge and feeler gauge, on the block face and both manifold faces. Maximum is <span class="torq">0.10 mm (0.0039 in)</span> on every surface.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/head-warp.png"><img src="img/toyota-4runner-5vzfe-head-gasket/head-warp.png" width="480" height="714" loading="lazy" alt="Straightedge positions on the head gasket face, intake face and exhaust face"></a><figcaption>Manual figure: head warpage check, block face and both manifold faces</figcaption></figure></li>
+    <li class="step"><p>Check the combustion chambers, intake ports, exhaust ports and block face of each head for cracks with dye penetrant.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/head-cracks.png"><img src="img/toyota-4runner-5vzfe-head-gasket/head-cracks.png" width="560" height="316" loading="lazy" alt="Dye penetrant being sprayed into a combustion chamber"></a><figcaption>Manual figure: dye penetrant crack check</figcaption></figure></li>
+    <li class="step"><p>Check the intake manifold on its head face and its intake air connector face: max <span class="torq">0.10 mm</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/intake-manifold-warp.png"><img src="img/toyota-4runner-5vzfe-head-gasket/intake-manifold-warp.png" width="560" height="700" loading="lazy" alt="Straightedge lines on the intake manifold head side and intake air connector side"></a><figcaption>Manual figure: intake manifold warpage check</figcaption></figure></li>
+    <li class="step"><p>Check each exhaust manifold on its head face: max <span class="torq">1.00 mm (0.0394 in)</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/exhaust-manifold-warp.png"><img src="img/toyota-4runner-5vzfe-head-gasket/exhaust-manifold-warp.png" width="560" height="688" loading="lazy" alt="Straightedge lines across the LH and RH exhaust manifold flanges"></a><figcaption>Manual figure: exhaust manifold warpage check</figcaption></figure></li>
+    <li class="step"><p>Check the air intake chamber and intake air connector mating faces: max <span class="torq">0.10 mm</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/chamber-warp.png"><img src="img/toyota-4runner-5vzfe-head-gasket/chamber-warp.png" width="560" height="274" loading="lazy" alt="Straightedge lines across the air intake chamber flange"></a><figcaption>Manual figure: air intake chamber and intake air connector warpage check</figcaption></figure></li>
+  </ol>
+  <div class="callout c-bad">
+    <span class="tag">Replace, the manual says</span>
+    <p>Warp over <strong>0.10 mm</strong> or any crack: <strong>replace the cylinder head</strong>. This book gives no resurfacing allowance for the head. Over the limit on a manifold, air intake chamber or intake air connector: replace that part.</p>
+  </div>
+
+  <h3>If you're reusing the timing belt, tensioner and idlers</h3>
+  <ol class="steps">
+    <li class="step"><p>Belt: don't bend, twist or turn it inside out, and keep oil, water and steam off it. Cracked or damaged teeth, a worn or cracked face, or wear on one edge each point at a cause the manual lists (locked cam, damaged idler, misaligned pulley, bad cover gasket). Replace it if in doubt.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/belt-care.png"><img src="img/toyota-4runner-5vzfe-head-gasket/belt-care.png" width="512" height="284" loading="lazy" alt="Drawings of a belt bent too tight, cracked teeth and oil and water poured on the belt, marked No"></a><figcaption>Manual figure: timing belt handling</figcaption></figure></li>
+    <li class="step"><p>Idler pulleys: no oil leaking at the seal, and each turns smoothly.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/idler-spin.png"><img src="img/toyota-4runner-5vzfe-head-gasket/idler-spin.png" width="544" height="294" loading="lazy" alt="Hands spinning an idler pulley"></a><figcaption>Manual figure: checking an idler pulley turns smoothly</figcaption></figure></li>
+    <li class="step"><p>Tensioner seal: a faint trace of oil on the push-rod side is fine. Any real leak, replace it.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/tensioner-seal.png"><img src="img/toyota-4runner-5vzfe-head-gasket/tensioner-seal.png" width="560" height="342" loading="lazy" alt="Tensioner with a close-up of the push rod seal"></a><figcaption>Manual figure: tensioner seal check</figcaption></figure></li>
+    <li class="step"><p>Hold the tensioner in both hands and push the rod hard. It must not move. Never hold it with the push rod pointing down.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/tensioner-push.png"><img src="img/toyota-4runner-5vzfe-head-gasket/tensioner-push.png" width="576" height="356" loading="lazy" alt="Hands pressing the tensioner push rod"></a><figcaption>Manual figure: tensioner push rod check</figcaption></figure></li>
+    <li class="step"><p>Push rod protrusion from the housing end: <span class="torq">10.0&ndash;10.8 mm</span>. Out of range, replace the tensioner.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/tensioner-protrusion.png"><img src="img/toyota-4runner-5vzfe-head-gasket/tensioner-protrusion.png" width="432" height="338" loading="lazy" alt="Tensioner with the push rod protrusion dimension marked"></a><figcaption>Manual figure: tensioner push rod protrusion</figcaption></figure></li>
+  </ol>
+  <div class="callout c-note">
+    <span class="tag">Head bolts</span>
+    <p>The manual's rule: replace any head bolt that is <strong>broken or deformed</strong>, and replace any bolt that won't reach <strong>34 Nm</strong> on the first tightening pass.</p>
+  </div>
+</section>
+
+<section id="install">
+  <h2>Installation</h2>
+  <div class="rule"></div>
+  <p class="sub">Order follows the manual's Cylinder Head Installation page, with its step 18 (install timing belt) written out from the Timing Belt Installation page.</p>
+
+  <div class="callout c-note">
+    <span class="tag">Parts the manual marks non-reusable</span>
+    <p>Both head gaskets, both intake manifold gaskets, the intake air connector and air intake chamber gaskets, both exhaust manifold gaskets, both crossover pipe gaskets, both camshaft oil seals, the fuel pressure regulator O-ring and the dipstick guide O-ring. Seal packing is Toyota <strong>08826-00080</strong> or equivalent.</p>
+  </div>
+
+  <h3>Heads on</h3>
+  <ol class="steps">
+    <li class="step"><p>Lay the 2 new head gaskets on the block. <strong>Watch the direction</strong>: the manual's figure shows an R and an L mark at the rear of the gaskets.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/gasket-direction.png"><img src="img/toyota-4runner-5vzfe-head-gasket/gasket-direction.png" width="560" height="314" loading="lazy" alt="Both head gaskets on the block, front to the left, arrows on the R and L marks at the rear"></a><figcaption>Manual figure: head gasket direction. R on the RH bank, L on the LH bank, marks at the rear.</figcaption></figure></li>
+    <li class="step"><p>Set both heads on their gaskets.</p></li>
+    <li class="step"><p>Lightly oil the threads and the underside of the heads of the twelve-point bolts.</p></li>
+    <li class="step"><p>Fit the bolts and plate washers and tighten each head evenly, in several passes, in the order below, to <span class="torq">34 Nm (25 ft-lb)</span>. Then the other head. Any bolt that won't reach 34 Nm gets replaced.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/head-bolt-tightening.png"><img src="img/toyota-4runner-5vzfe-head-gasket/head-bolt-tightening.png" width="512" height="728" loading="lazy" alt="Torque wrench on a twelve-point bolt; plan views of both heads with bolts numbered 1 to 8"></a><figcaption>Manual figure: head bolt tightening order, front to the left</figcaption></figure></li>
+    <li class="step"><p>Put a paint mark on the <strong>front</strong> of every bolt head.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/paint-mark.png"><img src="img/toyota-4runner-5vzfe-head-gasket/paint-mark.png" width="544" height="336" loading="lazy" alt="Head bolt with a painted mark facing the front arrow"></a><figcaption>Manual figure: paint mark on the front of the bolt head</figcaption></figure></li>
+    <li class="step"><p>Turn every bolt another <span class="torq">+90&deg;</span> in numerical order.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/angle-turns.png"><img src="img/toyota-4runner-5vzfe-head-gasket/angle-turns.png" width="560" height="304" loading="lazy" alt="Head bolt with two 90-degree arrows and the painted mark"></a><figcaption>Manual figure: the two 90&deg; turns</figcaption></figure></li>
+    <li class="step"><p>Turn every bolt another <span class="torq">+90&deg;</span>.</p></li>
+    <li class="step"><p>Check that every paint mark now faces <strong>rearward</strong>.</p></li>
+    <li class="step"><p>Oil the threads and underside of the recessed bolts and fit one per head with the 8 mm hex: <span class="torq">18 Nm (13 ft-lb)</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/recessed-bolt-install.png"><img src="img/toyota-4runner-5vzfe-head-gasket/recessed-bolt-install.png" width="560" height="732" loading="lazy" alt="8 mm hex on the recessed head bolt with a torque wrench; plan views showing its location on each head"></a><figcaption>Manual figure: recessed head bolts, RH at the rear, LH at the front</figcaption></figure></li>
+    <li class="step"><p>Refit the ground strap bolt.</p></li>
+  </ol>
+  <div class="seq">
+    <figure>
+      <figcaption>RH bank tightening</figcaption>
+      <div class="grid4">
+        <span>7</span><span>2</span><span>4</span><span>6</span>
+        <span>5</span><span>3</span><span class="first">1</span><span>8</span>
+      </div>
+      <p class="hint">Front to the left, as in the manual figure.</p>
+    </figure>
+    <figure>
+      <figcaption>LH bank tightening</figcaption>
+      <div class="grid4">
+        <span>8</span><span class="first">1</span><span>3</span><span>5</span>
+        <span>6</span><span>4</span><span>2</span><span>7</span>
+      </div>
+      <p class="hint">Front to the left, as in the manual figure.</p>
+    </figure>
+  </div>
+
+  <h3>Rebuild the exhaust cam sub-gears</h3>
+  <ol class="steps">
+    <li class="step"><p>Clamp the exhaust cam in the vise by its hex. Fit (1) the gear spring, (2) the sub-gear with its pin and the main gear's pin on the spring ends, and (3) the wave washer. Snap ring on with the pliers.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/subgear-parts.png"><img src="img/toyota-4runner-5vzfe-head-gasket/subgear-parts.png" width="544" height="294" loading="lazy" alt="Exhaust camshaft with gear spring, sub-gear and wave washer numbered 1 to 3"></a><figcaption>Manual figure: 1 = gear spring, 2 = sub-gear, 3 = wave washer</figcaption></figure></li>
+    <li class="step"><p>With the pin wrench (<strong>09960-10010</strong>, arm 09962-01000, pin 09963-00600), turn the sub-gear <strong>clockwise</strong> until its hole lines up with the main gear's, and put the service bolt in loosely.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/subgear-service-bolt.png"><img src="img/toyota-4runner-5vzfe-head-gasket/subgear-service-bolt.png" width="496" height="316" loading="lazy" alt="Pin wrench turning the sub-gear on a cam held in a vise"></a><figcaption>Manual figure: aligning the sub-gear holes with the pin wrench</figcaption></figure></li>
+    <li class="step"><p>Line up the teeth of the main gear and sub-gear and tighten the service bolt. Do both exhaust cams.</p></li>
+  </ol>
+
+  <h3>RH head camshafts</h3>
+  <ol class="steps">
+    <li class="step"><p>Intake cam: oil the thrust portion and journals with new engine oil. Lay it in the head with its <strong>2-dot</strong> timing mark turned <span class="torq">90&deg;</span> away from the head surface, as drawn.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/rh-int-90.png"><img src="img/toyota-4runner-5vzfe-head-gasket/rh-int-90.png" width="528" height="348" loading="lazy" alt="RH intake cam in the head with a close-up of the gear rotated 90 degrees"></a><figcaption>Manual figure: RH intake cam placed 90&deg; from its timing mark</figcaption></figure></li>
+    <li class="step"><p>Grease the lip of a new oil seal with MP grease and fit it on the front of the cam.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/rh-oil-seal.png"><img src="img/toyota-4runner-5vzfe-head-gasket/rh-oil-seal.png" width="544" height="344" loading="lazy" alt="Oil seal being pushed onto the front of the RH intake cam"></a><figcaption>Manual figure: RH intake cam oil seal</figcaption></figure></li>
+    <li class="step"><p>Clean off any old seal packing, then apply seal packing (08826-00080) to the No. 1 bearing cap where shown.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/cap-seal-packing.png"><img src="img/toyota-4runner-5vzfe-head-gasket/cap-seal-packing.png" width="480" height="282" loading="lazy" alt="No. 1 intake bearing cap with seal packing shaded at both ends of the seal bore"></a><figcaption>Manual figure: seal packing on the No. 1 intake cap</figcaption></figure></li>
+    <li class="step"><p>Fit the 5 intake caps in their own positions.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/rh-int-caps-order.png"><img src="img/toyota-4runner-5vzfe-head-gasket/rh-int-caps-order.png" width="544" height="342" loading="lazy" alt="RH intake cam caps marked I1 to I5 with arrows forward"></a><figcaption>Manual figure: RH intake bearing cap positions</figcaption></figure></li>
+    <li class="step"><p>Oil the cap bolt threads and underside of the heads, then tighten the 10 bolts evenly in several passes in this order: <span class="torq">16 Nm (12 ft-lb)</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/rh-int-caps-tighten.png"><img src="img/toyota-4runner-5vzfe-head-gasket/rh-int-caps-tighten.png" width="528" height="344" loading="lazy" alt="RH intake cap bolts numbered 1 to 10"></a><figcaption>Manual figure: RH intake bearing cap tightening order</figcaption></figure></li>
+    <li class="step"><p>Exhaust cam: oil the thrust portion and journals. Line up the <strong>2-dot</strong> marks on the drive and driven gears and lay the cam in.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/rh-exh-align.png"><img src="img/toyota-4runner-5vzfe-head-gasket/rh-exh-align.png" width="528" height="348" loading="lazy" alt="RH exhaust cam meshing with the intake cam, inset of the marks labeled Align"></a><figcaption>Manual figure: RH exhaust cam gear marks aligned</figcaption></figure></li>
+    <li class="step"><p>Fit the 4 exhaust caps in their own positions.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/rh-exh-caps-order.png"><img src="img/toyota-4runner-5vzfe-head-gasket/rh-exh-caps-order.png" width="512" height="334" loading="lazy" alt="RH exhaust cam caps marked E1 to E4 with arrows"></a><figcaption>Manual figure: RH exhaust bearing cap positions</figcaption></figure></li>
+    <li class="step"><p>Oil the bolts, then tighten the 8 bolts evenly in several passes in this order: <span class="torq">16 Nm (12 ft-lb)</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/rh-exh-caps-tighten.png"><img src="img/toyota-4runner-5vzfe-head-gasket/rh-exh-caps-tighten.png" width="512" height="346" loading="lazy" alt="RH exhaust cap bolts numbered 1 to 8"></a><figcaption>Manual figure: RH exhaust bearing cap tightening order</figcaption></figure></li>
+    <li class="step"><p>Pull the service bolt. Turn the cam with a wrench until the <strong>1-dot</strong> marks on the drive and driven gears line up.</p></li>
+  </ol>
+
+  <h3>LH head camshafts</h3>
+  <ol class="steps">
+    <li class="step"><p>Intake cam: oil the thrust portion and journals. Lay it in with its <strong>1-dot</strong> timing mark turned <span class="torq">90&deg;</span> away from the head surface, as drawn.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/lh-int-90.png"><img src="img/toyota-4runner-5vzfe-head-gasket/lh-int-90.png" width="528" height="338" loading="lazy" alt="LH intake cam in the head with a close-up of the gear rotated 90 degrees"></a><figcaption>Manual figure: LH intake cam placed 90&deg; from its timing mark</figcaption></figure></li>
+    <li class="step"><p>Grease a new oil seal lip and fit the seal.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/lh-oil-seal.png"><img src="img/toyota-4runner-5vzfe-head-gasket/lh-oil-seal.png" width="544" height="342" loading="lazy" alt="Oil seal being pushed onto the front of the LH intake cam"></a><figcaption>Manual figure: LH intake cam oil seal</figcaption></figure></li>
+    <li class="step"><p>Clean off the old packing and apply seal packing to the No. 1 bearing cap, same as the RH side.</p></li>
+    <li class="step"><p>Fit the 5 intake caps in their own positions.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/lh-int-caps-order.png"><img src="img/toyota-4runner-5vzfe-head-gasket/lh-int-caps-order.png" width="544" height="348" loading="lazy" alt="LH intake cam caps marked I1 to I5 with arrows"></a><figcaption>Manual figure: LH intake bearing cap positions</figcaption></figure></li>
+    <li class="step"><p>Oil the bolts and tighten the 10 bolts evenly in several passes in this order: <span class="torq">16 Nm (12 ft-lb)</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/lh-int-caps-tighten.png"><img src="img/toyota-4runner-5vzfe-head-gasket/lh-int-caps-tighten.png" width="560" height="360" loading="lazy" alt="LH intake cap bolts numbered 1 to 10"></a><figcaption>Manual figure: LH intake bearing cap tightening order</figcaption></figure></li>
+    <li class="step"><p>Exhaust cam: oil the thrust portion and journals. Line up the <strong>1-dot</strong> marks on the drive and driven gears and lay the cam in.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/lh-exh-align-install.png"><img src="img/toyota-4runner-5vzfe-head-gasket/lh-exh-align-install.png" width="512" height="350" loading="lazy" alt="LH exhaust cam meshing with the intake cam, inset of the marks labeled Align"></a><figcaption>Manual figure: LH exhaust cam gear marks aligned</figcaption></figure></li>
+    <li class="step"><p>Fit the 4 exhaust caps in their own positions.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/lh-exh-caps-order.png"><img src="img/toyota-4runner-5vzfe-head-gasket/lh-exh-caps-order.png" width="528" height="334" loading="lazy" alt="LH exhaust cam caps marked E1 to E4 with arrows"></a><figcaption>Manual figure: LH exhaust bearing cap positions</figcaption></figure></li>
+    <li class="step"><p>Oil the bolts and tighten the 8 bolts evenly in several passes in this order: <span class="torq">16 Nm (12 ft-lb)</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/lh-exh-caps-tighten.png"><img src="img/toyota-4runner-5vzfe-head-gasket/lh-exh-caps-tighten.png" width="512" height="336" loading="lazy" alt="LH exhaust cap bolts numbered 1 to 8"></a><figcaption>Manual figure: LH exhaust bearing cap tightening order</figcaption></figure></li>
+    <li class="step"><p>Pull the service bolt.</p></li>
+  </ol>
+</section>
+
+<section id="valves">
+  <h2>Valve clearance</h2>
+  <div class="rule"></div>
+  <p class="sub">The head installation page calls for a clearance check here (its step 8). The steps below are the manual's Valve Clearance: Adjustments page. Check it cold.</p>
+  <div class="callout c-warn">
+    <span class="tag">Timing belt isn't on yet</span>
+    <p>The adjustment page is written for an assembled engine. It finds TDC with the crank pulley groove against the <strong>0</strong> on the No. 1 timing belt cover and turns the crankshaft <strong>240&deg;</strong> twice between checks. The crank only drives the cams once the belt is on, and the 0 mark needs the crank pulley and No. 1 cover fitted. At this point in the head job none of those are on.</p>
+    <p>The same page only removes the intake air connector and the head covers to get at the shims. So the check can wait until the belt is on and the crank pulley is back, if you hold off on the head covers and the intake air connector until it's done.</p>
+  </div>
+  <ol class="steps">
+    <li class="step"><p>Turn the crank pulley until its groove lines up with the <strong>0</strong> mark on the No. 1 timing belt cover.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/vc-crank-0.png"><img src="img/toyota-4runner-5vzfe-head-gasket/vc-crank-0.png" width="480" height="328" loading="lazy" alt="Crank pulley with a close-up of the groove against the timing scale"></a><figcaption>Manual figure: crank pulley groove at 0</figcaption></figure></li>
+    <li class="step"><p>Check that the <strong>1-dot</strong> marks on the cam drive and driven gears sit in a straight line with the head surface. If not, turn the crank one more full turn (<span class="torq">360&deg;</span>).</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/vc-dot-marks.png"><img src="img/toyota-4runner-5vzfe-head-gasket/vc-dot-marks.png" width="560" height="316" loading="lazy" alt="Both heads with close-ups of the dot marks on the cam gears"></a><figcaption>Manual figure: 1-dot marks lined up, No. 1 at TDC/compression</figcaption></figure></li>
+    <li class="step"><p>Measure the valves shown in the first figure with a feeler gauge between the lifter and the cam. Spec, cold: intake <span class="torq">0.13&ndash;0.23 mm</span>, exhaust <span class="torq">0.27&ndash;0.37 mm</span>. Write down every reading that's out.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/vc-set1.png"><img src="img/toyota-4runner-5vzfe-head-gasket/vc-set1.png" width="560" height="336" loading="lazy" alt="Plan view of all four cams with the first set of valves shaded, cylinders 1, 2, 3 and 6"></a><figcaption>Manual figure: first check position, No. 1 at TDC/compression</figcaption></figure><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/vc-spec.png"><img src="img/toyota-4runner-5vzfe-head-gasket/vc-spec.png" width="896" height="112" loading="lazy" alt="Table: intake 0.13 to 0.23 mm, exhaust 0.27 to 0.37 mm"></a><figcaption>Manual figure: Valve Clearance (Cold)</figcaption></figure></li>
+    <li class="step"><p>Turn the crank <span class="torq">240&deg;</span> (two-thirds of a turn) and measure the valves in the second figure.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/vc-set2.png"><img src="img/toyota-4runner-5vzfe-head-gasket/vc-set2.png" width="512" height="320" loading="lazy" alt="Plan view of the cams with the second set of valves shaded, cylinders 2, 3, 4 and 5"></a><figcaption>Manual figure: second check position, crank turned 240&deg;</figcaption></figure></li>
+    <li class="step"><p>Turn the crank another <span class="torq">240&deg;</span> and measure the valves in the third figure.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/vc-set3.png"><img src="img/toyota-4runner-5vzfe-head-gasket/vc-set3.png" width="560" height="344" loading="lazy" alt="Plan view of the cams with the third set of valves shaded, cylinders 1, 4, 5 and 6"></a><figcaption>Manual figure: third check position, another 240&deg;</figcaption></figure></li>
+    <li class="step"><p>To change a shim: turn that cam until its lobe points up, then turn the lifter with a screwdriver so its notches sit at right angles to the cam.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/vc-lifter-notch.png"><img src="img/toyota-4runner-5vzfe-head-gasket/vc-lifter-notch.png" width="560" height="324" loading="lazy" alt="Screwdriver turning the valve lifter so the notch faces out, cam lobe up"></a><figcaption>Manual figure: lobe up, lifter notch turned</figcaption></figure></li>
+    <li class="step"><p>Press the lifter down with SST (A) and slip SST (B) between the cam and the lifter (<strong>09248-55040</strong>: 09248-05410 and 09248-05420). Take SST (A) out. Put (B) in at a slight angle on the side marked 9 or 7, and ease it in from the intake side so the shim doesn't pinch it.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/vc-sst.png"><img src="img/toyota-4runner-5vzfe-head-gasket/vc-sst.png" width="560" height="706" loading="lazy" alt="Two tools holding a lifter down, shown for the end cylinders and for the others"></a><figcaption>Manual figure: SST (A) and (B) positions. Top: front of No. 1 and rear of No. 6. Bottom: all others.</figcaption></figure></li>
+    <li class="step"><p>Lift the shim out with a small screwdriver and a magnetic finger.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/vc-shim-remove.png"><img src="img/toyota-4runner-5vzfe-head-gasket/vc-shim-remove.png" width="560" height="334" loading="lazy" alt="Magnetic finger lifting a shim out of the lifter"></a><figcaption>Manual figure: removing the adjusting shim</figcaption></figure></li>
+    <li class="step"><p>Measure the old shim with a micrometer and work out the new one. T = old shim, A = measured clearance, N = new shim. Intake: N = T + (A &minus; <span class="torq">0.18 mm</span>). Exhaust: N = T + (A &minus; <span class="torq">0.32 mm</span>). Pick the shim closest to N; they come in 17 sizes from <span class="torq">2.500</span> to <span class="torq">3.300 mm</span> in <span class="torq">0.050 mm</span> steps. Or read it off the charts below.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/shim-measure.png"><img src="img/toyota-4runner-5vzfe-head-gasket/shim-measure.png" width="560" height="306" loading="lazy" alt="Micrometer measuring a shim"></a><figcaption>Manual figure: measuring the removed shim</figcaption></figure></li>
+    <li class="step"><p>Set the new shim on the lifter, <strong>numbers facing down</strong>. Press the lifter with SST (A) and pull SST (B).</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/vc-sst-release.png"><img src="img/toyota-4runner-5vzfe-head-gasket/vc-sst-release.png" width="560" height="316" loading="lazy" alt="SST A pressing the lifter while SST B is withdrawn"></a><figcaption>Manual figure: releasing the lifter over the new shim</figcaption></figure></li>
+    <li class="step"><p>Recheck the clearance.</p></li>
+  </ol>
+  <figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/shim-chart-intake.png"><img src="img/toyota-4runner-5vzfe-head-gasket/shim-chart-intake.png" width="1962" height="1472" loading="lazy" alt="Intake adjusting shim selection chart, measured clearance against installed shim thickness, with the 17-size shim table"></a><figcaption>Manual figure: Adjusting Shim Selection Chart (Intake). Tap to open full size.</figcaption></figure>
+  <figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/shim-chart-exhaust.png"><img src="img/toyota-4runner-5vzfe-head-gasket/shim-chart-exhaust.png" width="1834" height="1456" loading="lazy" alt="Exhaust adjusting shim selection chart, measured clearance against installed shim thickness, with the 17-size shim table"></a><figcaption>Manual figure: Adjusting Shim Selection Chart (Exhaust). Tap to open full size.</figcaption></figure>
+</section>
+
+<section id="topend">
+  <h2>Covers and exhaust back on</h2>
+  <div class="rule"></div>
+  <ol class="steps">
+    <li class="step"><p>Clean the old packing out of the semi-circular plug grooves and apply seal packing (08826-00080) in them.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/semicircular-packing.png"><img src="img/toyota-4runner-5vzfe-head-gasket/semicircular-packing.png" width="512" height="306" loading="lazy" alt="Semi-circular plug with a bead of seal packing in its groove"></a><figcaption>Manual figure: seal packing on the semi-circular plug</figcaption></figure></li>
+    <li class="step"><p>Fit the 4 semi-circular plugs to the heads.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/semicircular-plugs.png"><img src="img/toyota-4runner-5vzfe-head-gasket/semicircular-plugs.png" width="560" height="576" loading="lazy" alt="Plan view of both heads with the four semi-circular plug positions shaded"></a><figcaption>Manual figure: semi-circular plug locations, front to the left</figcaption></figure></li>
+    <li class="step"><p>Apply seal packing to the heads where shown, fit the gasket to each head cover, and fit each cover with its 8 bolts, tightened evenly in several passes: <span class="torq">6 Nm (53 in-lb)</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/cover-packing.png"><img src="img/toyota-4runner-5vzfe-head-gasket/cover-packing.png" width="560" height="600" loading="lazy" alt="Plan view of both heads with seal packing shaded at the cam journal ends and front corners"></a><figcaption>Manual figure: seal packing for the head covers</figcaption></figure></li>
+    <li class="step"><p>Exhaust manifolds with 2 new gaskets and the 12 nuts: <span class="torq">40 Nm (30 ft-lb)</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/exhaust-manifold.png"><img src="img/toyota-4runner-5vzfe-head-gasket/exhaust-manifold.png" width="544" height="362" loading="lazy" alt="Exhaust manifold with arrows on six nuts"></a><figcaption>Manual figure: exhaust manifold nuts</figcaption></figure></li>
+    <li class="step"><p>Heat insulators with the 6 nuts: <span class="torq">8 Nm (71 in-lb)</span>.</p></li>
+    <li class="step"><p>Crossover pipe with 2 new gaskets and the 6 nuts: <span class="torq">45 Nm (33 ft-lb)</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/crossover-pipe.png"><img src="img/toyota-4runner-5vzfe-head-gasket/crossover-pipe.png" width="560" height="336" loading="lazy" alt="Exhaust crossover pipe behind the engine with arrows on its nuts"></a><figcaption>Manual figure: exhaust crossover pipe nuts</figcaption></figure></li>
+    <li class="step"><p>PS pump bracket: <span class="torq">18.5 Nm (14 ft-lb)</span>.</p></li>
+    <li class="step"><p>Generator bracket: <span class="torq">18.5 Nm (14 ft-lb)</span>. Then the generator (Starting and Charging section).</p></li>
+    <li class="step"><p>No. 3 timing belt cover: check its gaskets for cracks or peeling. To replace one, scrape and clean off the old material and stick the new gasket evenly along the black-shaded run. Fit the cover with its 6 bolts: <span class="torq">9 Nm (80 in-lb)</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/no3-cover-gasket.png"><img src="img/toyota-4runner-5vzfe-head-gasket/no3-cover-gasket.png" width="560" height="352" loading="lazy" alt="Rear timing cover with gasket runs and their lengths: 165, 165, 130, 265 and 145 mm"></a><figcaption>Manual figure: No. 3 timing belt cover gasket runs and lengths</figcaption></figure></li>
+    <li class="step"><p>Camshaft position sensor: match its protrusion to the indentation in the RH head and fit the bolt: <span class="torq">8 Nm (71 in-lb)</span>. Clip the clamp to the No. 3 cover and plug it in.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/cam-sensor-install.png"><img src="img/toyota-4runner-5vzfe-head-gasket/cam-sensor-install.png" width="560" height="368" loading="lazy" alt="Cam position sensor at the RH head with close-ups of the locating tab and the clamp"></a><figcaption>Manual figure: camshaft position sensor fit</figcaption></figure></li>
+  </ol>
+</section>
+
+<section id="belt">
+  <h2>Timing belt on</h2>
+  <div class="rule"></div>
+  <p class="sub">The crankshaft timing pulley and No. 1 idler never came off, so this starts at the No. 2 idler.</p>
+  <ol class="steps">
+    <li class="step"><p>No. 2 idler pulley with its bolt: <span class="torq">40 Nm (30 ft-lb)</span>. Check it turns smoothly.</p></li>
+    <li class="step"><p>LH cam pulley, flange side <strong>out</strong>. Line the knock pin in the cam up with the pulley's groove and slide it on. Bolt with the pin wrench holding: <span class="torq">110 Nm (81 ft-lb)</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/lh-cam-pulley.png"><img src="img/toyota-4runner-5vzfe-head-gasket/lh-cam-pulley.png" width="512" height="330" loading="lazy" alt="Pin wrench holding the LH cam pulley while a wrench turns the bolt"></a><figcaption>Manual figure: LH camshaft timing pulley with the variable pin wrench</figcaption></figure></li>
+    <li class="step"><p>RH cam pulley, same way: <span class="torq">110 Nm (81 ft-lb)</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/rh-cam-pulley.png"><img src="img/toyota-4runner-5vzfe-head-gasket/rh-cam-pulley.png" width="480" height="328" loading="lazy" alt="Pin wrench holding the RH cam pulley while a wrench turns the bolt"></a><figcaption>Manual figure: RH camshaft timing pulley with the variable pin wrench</figcaption></figure></li>
+    <li class="step"><p>Thread the crank pulley bolt in temporarily and turn the crank until the crankshaft timing pulley mark lines up with the oil pump body mark.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/crank-tdc.png"><img src="img/toyota-4runner-5vzfe-head-gasket/crank-tdc.png" width="512" height="342" loading="lazy" alt="Crank timing pulley with a close-up of its mark against the oil pump body"></a><figcaption>Manual figure: crankshaft timing pulley at TDC</figcaption></figure></li>
+    <li class="step"><p>Turn each cam pulley with the pin wrench until its mark lines up with the mark on the No. 3 timing belt cover.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/cam-pulley-marks.png"><img src="img/toyota-4runner-5vzfe-head-gasket/cam-pulley-marks.png" width="544" height="340" loading="lazy" alt="Pin wrench on a cam pulley, close-ups of both cam pulley marks against the cover"></a><figcaption>Manual figure: cam pulleys aligned to the No. 3 cover</figcaption></figure></li>
+    <li class="step"><p>Engine cold. Wipe any oil or water off the pulleys; no cleaner, just a wipe.</p></li>
+    <li class="step"><p>Belt <strong>front mark forward</strong>. Line its installation marks up with the crank pulley mark and both cam pulley marks, and route it in this order: (1) LH cam pulley, (2) No. 2 idler, (3) RH cam pulley, (4) water pump pulley, (5) crank pulley, (6) No. 1 idler.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/belt-routing.png"><img src="img/toyota-4runner-5vzfe-head-gasket/belt-routing.png" width="560" height="372" loading="lazy" alt="Timing belt layout with pulleys numbered 1 to 6 and close-ups of the marks and the FR arrow"></a><figcaption>Manual figure: belt routing order and installation marks</figcaption></figure></li>
+    <li class="step"><p>Reset the tensioner: in a press, push the rod in <strong>slowly</strong> at <span class="torq">981&ndash;9,807 N (200&ndash;2,205 lb)</span>.</p></li>
+    <li class="step"><p>When the holes in the rod and housing line up, push a <strong>1.27 mm hex wrench</strong> through them to hold it. Release the press.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/tensioner-press.png"><img src="img/toyota-4runner-5vzfe-head-gasket/tensioner-press.png" width="560" height="336" loading="lazy" alt="Tensioner in a press with a 1.27 mm hex wrench through the housing"></a><figcaption>Manual figure: pinning the tensioner with a 1.27 mm hex wrench</figcaption></figure></li>
+    <li class="step"><p>Fit the dust boot to the tensioner.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/tensioner-boot.png"><img src="img/toyota-4runner-5vzfe-head-gasket/tensioner-boot.png" width="576" height="384" loading="lazy" alt="Hands fitting the dust boot to the pinned tensioner"></a><figcaption>Manual figure: tensioner dust boot</figcaption></figure></li>
+    <li class="step"><p>Fit the tensioner with its 2 bolts loosely, then tighten them alternately: <span class="torq">27 Nm (20 ft-lb)</span>. Pull the hex wrench out.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/tensioner-install.png"><img src="img/toyota-4runner-5vzfe-head-gasket/tensioner-install.png" width="560" height="318" loading="lazy" alt="Tensioner on the block with arrows on its two bolts"></a><figcaption>Manual figure: timing belt tensioner bolts</figcaption></figure></li>
+    <li class="step"><p>Check valve timing: turn the crank <strong>clockwise</strong> until the crankshaft timing pulley mark meets the oil pump body mark again, and confirm both cam pulley marks meet the No. 3 cover marks. If they don't, take the belt off and do it again. Remove the crank pulley bolt.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/timing-marks.png"><img src="img/toyota-4runner-5vzfe-head-gasket/timing-marks.png" width="560" height="334" loading="lazy" alt="Timing belt drawing with close-ups of both cam pulley marks and the crank pulley mark"></a><figcaption>Manual figure: valve timing check marks</figcaption></figure></li>
+    <li class="step"><p>Timing belt guide, <strong>cup side out</strong>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/belt-guide.png"><img src="img/toyota-4runner-5vzfe-head-gasket/belt-guide.png" width="544" height="350" loading="lazy" alt="Belt guide going onto the crank with a close-up of its profile and the Front arrow"></a><figcaption>Manual figure: timing belt guide direction</figcaption></figure></li>
+    <li class="step"><p>No. 1 timing belt cover: check the gaskets, replace any that are cracked or peeling, and fit it with the 4 bolts: <span class="torq">9 Nm (80 in-lb)</span>. Then the starter wire bracket with its 2 bolts.</p></li>
+    <li class="step"><p>Crank pulley: line the key up with its groove and slide it on. Hold it with 09213-54015 and 09330-00021 and torque the bolt: <span class="torq">250 Nm (184 ft-lb)</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/crank-pulley-sst.png"><img src="img/toyota-4runner-5vzfe-head-gasket/crank-pulley-sst.png" width="544" height="334" loading="lazy" alt="Two special tools holding the crank pulley while the bolt is turned"></a><figcaption>Manual figure: crank pulley bolt with the holding tools</figcaption></figure></li>
+    <li class="step"><p>Fan bracket with its bolt and nut, and the PS pump adjusting strut with its nut.</p></li>
+  </ol>
+</section>
+
+<section id="intake-on">
+  <h2>Intake back on</h2>
+  <div class="rule"></div>
+  <ol class="steps">
+    <li class="step"><p>Intake manifold with 2 new gaskets, delivery pipes and injectors on it: 8 bolts, 4 plate washers, 4 nuts, <span class="torq">18 Nm (13 ft-lb)</span>. Manifold stay, 2 bolts: <span class="torq">18 Nm</span>.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/intake-manifold.png"><img src="img/toyota-4runner-5vzfe-head-gasket/intake-manifold.png" width="560" height="308" loading="lazy" alt="Top view of intake manifold with arrows on its bolts and nuts"></a><figcaption>Manual figure: intake manifold fasteners</figcaption></figure></li>
+    <li class="step"><p>Fuel pressure regulator back on.</p></li>
+    <li class="step"><p>Engine wire protector: 2 clamps, the 3 bolts, the other 2 clamps. Plug in the 6 injectors, the ECT sensor and the ECT sender gauge.</p></li>
+    <li class="step"><p>Intake air connector with a new gasket, 3 bolts and 2 nuts: <span class="torq">18 Nm</span>. DLC1 back on its bracket, ground strap bolt in, fuel return hose and regulator vacuum hose on, engine wire bolt in.</p></li>
+    <li class="step"><p>Air intake chamber with a new gasket, 4 bolts and 2 nuts: <span class="torq">18 Nm</span>. Reconnect the TPS and IAC connectors, both PCV hoses, both water bypass hoses and the air assist hose.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/chamber-bolts.png"><img src="img/toyota-4runner-5vzfe-head-gasket/chamber-bolts.png" width="560" height="314" loading="lazy" alt="Air intake chamber with arrows on four bolts and two nuts"></a><figcaption>Manual figure: air intake chamber fasteners</figcaption></figure></li>
+    <li class="step"><p>No. 2 timing belt cover: check its gasket and replace it along the shaded run if it's cracked or peeling. 6 bolts: <span class="torq">9 Nm (80 in-lb)</span>. Clip the 4 high-tension cord clamps on and plug in the camshaft position sensor.</p><figure class="fig"><a class="plate" href="img/toyota-4runner-5vzfe-head-gasket/no2-cover-gasket.png"><img src="img/toyota-4runner-5vzfe-head-gasket/no2-cover-gasket.png" width="480" height="332" loading="lazy" alt="Upper timing cover with gasket runs of 955 mm and 270 mm"></a><figcaption>Manual figure: No. 2 timing belt cover gasket runs and lengths</figcaption></figure></li>
+    <li class="step"><p>Intake chamber stay, 2 bolts: <span class="torq">40 Nm (30 ft-lb)</span>. No. 1 throttle cable clamp with its 2 bolts.</p></li>
+  </ol>
+</section>
+
+<section id="front">
+  <h2>Front of engine back on</h2>
+  <div class="rule"></div>
+  <ol class="steps">
+    <li class="step"><p>New O-ring on the dipstick guide, wet it with soapy water, push the guide into the block, and bolt it to the generator bracket: <span class="torq">8 Nm (71 in-lb)</span>.</p></li>
+    <li class="step"><p>With A/C: compressor bracket, <span class="torq">47 Nm (35 ft-lb)</span>.</p></li>
+    <li class="step"><p>Fan with fluid coupling and pulleys on loosely, then the No. 2 fan shroud, then the generator belt, adjusted.</p></li>
+    <li class="step"><p>Tighten the fan coupling: <span class="torq">5.4 Nm (48 in-lb)</span>.</p></li>
+    <li class="step"><p>With A/C: compressor on with its 4 bolts, <span class="torq">25 Nm (18 ft-lb)</span>. Belt on, connector in.</p></li>
+    <li class="step"><p>PS pump on loosely, belt on, then the bolt and nut: <span class="torq">43 Nm (31 ft-lb)</span>. Pressure tube clamp bolt back in, both PS air hoses back on.</p></li>
+    <li class="step"><p>Reconnect the upper radiator hose.</p></li>
+  </ol>
+</section>
+
+<section id="finish">
+  <h2>Hook up and finish</h2>
+  <div class="rule"></div>
+  <ol class="steps">
+    <li class="step"><p>Reconnect the fuel return and inlet hoses, the brake booster hose, the EVAP hose, and on 4WD the A.D.D. vacuum hose.</p></li>
+    <li class="step"><p>Reconnect the A/T throttle cable, the accelerator cable and the cruise control cable.</p></li>
+    <li class="step"><p>Spark plugs, <span class="torq">20 Nm (14 ft-lb)</span>, then the high-tension cords with the coils.</p></li>
+    <li class="step"><p>Heater hose on, air cleaner on, front exhaust pipe on (Exhaust System section).</p></li>
+    <li class="step"><p>Plug the fuel pump connection back in and reconnect the battery negative.</p></li>
+    <li class="step"><p>Fill with ethylene-glycol coolant mixed with demineralized or distilled water; the manual recommends <span class="torq">50&ndash;70%</span> glycol and says no alcohol-type coolant. <span class="torq">9.0 L (9.5 US qt)</span> with a rear heater, <span class="torq">8.0 L (8.5 US qt)</span> without. Cap on.</p></li>
+    <li class="step"><p>Start the engine and bleed the cooling system. Top the reservoir up to FULL if it needs it.</p></li>
+    <li class="step"><p>Check for leaks.</p></li>
+    <li class="step"><p>Check ignition timing: <span class="torq">8&ndash;12&deg; BTDC</span> at idle, transmission in neutral (Powertrain Management section).</p></li>
+    <li class="step"><p>Engine under cover back on.</p></li>
+    <li class="step"><p>Road test. The manual says to listen for abnormal noise, shock or slippage and to check shift points.</p></li>
+    <li class="step"><p>Recheck the coolant level once it's cold.</p></li>
+  </ol>
+</section>
+
+<section id="specs">
+  <h2>5VZ-FE specs</h2>
+  <div class="rule"></div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Item</th><th>Spec</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Head bolts, 12-point</strong> <em>oiled, 3 passes, paint mark ends rearward</em></td><td>34 Nm &rarr; +90&deg; &rarr; +90&deg;</td></tr>
+        <tr><td>Head bolt, recessed <em>1 per head, 8 mm hex</em></td><td>18 Nm</td></tr>
+        <tr><td>Camshaft bearing caps</td><td>16 Nm</td></tr>
+        <tr><td>Cam timing pulley bolts</td><td>110 Nm</td></tr>
+        <tr><td>Crankshaft pulley bolt</td><td>250 Nm</td></tr>
+        <tr><td>Timing belt tensioner bolts</td><td>27 Nm</td></tr>
+        <tr><td>No. 2 idler pulley bolt</td><td>40 Nm</td></tr>
+        <tr><td>Timing belt covers No. 1, 2, 3</td><td>9 Nm</td></tr>
+        <tr><td>Camshaft position sensor</td><td>8 Nm</td></tr>
+        <tr><td>Head covers</td><td>6 Nm</td></tr>
+        <tr><td>Exhaust manifold nuts</td><td>40 Nm</td></tr>
+        <tr><td>Exhaust heat insulators</td><td>8 Nm</td></tr>
+        <tr><td>Exhaust crossover pipe</td><td>45 Nm</td></tr>
+        <tr><td>Intake manifold, stay, intake air connector, air intake chamber</td><td>18 Nm</td></tr>
+        <tr><td>Intake chamber stay</td><td>40 Nm</td></tr>
+        <tr><td>PS pump bracket, generator bracket</td><td>18.5 Nm</td></tr>
+        <tr><td>PS pump bolt and nut</td><td>43 Nm</td></tr>
+        <tr><td>A/C compressor bracket</td><td>47 Nm</td></tr>
+        <tr><td>A/C compressor bolts</td><td>25 Nm</td></tr>
+        <tr><td>Fan fluid coupling</td><td>5.4 Nm</td></tr>
+        <tr><td>Dipstick guide bolt</td><td>8 Nm</td></tr>
+        <tr><td>Spark plugs</td><td>20 Nm</td></tr>
+        <tr><td>Head warp, max <em>all surfaces; over it, replace</em></td><td>0.10 mm</td></tr>
+        <tr><td>Intake manifold, chamber, connector warp, max</td><td>0.10 mm</td></tr>
+        <tr><td>Exhaust manifold warp, max</td><td>1.00 mm</td></tr>
+        <tr><td>Valve clearance, cold <em>intake / exhaust</em></td><td>0.13&ndash;0.23 / 0.27&ndash;0.37 mm</td></tr>
+        <tr><td>Shim formula target <em>intake / exhaust</em></td><td>0.18 / 0.32 mm</td></tr>
+        <tr><td>Adjusting shims <em>17 sizes, 0.050 mm steps</em></td><td>2.500&ndash;3.300 mm</td></tr>
+        <tr><td>Tensioner push rod protrusion</td><td>10.0&ndash;10.8 mm</td></tr>
+        <tr><td>Tensioner reset load</td><td>981&ndash;9,807 N</td></tr>
+        <tr><td>Compression <em>standard / minimum / max spread, at 250 rpm</em></td><td>1,200 / 1,000 / 100 kPa</td></tr>
+        <tr><td>Ignition timing <em>idle, neutral</em></td><td>8&ndash;12&deg; BTDC</td></tr>
+        <tr><td>Coolant <em>with / without rear heater</em></td><td>9.0 / 8.0 L</td></tr>
+        <tr><td>Timing belt interval</td><td>5 yr / 60,000 mi</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="sub" style="margin-top:10px;">Foot-pound values are in the steps next to each Newton-meter figure, as the manual prints them.</p>
+  <button class="reset" id="reset" type="button">Clear all checkmarks</button>
+</section>
+
+<p class="foot">Source: LEMON manual for the 1997 Toyota 4 Runner SR5 4WD V6-3.4L (5VZ-FE), Repair and Diagnosis: Cylinder Head Assembly (Cylinder Head Removal, Cylinder Head Installation, Testing and Inspection, Tightening and Service Specifications, Valve Clearance Adjustments and Specifications, Fuel Pressure Release), Timing Belt (Removal, Installation, Testing and Inspection, Specifications), Compression Check, Coolant (Service and Repair, Testing and Inspection, Capacity and Fluid Type), Ignition Timing specification, and the head removal exploded views. Head installation text checked against the 1997 4 Runner Limited 2WD 5VZ-FE book. Figures are the manual's own scans; tap one to open it full size.</p>
+
+</div>
+
+<script>
+(function(){
+  var KEY='toyota-4runner-5vzfe-head-gasket';
+  var steps=[].slice.call(document.querySelectorAll('.step'));
+  var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function render(){
+    var n=steps.filter(function(s){return s.classList.contains('done');}).length;
+    document.getElementById('count').textContent=n+' / '+steps.length;
+    document.getElementById('fill').style.width=(steps.length?100*n/steps.length:0)+'%';
+  }
+  function save(){
+    var o={};steps.forEach(function(s,i){if(s.classList.contains('done'))o[i]=1;});
+    try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}
+  }
+  steps.forEach(function(s,i){
+    var n=document.createElement('span');n.className='n';n.textContent=[].indexOf.call(s.parentNode.children,s)+1;s.insertBefore(n,s.firstChild);
+    var body=document.createElement('div');
+    while(s.childNodes.length>1)body.appendChild(s.childNodes[1]);
+    s.appendChild(body);
+    s.tabIndex=0;s.setAttribute('role','checkbox');
+    if(saved[i])s.classList.add('done');
+    s.setAttribute('aria-checked',s.classList.contains('done'));
+    function toggle(){s.classList.toggle('done');s.setAttribute('aria-checked',s.classList.contains('done'));save();render();}
+    s.addEventListener('click',function(e){if(!e.target.closest('.fig'))toggle();});
+    s.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'){e.preventDefault();toggle();}});
+  });
+  document.getElementById('reset').addEventListener('click',function(){
+    steps.forEach(function(s){s.classList.remove('done');s.setAttribute('aria-checked','false');});save();render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
