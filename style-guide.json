@@ -1,9 +1,8 @@
 {
   "name": "Lemon house style",
-  "source": "A:/#docker-builds/delivery-tracker/static/style.css (extracted 2026-09-24)",
   "notes": [
-    "Always dark; no light theme. Palette matched to training-tracker (Tower :8090).",
-    "Shared by the delivery tracker and the Lemon procedure guides in this repo. Guide-page rules are under guidePage.",
+    "Always dark; no light theme.",
+    "Used by every Lemon procedure guide in this repo. Guide-page rules are under guidePage.",
     "Warm near-black background, muted teal accent, amber and brick-red for status.",
     "Numbers always use the mono face with tabular figures so columns line up.",
     "Inputs are 16px so iOS Safari doesn't zoom on focus.",
