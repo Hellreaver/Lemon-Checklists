@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1B1917">
+<title>940 AW71 Rebuild</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Tokens from style-guide.json. Always dark; no light theme. */
+:root{
+  --bg:#1B1917; --card:#232019; --text:#ECE8E0; --muted:#B6AFA0;
+  --line:#3A362F; --field:#1B1917;
+  --accent:#7BAFA9; --accent-soft:#243B37; --accent-ink:#BFE0DA; --on-accent:#13201E;
+  --good:#7BAFA9; --good-bg:#243B37;
+  --warn:#D9A95B; --warn-bg:#3A2F1C;
+  --bad:#D97A7A; --bad-bg:#3B2323;
+  --idle-bg:#2C2923; --track:#3A362F; --plate:#FFFFFF;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;background:var(--bg);color:var(--text);
+  font:16px/1.5 "Barlow",system-ui,Arial,sans-serif;-webkit-text-size-adjust:100%;}
+h1,h2,h3,.eyebrow,nav.jump a,th{font-family:"Barlow Condensed","Arial Narrow",sans-serif;}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px calc(48px + env(safe-area-inset-bottom));}
+
+.topbar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:3px solid var(--accent);}
+.topbar-inner{max-width:720px;margin:0 auto;padding:calc(12px + env(safe-area-inset-top)) 16px 4px;}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0;}
+.topbar h1{font-size:24px;font-weight:700;letter-spacing:.01em;line-height:1.1;color:var(--accent-ink);margin:2px 0 0;}
+.progress{display:flex;align-items:center;gap:10px;margin:8px 0 0;}
+.bar{flex:1;height:10px;border-radius:5px;background:var(--track);overflow:hidden;}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s;}
+.count{font:600 12px "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap;}
+nav.jump{display:flex;gap:6px;overflow-x:auto;padding:8px 16px 10px;max-width:720px;margin:0 auto;scrollbar-width:none;}
+nav.jump::-webkit-scrollbar{display:none;}
+nav.jump a{flex:0 0 auto;font-size:15px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:8px;
+  padding:8px 12px;line-height:1;display:flex;align-items:center;min-height:36px;}
+nav.jump a:hover{border-color:var(--accent);color:var(--accent);}
+nav.jump a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+section{padding-top:32px;scroll-margin-top:150px;}
+h2{font-size:26px;font-weight:700;line-height:1.1;color:var(--accent-ink);margin:0;text-wrap:balance;}
+h3{font-size:19px;font-weight:700;color:var(--accent-ink);margin:26px 0 8px;}
+.rule{height:3px;background:var(--accent);width:40px;margin:8px 0 12px;border-radius:2px;}
+.sub{color:var(--muted);font-size:15px;margin:4px 0 14px;}
+p{margin:0 0 12px;}
+strong{color:var(--text);font-weight:700;}
+
+ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+.step{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--line);border-radius:10px;
+  padding:12px 14px;display:grid;grid-template-columns:28px 1fr;gap:10px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;transition:border-color .15s,opacity .15s;}
+.step .n{font:600 13px "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;color:var(--muted);
+  width:26px;height:26px;border:1px solid var(--line);border-radius:999px;display:flex;align-items:center;justify-content:center;}
+.step p{margin:0;font-size:16px;}
+.step p + p{margin-top:6px;}
+.step.done{border-left-color:var(--good);opacity:.62;}
+.step.done .n{background:var(--good-bg);border-color:var(--good);color:var(--good);}
+.step:focus-visible{outline:2px solid var(--accent);outline-offset:-1px;}
+
+.torq{font:600 .92em "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  color:var(--accent-ink);background:var(--accent-soft);padding:1px 6px;border-radius:6px;white-space:nowrap;}
+code{font:500 .9em "IBM Plex Mono",monospace;background:var(--idle-bg);padding:1px 5px;border-radius:6px;}
+
+.callout{border-radius:8px;padding:10px 12px;margin:14px 0 0;font-size:15px;border-left:4px solid;}
+.callout .tag{display:block;font:700 12px "Barlow Condensed",sans-serif;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+.callout p{margin:0;} .callout p + p{margin-top:8px;}
+.c-warn{background:var(--warn-bg);border-color:var(--warn);} .c-warn .tag{color:var(--warn);}
+.c-note{background:var(--accent-soft);border-color:var(--accent);} .c-note .tag{color:var(--accent-ink);}
+.c-bad{background:var(--bad-bg);border-color:var(--bad);} .c-bad .tag{color:var(--bad);}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);margin-top:10px;}
+table{border-collapse:collapse;width:100%;font-size:14px;}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+th{font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+td{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;}
+td:first-child{font-family:"Barlow",sans-serif;}
+td:last-child{white-space:nowrap;}
+td em{font-style:normal;color:var(--muted);font-size:12px;display:block;}
+tbody tr:last-child td{border-bottom:none;}
+
+.seq{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;}
+.seq > figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;}
+.seq > figure > figcaption{font:700 13px "Barlow Condensed",sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;border:1px dashed var(--line);border-radius:8px;padding:8px;}
+.grid5 span{font:600 14px "IBM Plex Mono",monospace;text-align:center;padding:6px 0;border-radius:999px;background:var(--idle-bg);color:var(--text);}
+.grid5 span.first{background:var(--accent-soft);color:var(--accent-ink);}
+.seq .hint{font-size:12px;color:var(--muted);margin:6px 0 0;}
+@media (max-width:420px){.seq{grid-template-columns:1fr;}}
+.fig{margin:10px 0 0;}
+.fig .plate{display:block;background:var(--plate);border-radius:8px;padding:8px;}
+.fig img{display:block;max-width:100%;height:auto;margin:0 auto;}
+.fig figcaption{font-size:12px;line-height:1.35;color:var(--muted);margin-top:5px;}
+.callout .fig{margin-top:10px;}
+
+.reset{font:inherit;font-size:13px;background:none;border:0;color:var(--accent);text-decoration:underline;padding:0;cursor:pointer;margin-top:10px;}
+table.t4 th,table.t4 td{padding:9px 8px;white-space:nowrap;}
+.step .fig + .fig{margin-top:8px;}
+.reset{font:inherit;font-size:13px;background:none;border:0;color:var(--accent);text-decoration:underline;padding:0;cursor:pointer;margin-top:10px;}
+.foot{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <p class="eyebrow">1994 Volvo 940 sedan &middot; B230FD &middot; AW70/AW71 automatic &middot; from the shop manual</p>
+    <h1>Automatic transmission teardown &amp; rebuild</h1>
+    <div class="progress" aria-live="polite"><div class="bar"><i id="fill"></i></div><span class="count" id="count">0 / 0</span></div>
+  </div>
+  <nav class="jump">
+    <a href="../index.html">&larr; All guides</a>
+    <a href="#id">Which unit</a>
+    <a href="#before">Before</a>
+    <a href="#removal">Removal</a>
+    <a href="#teardown">Teardown</a>
+    <a href="#front">Pump &amp; OD</a>
+    <a href="#clutches">Clutches</a>
+    <a href="#center">Center &amp; rear</a>
+    <a href="#valvebody">Valve body</a>
+    <a href="#assembly">Assembly</a>
+    <a href="#install">Install &amp; fill</a>
+    <a href="#specs">Specs</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+<section id="scope" style="padding-top:18px;">
+  <div class="callout c-note">
+    <span class="tag">What this page is built from</span>
+    <p>The teardown, inspection and reassembly come from the LEMON 1994 940 base sedan book's "Overhaul - AW70L, AW71 &amp; AW72L" article. That article says it merges Volvo and Isuzu repair data for the same Aisin-Warner unit, edited to drop Isuzu-only steps. The ID plate, fluid, cooler flush and kickdown cable come from the Volvo-sourced B230FD book. AW72L-only specs are left out.</p>
+  </div>
+  <p class="sub" style="margin-top:12px;">Tap a step to check it off. Progress is saved in this browser only. Book labor: 13.3 h to remove, overhaul and refit, 10.3 h for the overhaul alone. The torque converter is not serviceable; the manual says replace it as a unit.</p>
+</section>
+
+<section id="id">
+  <h2>Confirm which unit you have</h2>
+  <div class="rule"></div>
+  <p class="sub">AW70, AW70L, AW71 or AW71L. One letter on the plate settles it.</p>
+  <div class="callout c-warn">
+    <span class="tag">The 1994 books disagree</span>
+    <p>The sedan book's application table lists the 1994 940 as <strong>AW-71</strong>. The same article's stall-test table pairs the B230F with the <strong>AW70L</strong> and the AW71 with the B230FT turbo. Read your plate before you buy a kit or look up a spring length; four valve-body springs, the pressure-port map and the stall speed differ between AW70L and AW71.</p>
+  </div>
+  <ol class="steps">
+    <li class="step"><p>Find the Aisin-Warner product plate on the <strong>left-hand side</strong> of the transmission.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/id-plate-location.jpg"><img src="img/volvo-940-b230fd-aw71-rebuild/id-plate-location.jpg" width="850" height="361" loading="lazy" alt="Transmission with the Aisin-Warner product plate shown enlarged"></a><figcaption>Manual figure: Product Plate Location, left side of the unit</figcaption></figure></li>
+    <li class="step"><p>Read the letter in the middle of the serial line. <strong>C = AW70, K = AW70L, F = AW71, H = AW71L</strong> (P is the AW72L). A model ending in L has a lock-up torque converter.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/id-plate-decode.png"><img src="img/volvo-940-b230fd-aw71-rebuild/id-plate-decode.png" width="592" height="436" loading="lazy" alt="Product plate example: model 03-72L, Volvo part 1208638, serial 88H P 81490 with each field labeled"></a><figcaption>Manual figure: Product Plate Example. 88 = 1988, H = August, P = type code, 8 = built for Volvo, 1490 = serial.</figcaption></figure></li>
+    <li class="step"><p>Write the type down. Where a spec below differs by type, it is marked AW70L or AW71.</p></li>
+  </ol>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/cutaway.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/cutaway.gif" width="1930" height="1274" loading="lazy" alt="Cutaway of the transmission with 15 numbered components from torque converter to valve body"></a><figcaption>Manual figure: Cut-Away View. 3 multiple-disc clutches, 4 brakes, 3 one-way clutches and 2 planetary sets give 4 forward and 1 reverse.</figcaption></figure>
+</section>
+
+<section id="before">
+  <h2>Before you pull it</h2>
+  <div class="rule"></div>
+  <p class="sub">Volvo's own position was to swap in exchange units, not rebuild in the dealer.</p>
+  <p>The B230FD book lists faults that can be fixed <strong>without removing the transmission</strong> and that Volvo did not accept as a reason to fit an exchange unit: fluid level, fluid leaks (except from the converter and oil pump), kickdown cable, gear selector mechanism, parking lock, valve bodies, governor, rear extension housing and its seal, the control system, accumulator pistons, the solenoid valve, the oil pressure switch and the lock-up control. Run the stall and line-pressure tests under <a href="#specs">Specs</a> first; their fault tables point at specific clutches and brakes.</p>
+  <div class="callout c-warn">
+    <span class="tag">Cleanliness, from the Volvo book</span>
+    <p>Clean around the filler tube and drain plug, use clean containers and keep the work area free of dust and dirt.</p>
+  </div>
+  <h3>Special tools named in the procedure</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Tool</th><th>Volvo no.</th></tr></thead>
+    <tbody>
+      <tr><td>Oil pump puller</td><td>5071</td></tr>
+      <tr><td>Spring compressor, clutch and brake return springs</td><td>5072</td></tr>
+      <tr><td>Spring compressor, brake No. 3 piston</td><td>5073</td></tr>
+      <tr><td>Oil pump band, holds the pump halves while torquing</td><td>5077</td></tr>
+      <tr><td>Guide pins, OD case and oil pump</td><td>5241</td></tr>
+      <tr><td>Work stand <em>cushioned cylinder</em></td><td>12 &times; 7 in</td></tr>
+    </tbody>
+  </table></div>
+  <p class="sub" style="margin-top:10px;">Also: a shop press, a regulated air supply (14 psi for piston removal, 57&ndash;114 psi for function checks), feeler gauges, a dial indicator, a straightedge and vernier calipers, petroleum jelly and new O-rings and seal rings throughout.</p>
+</section>
+
+<section id="removal">
+  <h2>Removal from the car</h2>
+  <div class="rule"></div>
+  <ol class="steps">
+    <li class="step"><p>Selector in <strong>P</strong>. Unhook the kickdown cable from the throttle pulley. Disconnect the battery negative cable.</p></li>
+    <li class="step"><p>Raise and support the car. Remove the drive shaft.</p></li>
+    <li class="step"><p>Drain the fluid. Unscrew the filler tube from the oil pan.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/drain-plug.jpg"><img src="img/volvo-940-b230fd-aw71-rebuild/drain-plug.jpg" width="850" height="642" loading="lazy" alt="Photo of the transmission oil pan with a tool on the drain plug"></a><figcaption>Manual figure: transmission oil pan drain plug</figcaption></figure></li>
+    <li class="step"><p>Disconnect the reaction rod and actuator rod from the shift levers. On the AW71, unplug the solenoid lead.</p></li>
+    <li class="step"><p>Support the transmission on a jack. Remove the rear crossmember.</p></li>
+    <li class="step"><p>Remove the starter bolts and the cover plate. Remove the torque converter-to-flexplate bolts.</p></li>
+    <li class="step"><p>Disconnect the oil cooler lines. Remove the transmission-to-engine bolts, slide the unit rearward and lower it out.</p></li>
+  </ol>
+  <div class="callout c-bad">
+    <span class="tag">Drive shaft flange, from the manual</span>
+    <p>With a rubber front flange, disconnect it only from the transmission. Separating it from the drive shaft can cause an imbalance. With a standard non-rubber shaft, replace the 4 bolts and nuts.</p>
+  </div>
+</section>
+
+<section id="teardown">
+  <h2>Main teardown</h2>
+  <div class="rule"></div>
+  <p class="sub">Keep every thrust bearing and race with its assembly; they are numbered 1 to 21 and each has one position.</p>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/exploded-major.jpg"><img src="img/volvo-940-b230fd-aw71-rebuild/exploded-major.jpg" width="1586" height="2000" loading="lazy" alt="Exploded view of the case with 27 numbered assemblies, from speedometer gear to planetary gear and output shaft"></a><figcaption>Manual figure: Exploded View Of Major Components. 20 = oil pump, 21 = converter housing, 22 = OD input shaft and clutch, 23 = OD case, 24 = forward clutch, 25 = direct clutch, 26 = center support, 27 = planetary gear, output shaft and brake apply tube.</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Clean the outside of the case. Remove the extension housing and gasket and the speedometer driven gear.</p></li>
+    <li class="step"><p>Remove the torque converter and the overdrive solenoid valve.</p></li>
+    <li class="step"><p>Remove the adapter, gasket and governor mounting bolts. Lift the governor retaining ring and slide off the governor and speedometer drive gear. Remove the rear cover and gasket, the governor strainer and the inhibitor switch.</p></li>
+    <li class="step"><p>Pan side down, remove the oil pan and gasket. Turn the valve body up and remove the oil pipes and the oil screen.</p></li>
+    <li class="step"><p>Remove the <strong>17 valve body bolts</strong>. Lift the valve body slowly, unhook the throttle cable from the throttle cam and the manual valve lever pin from the manual valve groove. Push the throttle cable adapter out of the case.</p></li>
+    <li class="step"><p>Blow the three accumulator pistons out with compressed air. <strong>Keep pistons and springs in order.</strong></p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/accumulator-air.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/accumulator-air.gif" width="840" height="780" loading="lazy" alt="Air nozzle on the case passages above three accumulator bores labeled brake No. 2, clutch No. 2 and clutch No. 1"></a><figcaption>Manual figure: Removing Accumulator Pistons</figcaption></figure></li>
+    <li class="step"><p>Remove the cam plate and parking pawl spring. Pull the pivot pin and remove the parking pawl. Unhook the parking rod from the manual valve detent lever.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/parking-pawl.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/parking-pawl.gif" width="939" height="679" loading="lazy" alt="Case underside showing parking rod, cam plate, parking pawl, pawl spring, pivot pin and air ports A and B"></a><figcaption>Manual figure: Removing Parking Pawl. Ports A and B are used later to remove the brake No. 3 pistons.</figcaption></figure></li>
+    <li class="step"><p>Drive out the spring pin in the manual valve lever; remove the shaft and lever.</p></li>
+    <li class="step"><p>Remove the oil pump bolts and pull the pump with <strong>puller 5071</strong>.</p></li>
+    <li class="step"><p>Remove the converter housing bolts. Hold the overdrive input shaft by hand and remove the converter housing.</p></li>
+    <li class="step"><p>Remove the OD input shaft, planetary gear and OD clutch as a unit, then the OD case.</p></li>
+    <li class="step"><p><strong>Measure the distance from the top of the case flange to the clutch drum</strong> and write it down for reassembly. Remove the forward clutch and the direct clutch.</p></li>
+    <li class="step"><p>Remove the 2 center support bolts. Remove the center support and sun gear.</p></li>
+    <li class="step"><p>Remove the snap ring from the front planetary carrier. Pull the intermediate shaft; remove the carrier and brake No. 3. Remove the output shaft thrust bearing and race from the case.</p></li>
+  </ol>
+</section>
+
+<section id="front">
+  <h2>Oil pump &amp; overdrive section</h2>
+  <div class="rule"></div>
+
+  <h3>Oil pump</h3>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/oil-pump.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/oil-pump.gif" width="1023" height="971" loading="lazy" alt="Exploded oil pump: seal, pump body, O-ring, driven and drive gears, stator support, seal rings, bearing No. 2 and races 1 and 3"></a><figcaption>Manual figure: Exploded View Of Oil Pump</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Stand the pump on the torque converter. Remove races No. 1 and 3, bearing No. 2 and the seal rings from the stator support. Remove the stator support bolts and the stator support.</p></li>
+    <li class="step"><p>Remove the pump body O-ring. Mark the gear faces, then remove the drive and driven gears.</p></li>
+    <li class="step"><p>Body clearance: push the driven gear to one side and feeler it. <span class="torq">0.070&ndash;0.150 mm</span> (.0028&ndash;.0059 in).</p></li>
+    <li class="step"><p>Tip clearance, gears to crescent: <span class="torq">0.110&ndash;0.140 mm</span> (.0043&ndash;.0055 in).</p></li>
+    <li class="step"><p>Side clearance with a straightedge across pump and gears: <span class="torq">0.020&ndash;0.050 mm</span> (.0008&ndash;.0020 in).</p></li>
+    <li class="step"><p>Check the front seal, the stator support face that runs on the pump gear, both bushings, the seal ring grooves and the thrust bearing. The stator support must slide into the converter smoothly without abnormal play; if not, replace the pump assembly.</p></li>
+    <li class="step"><p>Reassemble on the converter: gears by their marks, new O-rings, stator support. Clamp with <strong>band 5077</strong> and torque the bolts with wave washers to <span class="torq">6.0&ndash;9.0 Nm</span> (53&ndash;80 in-lb). Remove the band.</p></li>
+    <li class="step"><p>Fit the 2 seal rings, races No. 1 and 3 and bearing No. 2 on the stator support.</p></li>
+  </ol>
+  <div class="callout c-warn">
+    <span class="tag">Bolt count</span>
+    <p>The disassembly text says 6 stator support bolts; the reassembly text says 8 bolts with wave washers. Count yours on the way apart.</p>
+  </div>
+
+  <h3>Overdrive clutch &amp; planetary set</h3>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/od-clutch-exploded.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/od-clutch-exploded.gif" width="1036" height="1293" loading="lazy" alt="Exploded OD clutch and planetary: cylinder, piston, O-rings, return spring, retainer, plates, snap rings 1 to 3, one-way clutch, bearing 4, race 5, planetary gear"></a><figcaption>Manual figure: OD Clutch &amp; Planetary Gear Set. Item 10, the clutch disc, is marked not used in Volvo.</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Remove snap ring No. 2 and the OD brake hub. Separate the planetary set from the clutch.</p></li>
+    <li class="step"><p>From the planetary: snap ring No. 3, one-way clutch retainer, one-way clutch, outer race, thrust washer, bearing No. 4, race No. 5 and the 4 pinion shaft plugs. Take the thrust washer off the front side.</p></li>
+    <li class="step"><p>From the clutch: snap ring No. 1, flange, discs and plates. Compress the springs with <strong>5072</strong> in a press, remove the snap ring, retainer and springs.</p></li>
+    <li class="step"><p>Set the clutch cylinder on the oil pump and blow the piston out at <span class="torq">14 psi</span> max. Hold the piston so it doesn't fly out.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/od-clutch-piston-air.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/od-clutch-piston-air.gif" width="752" height="877" loading="lazy" alt="Hands holding the OD clutch piston on the oil pump while air is applied at a pump port"></a><figcaption>Manual figure: Removing OD Clutch Piston</figcaption></figure></li>
+    <li class="step"><p>Inspect splines, discs, plates, bearing seats, bearings, teeth and hubs. Replace any disc under <span class="torq">2.10 mm</span> (.083 in).</p></li>
+    <li class="step"><p>New O-rings inside and outside the piston, coat with ATF, fit piston, springs and retainer. Compress with 5072, fit the snap ring, confirm the piston moves.</p></li>
+    <li class="step"><p>Plates and discs in, then snap ring No. 1 (the narrower ring). Snap ring-to-retainer plate clearance: <span class="torq">0.30&ndash;0.90 mm</span> (.012&ndash;.035 in).</p></li>
+    <li class="step"><p>Planetary: pinion shaft plugs, race No. 5, bearing No. 4 and the thrust washer with its <strong>oil groove facing forward</strong>. One-way clutch into its outer race, into the planetary, then retainer and snap ring.</p></li>
+    <li class="step"><p>Set the planetary on the clutch. Holding the cylinder, the input shaft must turn freely <strong>clockwise</strong> and lock <strong>counterclockwise</strong>.</p></li>
+  </ol>
+
+  <h3>Overdrive brake</h3>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/od-brake-exploded.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/od-brake-exploded.gif" width="1035" height="1227" loading="lazy" alt="Exploded OD brake: snap ring, backing plate, discs, plates, cushion plate, ring gear, bearing 7, races 6 and 8, piston, OD case, race 9, bearing 10, seal rings"></a><figcaption>Manual figure: Exploded View Of Overdrive Brake Assembly</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Remove the snap ring, backing plate, disc, plates, cushion plate, thrust washer, planetary ring gear, bearing No. 7 and races No. 6 and 8 from the OD case.</p></li>
+    <li class="step"><p>Remove the snap ring, spring retainer and return spring. Blow the piston out of the OD case; remove its O-ring. Remove 2 seal rings, bearing No. 10 and race No. 9.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/od-brake-piston-air.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/od-brake-piston-air.gif" width="880" height="761" loading="lazy" alt="Air nozzle on a port in the overdrive case to push out the brake piston"></a><figcaption>Manual figure: removing and checking the OD brake piston with air</figcaption></figure></li>
+    <li class="step"><p>Inspect. Replace any brake disc <span class="torq">2.10 mm</span> (.083 in) or thinner.</p></li>
+    <li class="step"><p>Race No. 9, bearing No. 10 and 2 seal rings on the case. New O-rings in both piston grooves, ATF, piston in. Return spring, retainer and snap ring; <strong>springs seated and snap ring fully home</strong>.</p></li>
+    <li class="step"><p>Races No. 6 and 8 with bearing No. 7, then ring gear and thrust washer. Concave cushion plate, alternating plates and discs, backing plate, snap ring.</p></li>
+    <li class="step"><p>Feeler the backing plate-to-snap ring gap: <span class="torq">0.35&ndash;1.60 mm</span>. Too big: replace disc or plates. Too small: check the assembly order.</p></li>
+  </ol>
+</section>
+
+<section id="clutches">
+  <h2>Forward &amp; direct clutches</h2>
+  <div class="rule"></div>
+
+  <h3>Forward clutch</h3>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/forward-clutch-exploded.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/forward-clutch-exploded.gif" width="1037" height="1277" loading="lazy" alt="Exploded forward clutch: cylinder, piston, O-rings, return spring, retainer, plates, discs, bearing 12, races 11 and 13, forward and direct clutch hubs"></a><figcaption>Manual figure: Exploded View Of Forward Clutch Assembly</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Stand it on the extension housing. Remove the snap ring, the direct clutch hub, forward clutch hub and disc, bearing No. 12 and races No. 11 and 13.</p></li>
+    <li class="step"><p>Remove the snap ring, plates and discs. Compress with 5072, remove the snap ring, retainer and springs. Set the cylinder on the OD case and blow out the piston. Remove its O-ring.</p></li>
+    <li class="step"><p>Inspect. The manual says Volvo does not measure spring free length here. Replace any disc under <span class="torq">2.10 mm</span>.</p></li>
+    <li class="step"><p>New O-rings, ATF, piston in, springs and retainer. Compress with 5072, snap ring on, <strong>confirm the piston moves</strong>.</p></li>
+    <li class="step"><p>Petroleum jelly on races No. 11 and 13 and bearing No. 12; fit them on the rear of the input shaft. Forward clutch hub in.</p></li>
+    <li class="step"><p>Alternate plates and discs, then the narrow snap ring. One more disc, the direct clutch hub and the wide snap ring.</p></li>
+    <li class="step"><p>Set it on the OD case and put <span class="torq">57&ndash;114 psi</span> into the passage. The clutch should apply and hold without leaking.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/forward-clutch-air.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/forward-clutch-air.gif" width="856" height="802" loading="lazy" alt="Forward clutch on the overdrive case with an air nozzle at a case port"></a><figcaption>Manual figure: Removing &amp; Checking Forward Clutch Piston</figcaption></figure></li>
+  </ol>
+
+  <h3>Direct clutch</h3>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/direct-clutch-exploded.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/direct-clutch-exploded.gif" width="895" height="1535" loading="lazy" alt="Exploded direct clutch: races 14 and 16, bearing 15, snap ring, backing plate, discs, plates, retainer, spring, O-rings, piston, cylinder"></a><figcaption>Manual figure: Exploded View Of Direct Clutch Assembly</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Remove races No. 14 and 16 and bearing No. 15. Remove the snap ring, backing plate, discs and plates.</p></li>
+    <li class="step"><p>Compress with 5072, remove the snap ring, retainer and spring. Set the cylinder on the center support and blow the piston out. Remove the O-rings.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/direct-clutch-air.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/direct-clutch-air.gif" width="792" height="769" loading="lazy" alt="Direct clutch cylinder on the center support with air applied at a support port"></a><figcaption>Manual figure: Removing &amp; Checking Direct Clutch Piston</figcaption></figure></li>
+    <li class="step"><p>Inspect. Minimum disc thickness <span class="torq">2.10 mm</span> (.083 in).</p></li>
+    <li class="step"><p>New O-rings, ATF, piston in. Springs and retainer under 5072, snap ring.</p></li>
+    <li class="step"><p>Discs, plates and backing plate with its <strong>machined ridge facing out</strong>. Snap ring. Races No. 14 and 16 and bearing No. 15.</p></li>
+    <li class="step"><p>Snap ring-to-backing plate clearance: <span class="torq">0.30&ndash;1.20 mm</span> (.012&ndash;.048 in).</p></li>
+  </ol>
+</section>
+
+<section id="center">
+  <h2>Center support, planetary sets &amp; brake No. 3</h2>
+  <div class="rule"></div>
+
+  <h3>Center support: brakes No. 1 and No. 2</h3>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/center-support-exploded.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/center-support-exploded.gif" width="1027" height="1082" loading="lazy" alt="Exploded center support with seal rings, snap rings, two brake packs, return springs, pistons, brake No. 2 hub and one-way clutch No. 1, sun gear"></a><figcaption>Manual figure: Exploded View Of Center Support Assembly</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Remove the snap ring from the front of the sun gear and lift out the sun gear with its one-way clutch.</p></li>
+    <li class="step"><p>For each brake: snap ring, backing plate, discs and plates out. Compress with 5072, remove the snap ring, retainer and <strong>12 return springs</strong>.</p></li>
+    <li class="step"><p>Blow each piston out at <span class="torq">14 psi</span> max, using the port for that brake. Remove O-rings and seal rings.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/center-support-air.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/center-support-air.gif" width="856" height="879" loading="lazy" alt="Center support held by hand with air ports marked for brake No. 1 and brake No. 2 pistons"></a><figcaption>Manual figure: Removing &amp; Checking Brake No. 1 &amp; 2 Pistons</figcaption></figure></li>
+    <li class="step"><p>Inspect. Minimum disc thickness <span class="torq">2.10 mm</span> for both brakes.</p></li>
+    <li class="step"><p>Sun gear: it must turn <strong>clockwise</strong> and lock <strong>counterclockwise</strong>. If the one-way clutch is faulty, replace the brake No. 2 hub and one-way clutch assembly.</p></li>
+    <li class="step"><p>Rebuild each brake: 3 seal rings on the support, new piston O-rings with ATF, piston in, 12 springs, retainer, compress with 5072, snap ring. Plates, disc, backing plate, snap ring.</p></li>
+    <li class="step"><p>Brake No. 1 snap ring-to-backing plate clearance: <span class="torq">0.30&ndash;1.20 mm</span>. Brake No. 2: the procedure mounts a dial indicator on the piston and applies <span class="torq">57&ndash;114 psi</span> to measure travel; the brake No. 2 table lists snap ring-to-backing plate clearance of <span class="torq">0.30&ndash;1.20 mm</span>.</p></li>
+    <li class="step"><p>2 seal rings in the sun gear grooves. Fit the sun gear into one-way clutch No. 1 and check rotation.</p></li>
+  </ol>
+
+  <h3>Brake No. 3 pack</h3>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/brake3-exploded.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/brake3-exploded.gif" width="952" height="674" loading="lazy" alt="Brake No. 3: retaining ring, one-way clutch inner race, discs, plates, pressure plate, brake apply tube"></a><figcaption>Manual figure: Exploded View Of Brake No. 3 Assembly</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Comes apart during the main teardown: retaining ring, one-way clutch inner race, discs, plates, pressure plate and apply tube off the intermediate shaft. <strong>Note the order.</strong></p></li>
+    <li class="step"><p>Minimum plate thickness <span class="torq">2.10 mm</span>. It goes back together during final assembly.</p></li>
+  </ol>
+
+  <h3>One-way clutch No. 2 &amp; front planetary</h3>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/owc2-front-planetary.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/owc2-front-planetary.gif" width="870" height="694" loading="lazy" alt="Snap ring, one-way clutch No. 2, nylon thrust washer, front planetary gear, steel thrust washer"></a><figcaption>Manual figure: One-Way Clutch No. 2 &amp; Front Planetary Gear Set</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Separate the inner race from the front carrier. Remove the steel thrust washer, the snap ring, one-way clutch No. 2 and the nylon thrust washer.</p></li>
+    <li class="step"><p>Inner race on the carrier: the carrier must turn <strong>counterclockwise</strong> and lock <strong>clockwise</strong>.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/owc2-check.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/owc2-check.gif" width="778" height="632" loading="lazy" alt="Hands turning the front planetary carrier on the inner race with free and lock directions marked"></a><figcaption>Manual figure: Checking Operation Of One-Way Clutch</figcaption></figure></li>
+    <li class="step"><p>Reassemble: nylon washer on the planetary, 2 end bearings on the one-way clutch, clutch into the planetary, snap ring. Steel thrust washer on with petroleum jelly.</p></li>
+  </ol>
+
+  <h3>Rear planetary &amp; output shaft</h3>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/rear-planetary-output.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/rear-planetary-output.gif" width="1027" height="1022" loading="lazy" alt="Thrust washer, sun gear, front ring gear, rear planetary, intermediate shaft, bearing 17, rear ring gear, race 18, bearing 19, output shaft, bearing 20, race 21, seal rings"></a><figcaption>Manual figure: Exploded View Of Rear Planetary Gear &amp; Output Shaft Assembly</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Compress the snap ring and remove the front planetary ring gear. Pull the intermediate shaft out of the output shaft. Remove bearing No. 19 and race No. 18, then race No. 21, bearing No. 20 and the 3 seal rings from the output shaft.</p></li>
+    <li class="step"><p>Remove the thrust washer and sun gear, the rear planetary and bearing No. 17. Flip the intermediate shaft; remove the retaining ring and rear ring gear.</p></li>
+    <li class="step"><p>Inspect splines, bearing seats, bearings, teeth and hubs. <strong>Check the oil passages for clogging.</strong></p></li>
+    <li class="step"><p>Reassemble in reverse: ring gear and retaining ring on the shaft; bearing No. 17, rear planetary, sun gear, thrust washer. 3 seals, bearing No. 20 and race No. 21 into the output shaft. On the extension housing as a stand, bearing No. 19, race No. 18 and the intermediate shaft into the output shaft. Front ring gear on the output flange with its retaining ring compressed.</p></li>
+  </ol>
+
+  <h3>Brake No. 3 piston, in the case</h3>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/brake3-piston-exploded.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/brake3-piston-exploded.gif" width="953" height="737" loading="lazy" alt="Snap ring, spring retainer, 16 return springs, primary piston, reaction sleeve, secondary piston, O-rings and the case"></a><figcaption>Manual figure: Exploded View Of Brake No. 3 Piston Assembly</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Compress the springs with <strong>5073</strong> and remove the snap ring. Remove the retainer and <strong>16 return springs</strong>.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/brake3-spring-compressor.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/brake3-spring-compressor.gif" width="804" height="680" loading="lazy" alt="Section through the case with spring compressor 5073 bolted down on the brake No. 3 retainer"></a><figcaption>Manual figure: Using Spring Compressor To Remove Springs &amp; Snap Ring</figcaption></figure></li>
+    <li class="step"><p>Case front end down on a rag. <strong>Finger over port B</strong>, <span class="torq">14 psi</span> (97 kPa) into <strong>port A</strong>. The inner and outer pistons and the reaction sleeve come out. Ports A and B are shown in the parking pawl figure.</p></li>
+    <li class="step"><p>Separate the primary and secondary pistons from the sleeve; remove the O-rings. Inspect.</p></li>
+    <li class="step"><p>New O-rings on both pistons and the sleeve, ATF, pistons into the sleeve, assembly into the case. 16 springs on with petroleum jelly, retainer, compress with 5073, snap ring.</p></li>
+  </ol>
+
+  <h3>Governor</h3>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/governor.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/governor.gif" width="630" height="931" loading="lazy" alt="Governor stack: E ring, weight, body with retaining plug, valve, outer and inner springs, secondary weight, valve shaft"></a><figcaption>Manual figure: Exploded View Of Governor</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Remove the E-ring, weight, shaft, secondary weight and springs; take the valve out of its bore. Remove the retaining ring.</p></li>
+    <li class="step"><p>Check the valve and body for wear and the springs. Governor valve spring free length <span class="torq">20.63 mm</span>.</p></li>
+    <li class="step"><p>Reassemble: retaining ring, secondary weight and springs on the shaft, valve into the body, spring and shaft through the valve, weight on. Compress with needle-nose pliers and fit the E-ring <strong>fully in its groove</strong>. The valve must move smoothly.</p></li>
+  </ol>
+</section>
+
+<section id="valvebody">
+  <h2>Valve body</h2>
+  <div class="rule"></div>
+  <p class="sub">Three sections: upper front, upper rear and lower. Work over a tray; the check balls are loose.</p>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/valve-body-exploded.jpg"><img src="img/volvo-940-b230fd-aw71-rebuild/valve-body-exploded.jpg" width="1701" height="2000" loading="lazy" alt="Full valve body exploded view with front upper, rear upper and lower bodies and every valve, spring, plug and ball labeled"></a><figcaption>Manual figure: Exploded View Of Valve Body Assembly</figcaption></figure>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/valve-body-components.jpg"><img src="img/volvo-940-b230fd-aw71-rebuild/valve-body-components.jpg" width="1453" height="2000" loading="lazy" alt="Component layout for upper front, upper rear and lower valve bodies with each valve, spring, plug and retainer in its bore"></a><figcaption>Manual figure: Exploded View Of Valve Body Components</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Remove the detent spring plate, detent spring and manual valve, then the plate from the lower body. Turn it over and remove the <strong>10 bolts</strong> from the upper front and upper rear bodies.</p></li>
+    <li class="step"><p>Turn it back and remove the lower body bolts. <strong>Lift the lower body and plate as a unit</strong> so the check valve and balls don't drop.</p></li>
+  </ol>
+
+  <h3>Upper front body</h3>
+  <ol class="steps">
+    <li class="step"><p>Remove the valve retainer, cut-back plug and cut-back valve.</p></li>
+    <li class="step"><p>Remove one front end cover bolt, loosen the other and rotate the cover slowly until the secondary regulator valve shows. <strong>Hold the cover; the valve is heavily spring loaded.</strong> Remove valve, spring, bolt and cover.</p></li>
+    <li class="step"><p>Turning the throttle cam, push the kickdown valve in and insert the cut-back valve retainer to hold the throttle valve. Remove the throttle cam spring, cam and sleeve.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/throttle-cam.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/throttle-cam.gif" width="910" height="940" loading="lazy" alt="Left: fingers turning the throttle cam while the cut-back retainer is inserted. Right: wrench on the throttle cam bolt"></a><figcaption>Manual figure: Removing Throttle Cam Spring</figcaption></figure></li>
+    <li class="step"><p>Remove the retainer, kickdown valve and primary spring, then the key plate, 4 E-rings, secondary spring and throttle valve. Remove the check ball.</p></li>
+    <li class="step"><p>Inspect valves, bores and passages. Spring free lengths, AW70L &amp; AW71: secondary regulator (green) <span class="torq">71.27 mm</span>, throttle valve (no color) <span class="torq">43.00 mm</span>. Replace any spring shorter than spec.</p></li>
+    <li class="step"><p>Reassemble: secondary regulator spring, valve and end cover. Throttle valve, secondary spring, 4 rings and key plate. Primary spring and kickdown valve. Push the kickdown valve, hold with the cut-back retainer, hook the spring into the cam hole, fit sleeve and cam. <strong>The cam must turn through its full stroke smoothly.</strong> Remove the retainer. Cut-back valve, plug and retainer. Rubber check ball.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/checkball-upper-front.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/checkball-upper-front.gif" width="669" height="574" loading="lazy" alt="Upper front valve body with one rubber check ball location marked"></a><figcaption>Manual figure: Locating Check Ball In Upper Front Valve Body</figcaption></figure></li>
+  </ol>
+
+  <h3>Upper rear body</h3>
+  <ol class="steps">
+    <li class="step"><p>Tweeze out the check balls. Remove the intermediate coast shift valve retainer, plug, valve and spring, then the 2-3 shift valve retainer, plug and valve.</p></li>
+    <li class="step"><p>Remove the rear cover bolt nearest the low coast modulator valve and rotate the cover to release that valve and spring. Rotate further for the plug, reverse clutch sequence valve and spring. Remove the cover, spring and intermediate modulator valve, then the detent regulator valve retainer, spring and valve.</p></li>
+    <li class="step"><p>Reassemble: detent regulator valve and spring, compress with a large screwdriver, slip the retainer over the spring end so it fully covers it. Intermediate coast modulator valve and spring. Rear cover on one bolt, on the side nearer the intermediate coast modulator. Reverse clutch sequence valve, spring, plug. Low coast modulator valve and spring. Second bolt; tighten both.</p></li>
+    <li class="step"><p>2-3 shift valve, plug, retainer. 2-3 spring, intermediate coast shift valve, plug, retainer. <strong>1 steel and 3 rubber check balls</strong>.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/checkball-upper-rear.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/checkball-upper-rear.gif" width="876" height="784" loading="lazy" alt="Upper rear valve body with one steel check ball and rubber check ball locations circled"></a><figcaption>Manual figure: Locating Check Balls In Upper Rear Valve Body</figcaption></figure></li>
+  </ol>
+
+  <h3>Lower body</h3>
+  <ol class="steps">
+    <li class="step"><p>Remove the lower plate and gaskets, check balls, damping check valve spring, cooler by-pass valve and spring. Turn it over; remove the set bolt, cover, plate and gaskets.</p></li>
+    <li class="step"><p>Remove <strong>4 check balls</strong> and keep them together. Remove the pressure relief valve retainer, spring and valve, then the plate and gasket.</p></li>
+    <li class="step"><p>Valve retainer side down, press the primary regulator sleeve and remove retainer, sleeve, plunger, spring and primary regulator valve.</p></li>
+    <li class="step"><p>Remove the D-2 downshift timing valve retainer, plug and valve; the 3-4 shift valve locating pin, plug, valve and spring; the 1-2 shift valve retainer, plug and lower valve.</p></li>
+    <li class="step"><p>Remove the low coast shift valve cover, then its plug and valve, the manual plug, locating pin, 3rd coast shift valve plug, pin, 3rd coast shift valve and 3-4 shift control valve.</p></li>
+    <li class="step"><p>Reassemble: low coast shift valve small end first, cover. 3-4 shift control valve cup side first, 3rd coast shift valve small end first, its plug thicker face first, pins and outer plug, low coast cover.</p></li>
+    <li class="step"><p>On edge: 1-2 spring, upper valve, lower valve, plug, retainer. 3-4 spring, 3-4 valve small end first, plug, pin. D-2 timing valve small end first, its plug larger end first, retainer.</p></li>
+    <li class="step"><p>Primary regulator valve larger end first with its spring; <strong>the valve sits flush with the body</strong>. Plunger rounded end first into the sleeve, <strong>recessed inside it</strong>. Sleeve, plunger and retainer in.</p></li>
+    <li class="step"><p>Pressure relief valve, spring, retainer. 4 check balls in the bottom of the body.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/checkball-lower-bottom.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/checkball-lower-bottom.gif" width="1033" height="626" loading="lazy" alt="Two views of the lower valve body bottom with rubber check ball positions arrowed"></a><figcaption>Manual figure: Locating Check Balls In Bottom Of Lower Valve Body</figcaption></figure></li>
+    <li class="step"><p>Cover upper gasket, cover plate and cover lower gasket (the one with oval holes for the balls) onto the cover; cover onto the body; set bolts.</p></li>
+    <li class="step"><p>Top of the body: check balls, damping check ball and spring, cooler by-pass valve and spring.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/checkball-lower-top.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/checkball-lower-top.gif" width="906" height="631" loading="lazy" alt="Lower valve body top with a 6.5 mm rubber ball, a 5.5 mm rubber ball and the 6.35 mm cooler by-pass check valve"></a><figcaption>Manual figure: Locating Check Balls In Top Of Lower Valve Body. The 9.50 mm part marked AW03-72L is for that unit only.</figcaption></figure></li>
+  </ol>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Spring</th><th>Free, mm</th></tr></thead>
+    <tbody>
+      <tr><td>Detent regulator <em>orange</em></td><td>31.39</td></tr>
+      <tr><td>Intermediate modulator <em>AW70L no color / AW71 red</em></td><td>25.60 / 35.43</td></tr>
+      <tr><td>Low coast modulator</td><td>42.34</td></tr>
+      <tr><td>Reverse clutch sequence <em>AW70L yellow / AW71 red</em></td><td>33.71 / 37.54</td></tr>
+      <tr><td>2-3 shift <em>white</em></td><td>35.10</td></tr>
+      <tr><td>Check valve <em>yellow</em></td><td>33.32</td></tr>
+      <tr><td>Oil cooler by-pass <em>orange</em></td><td>28.91</td></tr>
+      <tr><td>Lock-up relay <em>white, L units</em></td><td>18.49</td></tr>
+      <tr><td>Lock-up signal <em>white, L units</em></td><td>45.31</td></tr>
+      <tr><td>Pressure relief</td><td>32.13</td></tr>
+      <tr><td>Primary regulator <em>AW70L white / AW71 no color</em></td><td>61.19 / 73.30</td></tr>
+      <tr><td>Primary regulator damping</td><td>19.99</td></tr>
+      <tr><td>1-2 shift</td><td>34.62</td></tr>
+      <tr><td>3-4 shift <em>AW70L / AW71</em></td><td>37.88 / 33.65</td></tr>
+    </tbody>
+  </table></div>
+  <p class="sub" style="margin-top:10px;">Replace any spring shorter than its free length, or with rust or collapsed coils.</p>
+
+  <h3>Joining the three bodies</h3>
+  <p class="sub">These figures identify each bolt by its length in mm. Put each bolt back in its own hole.</p>
+  <ol class="steps">
+    <li class="step"><p>Lower body gasket on the lower body, separator plate on the gasket, and 2 temporary bolts to hold the plate against the spring-loaded check valve. Gasket on the upper rear body.</p></li>
+    <li class="step"><p>Lower body onto the upper rear with the right edges aligned. 3 bolts from the lower side to <span class="torq">4.9&ndash;5.8 Nm</span> (43&ndash;51 in-lb).</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/vb-bolts-lower-upper-rear.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/vb-bolts-lower-upper-rear.gif" width="864" height="724" loading="lazy" alt="Lower-to-upper-rear bolts, three 28 mm bolts arrowed"></a><figcaption>Manual figure: Identifying Lower-To-Upper Rear Valve Body Bolts</figcaption></figure></li>
+    <li class="step"><p>Turn it over; 5 bolts in the upper rear body to <span class="torq">4.9&ndash;5.8 Nm</span>. Remove the 2 temporary bolts.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/vb-bolts-upper-rear.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/vb-bolts-upper-rear.gif" width="950" height="704" loading="lazy" alt="Upper rear body bolts: one 35 mm and four 28 mm"></a><figcaption>Manual figure: Identifying Upper Rear Valve Body Bolts</figcaption></figure></li>
+    <li class="step"><p>Lower-and-rear assembly onto the upper front body; bolts from the lower side to <span class="torq">5.4 Nm</span> (48 in-lb).</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/vb-bolts-lower-upper-front.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/vb-bolts-lower-upper-front.gif" width="647" height="717" loading="lazy" alt="Lower-to-upper-front bolts: 22 mm, 28 mm and 52 mm"></a><figcaption>Manual figure: Identifying Lower-To-Upper Front Valve Body Bolts</figcaption></figure></li>
+    <li class="step"><p>Turn it over; 5 bolts in the upper front body.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/vb-bolts-upper-front.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/vb-bolts-upper-front.gif" width="922" height="682" loading="lazy" alt="Upper front body bolts: four 18 mm and one 22 mm"></a><figcaption>Manual figure: Identifying Upper Front Valve Body Bolts</figcaption></figure></li>
+    <li class="step"><p>Plate on the lower body. Manual valve, detent spring and detent spring plate.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/vb-bolts-plate-detent.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/vb-bolts-plate-detent.gif" width="698" height="703" loading="lazy" alt="Plate and detent spring plate bolts: 35 mm, 40 mm and 12 mm"></a><figcaption>Manual figure: Identifying Plate &amp; Detent Spring Plate Bolts</figcaption></figure></li>
+  </ol>
+</section>
+
+<section id="assembly">
+  <h2>Final assembly</h2>
+  <div class="rule"></div>
+  <div class="callout c-bad">
+    <span class="tag">From the manual</span>
+    <p>Soak new clutch and brake discs in ATF for <strong>at least 2 hours</strong> before assembly.</p>
+  </div>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/thrust-bearing-positions.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/thrust-bearing-positions.gif" width="1044" height="905" loading="lazy" alt="Section of the gear train with thrust bearings and races 1 to 21 drawn below it at their positions"></a><figcaption>Manual figure: Positioning Thrust Bearings &amp; Bearing Races, numbers 1 to 21</figcaption></figure>
+  <ol class="steps">
+    <li class="step"><p>Case on the cushioned 12 &times; 7 in cylinder. Race No. 21 and bearing No. 20 into the case.</p></li>
+    <li class="step"><p>Brake apply tube in; <strong>the pawl at the end of the tube goes inside the piston</strong>.</p></li>
+    <li class="step"><p>Thrust washer on the planetary carrier with its pawl in the carrier notch. Lower the rear planetary and output shaft in without hitting the bearing.</p></li>
+    <li class="step"><p>Pressure plate in. Thrust washer on the front carrier with petroleum jelly. One-way clutch No. 2 and front planetary into the ring gear.</p></li>
+    <li class="step"><p>Brake No. 3 discs and plates, alternating. Sun gear into the one-way clutch inner race, assembly into the case, <strong>inner race aligned with the case mark</strong>. Hold the race and remove the sun gear.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/owc-inner-race-align.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/owc-inner-race-align.gif" width="660" height="698" loading="lazy" alt="Case front view with arrow on the alignment marks between one-way clutch inner race and case"></a><figcaption>Manual figure: Aligning One-Way Clutch Inner Race</figcaption></figure><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/brake3-clearance.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/brake3-clearance.gif" width="956" height="638" loading="lazy" alt="Calipers measuring dimension A from the case step down to the top brake No. 3 plate"></a><figcaption>Manual figure: Measuring Low &amp; Reverse Brake Clutch Plate Clearance. The article gives no figure for dimension A.</figcaption></figure></li>
+    <li class="step"><p>Sun gear into the center support, snap ring. Center support into the case with its oil hole and bolt hole lined up with the case.</p></li>
+    <li class="step"><p>Push the support rearward. Tighten the 2 bolts alternately: <span class="torq">7 Nm</span>, <span class="torq">14 Nm</span>, <span class="torq">20 Nm</span>, then <span class="torq">24&ndash;27 Nm</span> (18&ndash;20 ft-lb). <strong>Start with the bolt nearest the accumulator bores.</strong></p></li>
+    <li class="step"><p>Direct clutch in, fully meshed with the center support. <strong>Its hub should sit flush with or slightly below the sun gear shaft.</strong></p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/rear-clutch-flush.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/rear-clutch-flush.gif" width="1030" height="816" loading="lazy" alt="Rear clutch hub and sun gear shaft with an inset showing the hub just below the shaft end"></a><figcaption>Manual figure: Checking Rear Clutch Installation</figcaption></figure></li>
+    <li class="step"><p>Race No. 16 over the direct clutch spline with petroleum jelly. Bearing No. 15 and race No. 14 on the forward clutch.</p></li>
+    <li class="step"><p>Forward clutch in, fully seated. Measure its depth from the case with a straightedge and calipers and compare to the number you wrote down at teardown. The article says Volvo publishes no depth spec.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/forward-clutch-depth.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/forward-clutch-depth.gif" width="981" height="750" loading="lazy" alt="Straightedge across the case and vernier caliper measuring down to the forward clutch"></a><figcaption>Manual figure: Measuring Forward Clutch Depth</figcaption></figure></li>
+    <li class="step"><p>Bearing No. 10 on the forward clutch and race No. 9 on the OD case end, both with petroleum jelly. Guide pins <strong>5241</strong> into the case.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/od-case-guide-pins.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/od-case-guide-pins.gif" width="589" height="668" loading="lazy" alt="Two guide pins standing in the case bolt holes"></a><figcaption>Manual figure: Installing OD Case On Alignment Guide Pins</figcaption></figure></li>
+    <li class="step"><p>OD case in over the pins with the <strong>index notch down</strong>. Thrust race on the OD planetary.</p></li>
+    <li class="step"><p>Thrust washer on the rear of the OD carrier with petroleum jelly. OD clutch and planetary in, fully seated. Installed height, straightedge and calipers: <span class="torq">3.50 mm</span> (.138 in).</p></li>
+    <li class="step"><p>O-rings on the OD case and converter housing. Converter housing bolts: 10 mm <span class="torq">27&ndash;41 Nm</span> (20&ndash;30 ft-lb), 12 mm <span class="torq">47&ndash;66 Nm</span> (35&ndash;49 ft-lb).</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/converter-housing-bolts.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/converter-housing-bolts.gif" width="894" height="729" loading="lazy" alt="Oil pump on guides at left; converter housing with 10 mm and 12 mm bolts marked at right"></a><figcaption>Manual figure: Identifying Converter Housing Bolts</figcaption></figure></li>
+    <li class="step"><p>Race No. 3 on with petroleum jelly, then the OD input shaft. Bearing No. 2 and race No. 1 on the oil pump.</p></li>
+    <li class="step"><p>Pump in over the guides. Sealant on 5 bolts, tighten evenly, remove the guides, then the last 2 bolts with sealant. Pump bolts <span class="torq">18&ndash;24 Nm</span> (13&ndash;18 ft-lb).</p></li>
+    <li class="step"><p>Air-check every clutch and brake through its port and listen for the piston. No movement means take it back apart. <strong>Use the port map that matches your plate.</strong></p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/circuit-ports.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/circuit-ports.gif" width="886" height="1652" loading="lazy" alt="Two port maps: the AW71 map with 6 ports and the AW70L/AW72L map with 7 ports, each labeled by clutch or brake"></a><figcaption>Manual figure: Identifying Circuit Pressure Ports. Top: AW71. Bottom: AW70L and AW72L.</figcaption></figure></li>
+    <li class="step"><p>Parking rod onto the manual valve lever; nut <span class="torq">13.6&ndash;17.6 Nm</span> (10&ndash;13 ft-lb). Lever shaft into the case; spring pin with its <strong>slot at right angles to the shaft</strong>.</p></li>
+    <li class="step"><p>Parking pawl, pivot pin and spring. Cam plate with 2 bolts; the parking rod must protrude from the cam plate.</p></li>
+    <li class="step"><p>Throttle cable into the case without cutting its O-ring. Accumulator pistons and springs in from the front side, each in its own bore (table under Specs).</p></li>
+    <li class="step"><p>Throttle cable onto the throttle cam. 2 or 3 valve body bolts loosely, manual valve lever pin into the manual valve groove, then all <strong>17 bolts</strong> to <span class="torq">8.1&ndash;12.2 Nm</span> (72&ndash;108 in-lb).</p></li>
+    <li class="step"><p>Oil screen, <span class="torq">4.9&ndash;5.8 Nm</span>. Shift to L and P to seat the detent roller. Oil pipe.</p></li>
+    <li class="step"><p>Magnet in the pan. Pan and gasket, bolts evenly to <span class="torq">3.9&ndash;4.9 Nm</span> (35&ndash;43 in-lb). Drain plug <span class="torq">18&ndash;23 Nm</span> (13&ndash;17 ft-lb).</p></li>
+    <li class="step"><p>Governor strainer, rear cover and gasket. Governor and speedometer drive gear onto the output shaft; <strong>E-ring locked</strong>.</p></li>
+    <li class="step"><p>Adapter and gasket. OD solenoid. Speedometer driven gear, extension housing and gasket.</p></li>
+    <li class="step"><p>Torque converter in. Distance A from the housing face to the converter: <span class="torq">16.2&ndash;19.6 mm</span> (.64&ndash;.77 in).</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/converter-distance.gif"><img src="img/volvo-940-b230fd-aw71-rebuild/converter-distance.gif" width="741" height="576" loading="lazy" alt="Straightedge across the converter housing face with dimension A to the converter lugs"></a><figcaption>Manual figure: Measuring Installation Distance</figcaption></figure></li>
+  </ol>
+</section>
+
+<section id="install">
+  <h2>Installation, cooler flush &amp; fill</h2>
+  <div class="rule"></div>
+  <ol class="steps">
+    <li class="step"><p>Install in reverse of removal. Converter-to-flexplate bolts in a crisscross to <span class="torq">45 Nm</span> (33 ft-lb). Lower filler tube nut <span class="torq">88 Nm</span> (65 ft-lb).</p></li>
+    <li class="step"><p>Drive shaft flange: rubber flange <span class="torq">70&ndash;88 Nm</span> (52&ndash;65 ft-lb). Standard flange with new bolts: 8 mm <span class="torq">35 Nm</span>, 10 mm <span class="torq">50 Nm</span>.</p></li>
+    <li class="step"><p>Kickdown cable: pull the cable out until you feel slight resistance and hold it there; crimp the clip <span class="torq">0.25&ndash;1.0 mm</span> (.01&ndash;.04 in) from the sheath end. Then set the sheath so the clip pulls out <span class="torq">50.3&ndash;52.6 mm</span> (1.98&ndash;2.07 in) at full throttle.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/kickdown-cable.png"><img src="img/volvo-940-b230fd-aw71-rebuild/kickdown-cable.png" width="960" height="488" loading="lazy" alt="Transmission with kickdown cable and an inset of calipers measuring clip travel at the throttle end"></a><figcaption>Manual figure: Kickdown Cable Adjustment</figcaption></figure></li>
+    <li class="step"><p>Adjust the gearshift linkage.</p></li>
+    <li class="step"><p>Flush the cooler before any road test; the Volvo book warns that skipping it can damage the transmission. Container under the rear (return) cooler pipe, disconnect it, overfill the transmission by about <span class="torq">0.3 L</span>, idle until clean fluid comes out, stop, reconnect.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/cooler-flush.png"><img src="img/volvo-940-b230fd-aw71-rebuild/cooler-flush.png" width="640" height="364" loading="lazy" alt="Cooler pipes from transmission to radiator, return pipe draining into a pan"></a><figcaption>Manual figure: Oil System Diagram, return pipe disconnected into a container</figcaption></figure></li>
+    <li class="step"><p>If the car has an extra oil cooler, disconnect it from the main cooler and pump clean fluid through it with a filler pump, then reconnect and check for leaks.</p></li>
+    <li class="step"><p>Fill with <strong>Dexron-II ATF</strong>. Volvo's check: handbrake on, idle, run the selector through every position, then P, wait <strong>2 minutes</strong>, read the dipstick and top up. A dry unit and converter hold up to <span class="torq">7.5 L</span>, about 2.5 L of it in the converter.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-aw71-rebuild/fill-dipstick.png"><img src="img/volvo-940-b230fd-aw71-rebuild/fill-dipstick.png" width="704" height="338" loading="lazy" alt="Selector moved through its gates, then in P, and the dipstick with the level band arrowed"></a><figcaption>Manual figure: Selector Lever And Dipstick</figcaption></figure></li>
+    <li class="step"><p>Stall test and line pressure test before driving it hard. Specs and fault tables are below.</p></li>
+  </ol>
+</section>
+
+<section id="specs">
+  <h2>AW70/AW71 specs</h2>
+  <div class="rule"></div>
+  <h3>Clearances &amp; limits</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Item</th><th>Spec</th></tr></thead>
+    <tbody>
+      <tr><td>Clutch or brake disc, minimum <em>all packs</em></td><td>2.10 mm</td></tr>
+      <tr><td>Brake No. 1 clearance</td><td>0.30&ndash;1.20 mm</td></tr>
+      <tr><td>Brake No. 2 clearance</td><td>0.30&ndash;1.20 mm</td></tr>
+      <tr><td>Overdrive brake clearance</td><td>0.35&ndash;1.60 mm</td></tr>
+      <tr><td>Overdrive clutch clearance</td><td>0.30&ndash;0.90 mm</td></tr>
+      <tr><td>Direct (rear) clutch clearance</td><td>0.30&ndash;1.20 mm</td></tr>
+      <tr><td>Input shaft end play</td><td>0.30&ndash;0.90 mm</td></tr>
+      <tr><td>Output shaft end play</td><td>0.30&ndash;0.90 mm</td></tr>
+      <tr><td>Oil pump body clearance</td><td>0.070&ndash;0.150 mm</td></tr>
+      <tr><td>Oil pump tip clearance</td><td>0.110&ndash;0.140 mm</td></tr>
+      <tr><td>Oil pump side clearance</td><td>0.020&ndash;0.050 mm</td></tr>
+      <tr><td>OD clutch installed height</td><td>3.50 mm</td></tr>
+      <tr><td>Converter installation distance</td><td>16.2&ndash;19.6 mm</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Accumulator pistons</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Piston <em>circuit</em></th><th>OD / length</th></tr></thead>
+    <tbody>
+      <tr><td>No. 1 <em>B2</em></td><td>34.8 / 48.5 mm</td></tr>
+      <tr><td>No. 2 <em>C2</em></td><td>31.8 / 45.0 mm</td></tr>
+      <tr><td>No. 3 <em>C1</em></td><td>31.8 / 49.5 mm</td></tr>
+    </tbody>
+  </table></div>
+  <p class="sub" style="margin-top:10px;">The book prints No. 1's length as 1.109 in beside 48.5 mm; those don't match (48.5 mm is 1.909 in). No. 1 is the only 34.8 mm piston, so sort it by diameter.</p>
+
+  <h3>Torques</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Fastener</th><th>Nm</th></tr></thead>
+    <tbody>
+      <tr><td>Center support bolts <em>7, 14, 20, then final; accumulator-side bolt first</em></td><td>24&ndash;27</td></tr>
+      <tr><td>Converter housing, 10 mm</td><td>27&ndash;41</td></tr>
+      <tr><td>Converter housing, 12 mm</td><td>47&ndash;66</td></tr>
+      <tr><td>Oil pump to case</td><td>18&ndash;24</td></tr>
+      <tr><td>Stator support to pump body</td><td>6.0&ndash;9.0</td></tr>
+      <tr><td>Valve body to case, 17 bolts</td><td>8.1&ndash;12.2</td></tr>
+      <tr><td>Valve body section bolts</td><td>4.9&ndash;5.8</td></tr>
+      <tr><td>Oil screen</td><td>4.9&ndash;5.8</td></tr>
+      <tr><td>Oil pan</td><td>3.9&ndash;4.9</td></tr>
+      <tr><td>Drain plug</td><td>18&ndash;23</td></tr>
+      <tr><td>Parking rod nut</td><td>13.6&ndash;17.6</td></tr>
+      <tr><td>Parking pawl bracket <em>table only</em></td><td>7.0</td></tr>
+      <tr><td>Throttle cam bolt <em>table only</em></td><td>8.0</td></tr>
+      <tr><td>Governor bolt <em>table only</em></td><td>4.0</td></tr>
+      <tr><td>Detent lever, end cover, end plate, large cover <em>table only</em></td><td>6.0</td></tr>
+      <tr><td>Filter cover plate <em>table only</em></td><td>8.0</td></tr>
+      <tr><td>Rear cover <em>table only</em></td><td>35</td></tr>
+      <tr><td>Companion flange bolt <em>table only</em></td><td>45</td></tr>
+      <tr><td>Converter to flexplate</td><td>45</td></tr>
+      <tr><td>Lower filler tube nut</td><td>88</td></tr>
+    </tbody>
+  </table></div>
+  <p class="sub" style="margin-top:10px;">Ranges are from the procedure text. The article's torque table gives single values that fall inside those ranges, except the oil pan (table 5.0 Nm) and the valve body section bolts (table 6.0 Nm), both slightly above the text range.</p>
+
+  <h3>Line pressure, AW70L &amp; AW71</h3>
+  <div class="tablewrap"><table class="t4">
+    <thead><tr><th>Engine</th><th>D, kPa</th><th>R, kPa</th></tr></thead>
+    <tbody>
+      <tr><td>Idle</td><td>469&ndash;550<em>66&ndash;78 psi</em></td><td>713&ndash;836<em>101&ndash;119 psi</em></td></tr>
+      <tr><td>Stall</td><td>1020&ndash;1223<em>145&ndash;174 psi</em></td><td>1529&ndash;1937<em>218&ndash;276 psi</em></td></tr>
+    </tbody>
+  </table></div>
+  <p class="sub" style="margin-top:10px;">With the white primary regulator spring, D at idle should read 469 kPa (68 psi). The test is written for a chassis dynamometer. If pressure is off, adjust the kickdown (throttle) cable and retest. High in D and R: regulator valve, throttle valve or cable. Low in D and R: pump, regulator, throttle valve, cable or OD clutch. Low in D only: forward or OD clutch, or a leak in the D circuit. Low in R only: brake No. 3, direct or OD clutch, or a leak in the R circuit.</p>
+
+  <h3>Stall speed</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Unit</th><th>rpm</th></tr></thead>
+    <tbody>
+      <tr><td>AW70L <em>listed with B230F</em></td><td>2000</td></tr>
+      <tr><td>AW71 <em>listed with B230FT</em></td><td>2000&ndash;2500</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout c-bad">
+    <span class="tag">Stall test, from the manual</span>
+    <p>Block the rear wheels, parking and service brakes on, full throttle in D, then in R. <strong>No more than 8 seconds</strong> per test.</p>
+  </div>
+  <p class="sub" style="margin-top:10px;">Both D and R equal but low: engine output or the converter stator one-way clutch. D high: OD clutch, OD one-way clutch, forward clutch, one-way clutch No. 2 or low line pressure. R high: OD clutch, OD one-way clutch, direct clutch, brake No. 3 or low line pressure.</p>
+
+  <h3>Fluid</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Item</th><th>Spec</th></tr></thead>
+    <tbody>
+      <tr><td>Type</td><td>Dexron-II ATF</td></tr>
+      <tr><td>Total capacity <em>about 2.5 L in the converter</em></td><td>7.5 L</td></tr>
+      <tr><td>Refill after pan drain <em>AW70, 940 AW71</em></td><td>1.9 L</td></tr>
+    </tbody>
+  </table></div>
+  <button class="reset" id="reset" type="button">Clear all checkmarks</button>
+</section>
+
+<p class="foot">Source: LEMON manual for the 1994 Volvo 940 Base 4D Sedan (AW71): Automatic Trans, Overhaul - AW70L, AW71 &amp; AW72L (Application, Identification, Description, Transmission Disassembly, Component Disassembly &amp; Reassembly for the oil pump, OD clutch and planetary, OD brake, forward and direct clutches, center support, one-way clutch No. 2, rear planetary and output shaft, brake No. 3 piston, valve body and governor, Transmission Reassembly, Transmission Specifications, Torque Specifications, Stall Test, Line Pressure Test) and Removal &amp; Installation - A/T. Also the LEMON manual for the 1994 Volvo 940 L4-2320cc 2.3L SOHC VIN 83 B230FD: Transmission Identification, Exchange System, Service Precautions, Tools and Equipment, Oil System Cleaning, Fluid - A/T Service and Repair, capacity and fluid type specifications, and Throttle Valve Cable Adjustments. Figures are the manuals' own scans; tap one to open it full size.</p>
+
+</div>
+
+<script>
+(function(){
+  var KEY='volvo-940-b230fd-aw71-rebuild';
+  var steps=[].slice.call(document.querySelectorAll('.step'));
+  var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function render(){
+    var n=steps.filter(function(s){return s.classList.contains('done');}).length;
+    document.getElementById('count').textContent=n+' / '+steps.length;
+    document.getElementById('fill').style.width=(steps.length?100*n/steps.length:0)+'%';
+  }
+  function save(){
+    var o={};steps.forEach(function(s,i){if(s.classList.contains('done'))o[i]=1;});
+    try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}
+  }
+  steps.forEach(function(s,i){
+    var n=document.createElement('span');n.className='n';n.textContent=[].indexOf.call(s.parentNode.children,s)+1;s.insertBefore(n,s.firstChild);
+    var body=document.createElement('div');
+    while(s.childNodes.length>1)body.appendChild(s.childNodes[1]);
+    s.appendChild(body);
+    s.tabIndex=0;s.setAttribute('role','checkbox');
+    if(saved[i])s.classList.add('done');
+    s.setAttribute('aria-checked',s.classList.contains('done'));
+    function toggle(){s.classList.toggle('done');s.setAttribute('aria-checked',s.classList.contains('done'));save();render();}
+    s.addEventListener('click',function(e){if(!e.target.closest('.fig'))toggle();});
+    s.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'){e.preventDefault();toggle();}});
+  });
+  document.getElementById('reset').addEventListener('click',function(){
+    steps.forEach(function(s){s.classList.remove('done');s.setAttribute('aria-checked','false');});save();render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
