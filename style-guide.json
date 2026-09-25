@@ -214,6 +214,7 @@
       "bad": "bad-bg fill, 4px bad left border, bad tag; manual warnings and scrap/replace limits"
     },
     "specTable": "card fill inside a 1px line, radius 10px; Barlow Condensed uppercase muted head; first column Barlow, spec column mono tabular; qualifiers in 12px muted on their own line",
+    "figure": "manual scan on a white (#FFFFFF, --plate) block, radius 8px, padding 8px, image max-width 100% at natural size with width/height set and lazy loading; 12px muted caption under it naming the manual figure; sits inside the step it illustrates; the image links to the full-size file and tapping it does not toggle the step",
     "sequenceDiagram": "bolt order drawn as a 5-column grid of mono pills on idle-bg, first bolt on accent-soft/accent-ink, dashed line outline; orientation matches the manual figure",
     "footer": "13px muted, 1px line top border; names the LEMON manual year, model, engine and every section used",
     "images": "Include the manual's figures wherever a step, sequence or spec table has one (bolt orders, timing marks, exploded views, scanned torque tables). Fetch with the Lemon MCP get_image tool, save under guides/img/<guide-name>/, reference with a relative path, give each a caption naming the manual figure, 100% max width on a white card so the black-on-white scans stay readable in the dark theme."

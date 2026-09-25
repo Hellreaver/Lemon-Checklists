@@ -17,7 +17,7 @@
   --good:#7BAFA9; --good-bg:#243B37;
   --warn:#D9A95B; --warn-bg:#3A2F1C;
   --bad:#D97A7A; --bad-bg:#3B2323;
-  --idle-bg:#2C2923; --track:#3A362F;
+  --idle-bg:#2C2923; --track:#3A362F; --plate:#FFFFFF;
   color-scheme:dark;
 }
 *{box-sizing:border-box;}
@@ -84,13 +84,18 @@ td em{font-style:normal;color:var(--muted);font-size:12px;display:block;}
 tbody tr:last-child td{border-bottom:none;}
 
 .seq{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px;}
-.seq figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;}
-.seq figcaption{font:700 13px "Barlow Condensed",sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.seq > figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;}
+.seq > figure > figcaption{font:700 13px "Barlow Condensed",sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
 .grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;border:1px dashed var(--line);border-radius:8px;padding:8px;}
 .grid5 span{font:600 14px "IBM Plex Mono",monospace;text-align:center;padding:6px 0;border-radius:999px;background:var(--idle-bg);color:var(--text);}
 .grid5 span.first{background:var(--accent-soft);color:var(--accent-ink);}
 .seq .hint{font-size:12px;color:var(--muted);margin:6px 0 0;}
 @media (max-width:420px){.seq{grid-template-columns:1fr;}}
+.fig{margin:10px 0 0;}
+.fig .plate{display:block;background:var(--plate);border-radius:8px;padding:8px;}
+.fig img{display:block;max-width:100%;height:auto;margin:0 auto;}
+.fig figcaption{font-size:12px;line-height:1.35;color:var(--muted);margin-top:5px;}
+.callout .fig{margin-top:10px;}
 
 .reset{font:inherit;font-size:13px;background:none;border:0;color:var(--accent);text-decoration:underline;padding:0;cursor:pointer;margin-top:10px;}
 .foot{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;}
@@ -128,12 +133,13 @@ tbody tr:last-child td{border-bottom:none;}
   <h2>Confirm it is the gasket</h2>
   <div class="rule"></div>
   <p class="sub">The manual's own checks, before you spend a weekend on it.</p>
+  <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/gasket-leak-types.png"><img src="img/volvo-940-b230fd-head-gasket/gasket-leak-types.png" width="1120" height="1342" loading="lazy" alt="Head gasket outline with four leak paths labeled: external coolant leak, combustion chamber to coolant, between combustion chambers, oil passage"></a><figcaption>Manual figure: Head Gasket Failure, types of leak. The manual notes the drawing is generic and may not match this head.</figcaption></figure>
   <ol class="steps">
-    <li class="step"><p>Pressure test the cooling system and look along the head-to-block joint for coolant.</p></li>
+    <li class="step"><p>Pressure test the cooling system and look along the head-to-block joint for coolant.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/cooling-pressure-test.png"><img src="img/volvo-940-b230fd-head-gasket/cooling-pressure-test.png" width="512" height="460" loading="lazy" alt="Pressure tester fitted to the radiator filler neck"></a><figcaption>Manual figure: Cooling System Pressure Testing</figcaption></figure></li>
     <li class="step"><p>Pull all four plugs and look for coolant on them. Then crank the engine a few revolutions with the plugs out; a cylinder with a combustion-to-coolant leak will spit coolant.</p></li>
     <li class="step"><p>Compression test all four while watching the coolant level. <strong>Low compression on two adjacent cylinders</strong>, or bubbles in the radiator during the test, points at the gasket.</p></li>
     <li class="step"><p>Check the oil. Light contamination is a creamy coffee color; heavy is thick and light tan.</p></li>
-    <li class="step"><p>Run a chemical combustion leak test on the coolant. Any combustion gas in there means a leaking gasket.</p></li>
+    <li class="step"><p>Run a chemical combustion leak test on the coolant. Any combustion gas in there means a leaking gasket.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/combustion-leak-tester.png"><img src="img/volvo-940-b230fd-head-gasket/combustion-leak-tester.png" width="960" height="1212" loading="lazy" alt="Combustion leak tester with suction bulb sitting on a radiator neck"></a><figcaption>Manual figure: combustion leak tester on the radiator. Blue liquid turns yellow if combustion gas is in the coolant.</figcaption></figure></li>
   </ol>
   <div class="callout c-bad">
     <span class="tag">Warning, from the manual</span>
@@ -152,22 +158,22 @@ tbody tr:last-child td{border-bottom:none;}
 
   <h3>Vehicle prep</h3>
   <ol class="steps">
-    <li class="step"><p>Disconnect the battery ground lead.</p></li>
-    <li class="step"><p>Drain the coolant from the nipple on the <strong>right-hand side of the engine</strong>. Put a hose on the nipple so it doesn't go everywhere.</p></li>
+    <li class="step"><p>Disconnect the battery ground lead.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/battery-ground.png"><img src="img/volvo-940-b230fd-head-gasket/battery-ground.png" width="768" height="514" loading="lazy" alt="Battery with the ground clamp lifted off the terminal"></a><figcaption>Manual figure: Battery Ground Lead</figcaption></figure></li>
+    <li class="step"><p>Drain the coolant from the nipple on the <strong>right-hand side of the engine</strong>. Put a hose on the nipple so it doesn't go everywhere.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/coolant-drain.png"><img src="img/volvo-940-b230fd-head-gasket/coolant-drain.png" width="1024" height="562" loading="lazy" alt="Engine block with an arrow pointing to the coolant drain nipple below the exhaust manifold"></a><figcaption>Manual figure: Coolant Drain Location. The arrow marks the drain nipple on the block.</figcaption></figure></li>
     <li class="step"><p>Remove the distributor cap.</p></li>
     <li class="step"><p>Remove the external attachments from the head as needed.</p></li>
-    <li class="step"><p>Remove the fan, the preheater hose clamp under the fan shroud if your car has one, and the fan shroud.</p></li>
+    <li class="step"><p>Remove the fan, the preheater hose clamp under the fan shroud if your car has one, and the fan shroud.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/fan-shroud-pulley.jpg"><img src="img/volvo-940-b230fd-head-gasket/fan-shroud-pulley.jpg" width="1456" height="1090" loading="lazy" alt="Photo of the fan shroud and coolant pump pulley, arrows on each"></a><figcaption>Manual figure: Fan Shroud &amp; Pulley</figcaption></figure></li>
     <li class="step"><p>Loosen the adjusters, remove all drive belts, then remove the coolant pump pulley.</p></li>
   </ol>
 
   <h3>Timing belt off</h3>
   <ol class="steps">
-    <li class="step"><p>Remove the upper timing gear cover: 10 mm socket on the M6 bolt, 12 mm socket on the M8 bolt, Phillips on the sheet metal screw.</p></li>
-    <li class="step"><p>Turn the crank on its center bolt until the <strong>cam pulley mark lines up with the mark on the inner timing cover</strong> and the <strong>crank mark sits at 0</strong> on the lower timing cover.</p></li>
-    <li class="step"><p>Remove the tensioner nut and washer. Pull on the belt to compress the tensioner spring, then push a <strong>3 mm drill</strong> through to lock the spring.</p></li>
+    <li class="step"><p>Remove the upper timing gear cover: 10 mm socket on the M6 bolt (1), 12 mm socket on the M8 bolt (2), Phillips on the sheet metal screw (3).</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/upper-timing-cover.jpg"><img src="img/volvo-940-b230fd-head-gasket/upper-timing-cover.jpg" width="1456" height="1078" loading="lazy" alt="Photo of the upper timing cover with fasteners numbered 1, 2 and 3"></a><figcaption>Manual figure: Upper Timing Gear Cover. 1 = 10 mm M6, 2 = 12 mm M8, 3 = Phillips sheet metal screw.</figcaption></figure></li>
+    <li class="step"><p>Turn the crank on its center bolt until the <strong>cam pulley mark lines up with the mark on the inner timing cover</strong> and the <strong>crank mark sits at 0</strong> on the lower timing cover.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/timing-marks.png"><img src="img/volvo-940-b230fd-head-gasket/timing-marks.png" width="768" height="578" loading="lazy" alt="Timing belt drawing with arrows on the cam pulley mark and the crank mark against the 0-10-20-30 scale"></a><figcaption>Manual figure: Camshaft &amp; Crankshaft Alignment Marks. Inset shows the crank mark at 0 on the lower cover scale.</figcaption></figure></li>
+    <li class="step"><p>Remove the tensioner nut and washer. Pull on the belt to compress the tensioner spring, then push a <strong>3 mm drill</strong> through to lock the spring.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/tensioner-lock.png"><img src="img/volvo-940-b230fd-head-gasket/tensioner-lock.png" width="960" height="744" loading="lazy" alt="Hand pulling the belt while a drill bit locks the tensioner spring"></a><figcaption>Manual figure: Timing Belt Removal, tensioner spring pinned with the drill</figcaption></figure></li>
     <li class="step"><p>Remove the timing belt.</p></li>
-    <li class="step"><p>Remove the camshaft gear and spacer washer, holding the gear with <strong>tool 5034</strong>.</p></li>
-    <li class="step"><p>Remove the stud bolt for the timing belt tensioner.</p></li>
+    <li class="step"><p>Remove the camshaft gear and spacer washer, holding the gear with <strong>tool 5034</strong>.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/cam-gear-5034.png"><img src="img/volvo-940-b230fd-head-gasket/cam-gear-5034.png" width="768" height="626" loading="lazy" alt="Tool 5034 holding the cam gear while a wrench turns the center bolt; inset shows the spacer washer"></a><figcaption>Manual figure: Timing Belt Removal, counterhold 5034 on the cam gear</figcaption></figure></li>
+    <li class="step"><p>Remove the stud bolt for the timing belt tensioner.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/tensioner-stud.jpg"><img src="img/volvo-940-b230fd-head-gasket/tensioner-stud.jpg" width="1456" height="1020" loading="lazy" alt="Photo of the tensioner stud being removed from the block"></a><figcaption>Manual figure: Timing Belt Tensioner Stud</figcaption></figure></li>
   </ol>
   <div class="callout c-warn">
     <span class="tag">Caution, straight from the manual</span>
@@ -188,6 +194,7 @@ tbody tr:last-child td{border-bottom:none;}
         <span>3</span><span>7</span><span>9</span><span>5</span><span class="first">1</span>
       </div>
       <p class="hint">Laid out as drawn in the manual figure.</p>
+      <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/head-bolt-loosening.png"><img src="img/volvo-940-b230fd-head-gasket/head-bolt-loosening.png" width="896" height="384" loading="lazy" alt="Manual head bolt loosening order, 4 8 10 6 2 on top, 3 7 9 5 1 on the bottom"></a><figcaption>Manual figure: Head Bolt Removal Sequence</figcaption></figure>
     </figure>
     <figure>
       <figcaption>Tightening order</figcaption>
@@ -196,6 +203,7 @@ tbody tr:last-child td{border-bottom:none;}
         <span>8</span><span>4</span><span>2</span><span>6</span><span>10</span>
       </div>
       <p class="hint">Center out. Same orientation as the loosening figure.</p>
+      <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/head-bolt-tightening.png"><img src="img/volvo-940-b230fd-head-gasket/head-bolt-tightening.png" width="576" height="314" loading="lazy" alt="Manual head bolt tightening order, 7 3 1 5 9 on top, 8 4 2 6 10 on the bottom"></a><figcaption>Manual figure: Cylinder Head Torque Sequence</figcaption></figure>
     </figure>
   </div>
 </section>
@@ -205,10 +213,10 @@ tbody tr:last-child td{border-bottom:none;}
   <div class="rule"></div>
   <ol class="steps">
     <li class="step"><p>Clean the head and the gasket face. Remove senders where fitted.</p></li>
-    <li class="step"><p>Check warp with a steel straightedge and feeler gauge. Limit is <span class="torq">0.50 mm</span> lengthwise and <span class="torq">0.25 mm</span> across. Over that, machine the head.</p></li>
-    <li class="step"><p>Measure head height. New is <span class="torq">146.1 mm</span>; minimum is <span class="torq">145.6 mm</span>. That leaves 0.5 mm total for machining over the life of the head.</p></li>
+    <li class="step"><p>Check warp with a steel straightedge and feeler gauge. Limit is <span class="torq">0.50 mm</span> lengthwise and <span class="torq">0.25 mm</span> across. Over that, machine the head.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/head-warp.png"><img src="img/volvo-940-b230fd-head-gasket/head-warp.png" width="704" height="330" loading="lazy" alt="Straightedge positions on the head: max 0.5 mm lengthwise, 0.25 mm across"></a><figcaption>Manual figure: Cylinder Head Distortion. Check along both diagonals and at three points across.</figcaption></figure></li>
+    <li class="step"><p>Measure head height. New is <span class="torq">146.1 mm</span>; minimum is <span class="torq">145.6 mm</span>. That leaves 0.5 mm total for machining over the life of the head.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/head-height.png"><img src="img/volvo-940-b230fd-head-gasket/head-height.png" width="512" height="230" loading="lazy" alt="Cylinder head with the height dimension marked"></a><figcaption>Manual figure: Cylinder Head Height Check</figcaption></figure></li>
     <li class="step"><p>Clean and check the spark plug threads.</p></li>
-    <li class="step"><p>Check the timing belt tensioner. The bearing must not be worn and the roller face must not be damaged. A damaged roller face means <strong>both roller and belt</strong> get replaced.</p></li>
+    <li class="step"><p>Check the timing belt tensioner. The bearing must not be worn and the roller face must not be damaged. A damaged roller face means <strong>both roller and belt</strong> get replaced.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/tensioner-check.jpg"><img src="img/volvo-940-b230fd-head-gasket/tensioner-check.jpg" width="1232" height="671" loading="lazy" alt="Photo of the tensioner roller with arrows on the bearing and running face"></a><figcaption>Manual figure: Timing Belt Tensioner. Arrows mark the bearing and the roller running face.</figcaption></figure></li>
   </ol>
   <div class="callout c-bad">
     <span class="tag">Scrap limit</span>
@@ -217,6 +225,7 @@ tbody tr:last-child td{border-bottom:none;}
   <div class="callout c-note">
     <span class="tag">Head bolts</span>
     <p>Replace any bolt whose center section shows stretch. Do not reuse bolts more than <strong>5 times</strong>. The manual's words: if in doubt, fit new bolts. On a car this old you don't know the count, so buy the set.</p>
+    <figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/head-bolt.png"><img src="img/volvo-940-b230fd-head-gasket/head-bolt.png" width="96" height="324" loading="lazy" alt="Head bolt with a reduced-diameter center section"></a><figcaption>Manual figure: Cylinder Head Bolt. Check the narrow center section for stretch.</figcaption></figure>
   </div>
 </section>
 
@@ -225,7 +234,7 @@ tbody tr:last-child td{border-bottom:none;}
   <div class="rule"></div>
   <ol class="steps">
     <li class="step"><p>Confirm <strong>No. 1 piston at TDC</strong> and the cam at <strong>TDC firing for No. 1</strong>. These should not have moved since removal.</p></li>
-    <li class="step"><p>Lay the new head gasket down and set the head on it.</p></li>
+    <li class="step"><p>Lay the new head gasket down and set the head on it.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/head-install.png"><img src="img/volvo-940-b230fd-head-gasket/head-install.png" width="688" height="360" loading="lazy" alt="Head lowering onto a new gasket, No. 1 piston at TDC, arrow on the coolant pump O-ring"></a><figcaption>Manual figure: Installing Cylinder Head. Arrow on the block marks the coolant pump O-ring.</figcaption></figure></li>
     <li class="step"><p>Check that the <strong>coolant pump O-ring</strong> sits in its groove.</p></li>
     <li class="step"><p><strong>Oil the head bolts.</strong> Every torque in this manual assumes oiled threads; dry or washed bolts give a false reading.</p></li>
     <li class="step"><p>Torque every bolt in the tightening order to <span class="torq">20 Nm</span>.</p></li>
@@ -239,20 +248,20 @@ tbody tr:last-child td{border-bottom:none;}
 
   <h3>Timing belt on</h3>
   <ol class="steps">
-    <li class="step"><p>Install the camshaft gear and spacer washer, holding it with <strong>5034</strong>. Gear bolt is <span class="torq">50 Nm</span>.</p></li>
-    <li class="step"><p>Install the tensioner stud, then the tensioner, washer and nut.</p></li>
-    <li class="step"><p>Set the gears to their marks and point the rotor at the mark on the distributor.</p></li>
+    <li class="step"><p>Install the camshaft gear and spacer washer, holding it with <strong>5034</strong>. Gear bolt is <span class="torq">50 Nm</span>.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/cam-gear-5034.png"><img src="img/volvo-940-b230fd-head-gasket/cam-gear-5034.png" width="768" height="626" loading="lazy" alt="Tool 5034 holding the cam gear while the bolt is tightened"></a><figcaption>Manual figure: Camshaft Pulley, counterhold 5034</figcaption></figure></li>
+    <li class="step"><p>Install the tensioner stud, then the tensioner, washer and nut.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/tensioner-stud.jpg"><img src="img/volvo-940-b230fd-head-gasket/tensioner-stud.jpg" width="1456" height="1020" loading="lazy" alt="Photo of the tensioner stud on the block"></a><figcaption>Manual figure: Timing Belt Tensioner Stud</figcaption></figure></li>
+    <li class="step"><p>Set the gears to their marks and point the rotor at the mark on the distributor.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/timing-marks-distributor.jpg"><img src="img/volvo-940-b230fd-head-gasket/timing-marks-distributor.jpg" width="848" height="800" loading="lazy" alt="Timing belt drawing with cam and crank marks, inset of the distributor rotor pointing at its housing mark"></a><figcaption>Manual figure: gear marks and the distributor rotor mark (inset, upper right)</figcaption></figure></li>
     <li class="step"><p>Put the belt around the crank gear and the intermediate shaft gear first. Then stretch it over the cam gear and the tensioner.</p></li>
     <li class="step"><p>Pull the 3 mm drill out of the tensioner.</p></li>
     <li class="step"><p>Recheck: gear marks opposite the engine marks, rotor opposite the distributor mark.</p></li>
-    <li class="step"><p>Turn the engine <strong>clockwise</strong> to TDC. Back the tensioner nut off about <strong>one turn</strong> so the spring sets the tension, then retighten it.</p></li>
-    <li class="step"><p>Refit the upper timing cover (10 mm M6, 12 mm M8, Phillips screw).</p></li>
+    <li class="step"><p>Turn the engine <strong>clockwise</strong> to TDC. Back the tensioner nut off about <strong>one turn</strong> so the spring sets the tension, then retighten it.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/tensioner-nut.png"><img src="img/volvo-940-b230fd-head-gasket/tensioner-nut.png" width="368" height="460" loading="lazy" alt="Wrench on the tensioner nut with a two-way arrow"></a><figcaption>Manual figure: slackening the tensioner nut so the spring sets belt tension</figcaption></figure></li>
+    <li class="step"><p>Refit the upper timing cover (10 mm M6 (1), 12 mm M8 (2), Phillips screw (3)).</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/upper-timing-cover.jpg"><img src="img/volvo-940-b230fd-head-gasket/upper-timing-cover.jpg" width="1456" height="1078" loading="lazy" alt="Photo of the upper timing cover with fasteners numbered 1, 2 and 3"></a><figcaption>Manual figure: Timing Gear Belt Upper Cover. 1 = 10 mm M6, 2 = 12 mm M8, 3 = Phillips.</figcaption></figure></li>
   </ol>
 
   <h3>Top end back together</h3>
   <ol class="steps">
-    <li class="step"><p>Check valve clearance. Spec is the same for intake and exhaust; see the table below. If it's out, adjust with shims.</p></li>
-    <li class="step"><p>Valve cover and gasket on.</p></li>
+    <li class="step"><p>Check valve clearance. Spec is the same for intake and exhaust; see the table below. If it's out, adjust with shims.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/valve-clearance.png"><img src="img/volvo-940-b230fd-head-gasket/valve-clearance.png" width="624" height="392" loading="lazy" alt="Feeler gauge between a cam lobe and its tappet"></a><figcaption>Manual figure: Checking Valve Clearance</figcaption></figure></li>
+    <li class="step"><p>Valve cover and gasket on.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/valve-cover.png"><img src="img/volvo-940-b230fd-head-gasket/valve-cover.png" width="592" height="446" loading="lazy" alt="Exploded view of the valve cover above its gasket"></a><figcaption>Manual figure: Valve Cover &amp; Gasket</figcaption></figure></li>
     <li class="step"><p>Set the distributor on the head, turn the rotor while pressing it in until the shaft drops into the <strong>camshaft recess</strong>, then fit the hold-down bolt and cap.</p></li>
     <li class="step"><p>Reconnect the ground lead.</p></li>
     <li class="step"><p>Refit everything else to the head and intake manifold. Coolant pump pulley, belts, fan shroud and fan go back in reverse of removal.</p></li>
@@ -267,7 +276,7 @@ tbody tr:last-child td{border-bottom:none;}
     <li class="step"><p>Warm the engine up.</p></li>
     <li class="step"><p>Check and adjust ignition timing, idle speed and CO.</p></li>
     <li class="step"><p>Check the cooling system for leaks and top it up.</p></li>
-    <li class="step"><p>Engine off. Re-tension the timing belt: pull the rubber plug in the timing cover, turn the engine to TDC, slacken the tensioner nut, let the spring take up the slack, tighten the nut, refit the plug.</p></li>
+    <li class="step"><p>Engine off. Re-tension the timing belt: pull the rubber plug in the timing cover, turn the engine to TDC, slacken the tensioner nut, let the spring take up the slack, tighten the nut, refit the plug.</p><figure class="fig"><a class="plate" href="img/volvo-940-b230fd-head-gasket/final-retension.jpg"><img src="img/volvo-940-b230fd-head-gasket/final-retension.jpg" width="976" height="727" loading="lazy" alt="Photo of a ratchet on the engine with a two-way rotation arrow"></a><figcaption>Manual figure from Final Checks/Adjustments, unlabeled in the manual: turning the engine by hand with a ratchet</figcaption></figure></li>
     <li class="step"><p>After about <strong>1,000 km (600 miles)</strong>, re-tension the timing belt again.</p></li>
   </ol>
 </section>
@@ -297,7 +306,7 @@ tbody tr:last-child td{border-bottom:none;}
   <button class="reset" id="reset" type="button">Clear all checkmarks</button>
 </section>
 
-<p class="foot">Source: LEMON manual for the 1994 Volvo 940 L4-2320cc 2.3L SOHC VIN 83 B230FD, Repair and Diagnosis: Cylinder Head Assembly (Removal, Cleaning/Inspection, Installing, Tightening Torques), Engine Tightening Specifications, Valve Clearance specifications, Coolant capacity, and Cooling System Head Gasket Failure diagnostics. Served from the local manuals box.</p>
+<p class="foot">Source: LEMON manual for the 1994 Volvo 940 L4-2320cc 2.3L SOHC VIN 83 B230FD, Repair and Diagnosis: Cylinder Head Assembly (Removal, Cleaning/Inspection, Installing, Tightening Torques), Engine Tightening Specifications, Valve Clearance specifications, Coolant capacity, and Cooling System Head Gasket Failure diagnostics. Figures are the manual's own scans; tap one to open it full size. Served from the local manuals box.</p>
 
 </div>
 
@@ -325,7 +334,7 @@ tbody tr:last-child td{border-bottom:none;}
     if(saved[i])s.classList.add('done');
     s.setAttribute('aria-checked',s.classList.contains('done'));
     function toggle(){s.classList.toggle('done');s.setAttribute('aria-checked',s.classList.contains('done'));save();render();}
-    s.addEventListener('click',toggle);
+    s.addEventListener('click',function(e){if(!e.target.closest('.fig'))toggle();});
     s.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'){e.preventDefault();toggle();}});
   });
   document.getElementById('reset').addEventListener('click',function(){
