@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1B1917">
+<title>Ram 1500 Right Front</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Tokens from style-guide.json. Always dark; no light theme. */
+:root{
+  --bg:#1B1917; --card:#232019; --text:#ECE8E0; --muted:#B6AFA0;
+  --line:#3A362F; --field:#1B1917;
+  --accent:#7BAFA9; --accent-soft:#243B37; --accent-ink:#BFE0DA; --on-accent:#13201E;
+  --good:#7BAFA9; --good-bg:#243B37;
+  --warn:#D9A95B; --warn-bg:#3A2F1C;
+  --bad:#D97A7A; --bad-bg:#3B2323;
+  --idle-bg:#2C2923; --track:#3A362F; --plate:#FFFFFF;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;background:var(--bg);color:var(--text);
+  font:16px/1.5 "Barlow",system-ui,Arial,sans-serif;-webkit-text-size-adjust:100%;}
+h1,h2,h3,.eyebrow,nav.jump a,th{font-family:"Barlow Condensed","Arial Narrow",sans-serif;}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px calc(48px + env(safe-area-inset-bottom));}
+
+.topbar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:3px solid var(--accent);}
+.topbar-inner{max-width:720px;margin:0 auto;padding:calc(12px + env(safe-area-inset-top)) 16px 4px;}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0;}
+.topbar h1{font-size:24px;font-weight:700;letter-spacing:.01em;line-height:1.1;color:var(--accent-ink);margin:2px 0 0;}
+.progress{display:flex;align-items:center;gap:10px;margin:8px 0 0;}
+.bar{flex:1;height:10px;border-radius:5px;background:var(--track);overflow:hidden;}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s;}
+.count{font:600 12px "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;color:var(--muted);white-space:nowrap;}
+nav.jump{display:flex;gap:6px;overflow-x:auto;padding:8px 16px 10px;max-width:720px;margin:0 auto;scrollbar-width:none;}
+nav.jump::-webkit-scrollbar{display:none;}
+nav.jump a{flex:0 0 auto;font-size:15px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;background:var(--card);border:1px solid var(--line);border-radius:8px;
+  padding:8px 12px;line-height:1;display:flex;align-items:center;min-height:36px;}
+nav.jump a:hover{border-color:var(--accent);color:var(--accent);}
+nav.jump a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+section{padding-top:32px;scroll-margin-top:150px;}
+h2{font-size:26px;font-weight:700;line-height:1.1;color:var(--accent-ink);margin:0;text-wrap:balance;}
+h3{font-size:19px;font-weight:700;color:var(--accent-ink);margin:26px 0 8px;}
+.rule{height:3px;background:var(--accent);width:40px;margin:8px 0 12px;border-radius:2px;}
+.sub{color:var(--muted);font-size:15px;margin:4px 0 14px;}
+p{margin:0 0 12px;}
+strong{color:var(--text);font-weight:700;}
+a{color:var(--accent);}
+
+ol.steps,ul.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+.step{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--line);border-radius:10px;
+  padding:12px 14px;display:grid;grid-template-columns:28px 1fr;gap:10px;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;transition:border-color .15s,opacity .15s;}
+.step .n{font:600 13px "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;color:var(--muted);
+  width:26px;height:26px;border:1px solid var(--line);border-radius:999px;display:flex;align-items:center;justify-content:center;}
+.step p{margin:0;font-size:16px;}
+.step p + p{margin-top:6px;}
+.step.done{border-left-color:var(--good);opacity:.62;}
+.step.done .n{background:var(--good-bg);border-color:var(--good);color:var(--good);}
+.step:focus-visible{outline:2px solid var(--accent);outline-offset:-1px;}
+.step.static{cursor:default;}
+.step.static .n{font-size:15px;}
+
+.torq{font:600 .92em "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
+  color:var(--accent-ink);background:var(--accent-soft);padding:1px 6px;border-radius:6px;white-space:nowrap;}
+code{font:500 .9em "IBM Plex Mono",monospace;background:var(--idle-bg);padding:1px 5px;border-radius:6px;}
+
+.callout{border-radius:8px;padding:10px 12px;margin:14px 0 0;font-size:15px;border-left:4px solid;}
+.callout .tag{display:block;font:700 12px "Barlow Condensed",sans-serif;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
+.callout p{margin:0;} .callout p + p{margin-top:8px;}
+.c-warn{background:var(--warn-bg);border-color:var(--warn);} .c-warn .tag{color:var(--warn);}
+.c-note{background:var(--accent-soft);border-color:var(--accent);} .c-note .tag{color:var(--accent-ink);}
+.c-bad{background:var(--bad-bg);border-color:var(--bad);} .c-bad .tag{color:var(--bad);}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);margin-top:10px;}
+table{border-collapse:collapse;width:100%;font-size:14px;}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;}
+th{font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+td{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;}
+td:first-child{font-family:"Barlow",sans-serif;}
+td:last-child{white-space:nowrap;}
+td em{font-style:normal;color:var(--muted);font-size:12px;display:block;}
+tbody tr:last-child td{border-bottom:none;}
+tr.hit td{background:var(--accent-soft);}
+
+.fig{margin:10px 0 0;}
+.fig .plate{display:block;background:var(--plate);border-radius:8px;padding:8px;}
+.fig img{display:block;max-width:100%;height:auto;margin:0 auto;}
+.fig figcaption{font-size:12px;line-height:1.35;color:var(--muted);margin-top:5px;}
+.callout .fig{margin-top:10px;}
+
+.tools{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px;}
+.tools li{display:grid;grid-template-columns:5.6rem 1fr;gap:10px;align-items:baseline;font-size:15px;}
+.tools code{text-align:center;}
+
+.reset{font:inherit;font-size:13px;background:none;border:0;color:var(--accent);text-decoration:underline;padding:0;cursor:pointer;margin-top:10px;}
+.foot{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <p class="eyebrow">2005 Ram 1500 &middot; 4x4 LD &middot; 4.7L V8 &middot; Right front</p>
+    <h1>Knuckle rebuild, resume at install</h1>
+    <div class="progress" aria-live="polite"><div class="bar"><i id="fill"></i></div><span class="count" id="count">0 / 0</span></div>
+  </div>
+  <nav class="jump">
+    <a href="../index.html">&larr; All guides</a>
+    <a href="#status">Where you are</a>
+    <a href="#survey">Damage survey</a>
+    <a href="#install">Install</a>
+    <a href="#ground">On the ground</a>
+    <a href="#torque">Torque</a>
+    <a href="#pack">Pack list</a>
+    <a href="#align">Alignment</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+<section id="status" style="padding-top:18px;">
+  <h2>Where you are</h2>
+  <div class="rule"></div>
+  <p class="sub">Lower ball joint replaced, upper control arm and its pivot bolts removed. Tap a step to check it off. Checkmarks are saved on this device and browser only, so a phone and a laptop each keep their own progress.</p>
+
+  <ul class="steps">
+    <li class="step static done"><span class="n">&#10003;</span><div><p>Lower ball joint pressed out of the lower control arm and the new one pressed in.</p></div></li>
+    <li class="step static done"><span class="n">&#10003;</span><div><p>Upper control arm and pivot bolts removed.</p></div></li>
+  </ul>
+
+  <div class="callout c-note">
+    <span class="tag">All numbers checked against the 2005 manual</span>
+    <p>Every torque, ride height and alignment value below was read again from the 2005 RAM 1500 4WD book. The ball joint nuts (<span class="torq">38 + 90&deg;</span> lower, <span class="torq">40 + 90&deg;</span> upper), the tie rod nut (<span class="torq">45 + 90&deg;</span>), the upper arm pivot bolts (<span class="torq">97 ft-lb</span>), hub bolts (<span class="torq">120 ft-lb</span>) and the halfshaft nut (<span class="torq">185 ft-lb</span>) all match.</p>
+    <p>One conflict inside the book: the knuckle installation text says tie rod end nut 45 ft-lb with no angle, while the suspension torque table lists 45 ft-lb then an additional 90&deg;. This guide follows the table, since the same turn is required on the ball joint nuts and the steering table gives the same figure.</p>
+  </div>
+  <div class="callout c-warn">
+    <span class="tag">Dropped from the earlier version</span>
+    <p>Hose fitting, hose bracket and bleed screw torques, book times and the differential capacity are gone. They did not turn up in the 2005 book pages pulled for this job, so they are not repeated here.</p>
+  </div>
+</section>
+
+<section id="survey">
+  <h2>Damage survey</h2>
+  <div class="rule"></div>
+
+  <div class="callout c-bad">
+    <span class="tag">Read this before you bolt anything on</span>
+    <p>A steering knuckle is a forged part carrying the whole corner. It does not snap from wear. Whatever load broke it went somewhere else too, and the parts it went into are the ones you are about to torque a new assembly onto.</p>
+    <p>The manual carries a suspension bulletin titled Steering/Suspension - Wheel Hub/Bearing Inspection COLL. The hub and bearing are new here, so that part is covered.</p>
+  </div>
+  <div class="callout c-note">
+    <span class="tag">Where this list comes from</span>
+    <p>The manual has no procedure for a snapped knuckle. These seven checks are my read on where the load travels, not text from the book. The install, torque and alignment sections are from the manual.</p>
+  </div>
+
+  <ol class="steps" style="margin-top:14px;">
+    <li class="step" data-k="d1"><p><strong>Steering first.</strong> The steering arm is part of the knuckle casting, so the tie rod took the shock directly. Check the tie rod for a bend, the inner tie rod for play, the rack bellows for tears and the rack mounting for movement. A bent tie rod that looks fine will not let you set toe.</p></li>
+    <li class="step" data-k="d2"><p><strong>Lower control arm and the new ball joint.</strong> Look for cracks around the boss, a bend in the arm, and confirm the flange is staked in four places (LD). A damaged arm means a new arm, not a new joint.</p></li>
+    <li class="step" data-k="d3"><p><strong>Frame brackets, both arms.</strong> The upper brackets carry the slotted holes that are your only camber and caster adjustment. A tweaked bracket means the alignment will not come in or stay in.</p></li>
+    <li class="step" data-k="d4"><p><strong>Inner axle shaft and housing.</strong> Check the shaft splines, the axle seal, and that the shaft was not pulled partway out of the differential when the corner came apart.</p></li>
+    <li class="step" data-k="d5"><p><strong>Everything that rides on the knuckle.</strong> Brake hose stretched or chafed, ABS sensor and harness yanked, caliper adapter bracket bent, dust shield mangled. The adapter and shield transfer to the new knuckle, so confirm they are usable before you start.</p></li>
+    <li class="step" data-k="d6"><p><strong>The rest of the corner.</strong> Wheel for a bent flange, tire sidewall, rotor, shock body and lower mount, stabilizer link, torsion bar anchor and adjuster.</p></li>
+    <li class="step" data-k="d7"><p><strong>Decide why it broke.</strong> A ball joint separated and the wheel folded under, which stays contained to this corner. Or it hit something hard enough to break a forging, in which case check the left front and sight down both frame rails before you spend more time on this side.</p></li>
+  </ol>
+</section>
+
+<section id="install">
+  <h2>Install</h2>
+  <div class="rule"></div>
+  <p class="sub">Order follows the manual's knuckle installation, with the upper arm and caliper adapter added.</p>
+
+  <h3>Prep</h3>
+  <ol class="steps">
+    <li class="step" data-k="s1"><p><strong>Clear the wreckage.</strong> Get casting fragments off both ball joint studs and the halfshaft. If a stud is captured in a chunk of knuckle, put separator <code>8677</code> on the stud rather than beating on it.</p><p>Recover the caliper adapter bracket and brake dust shield from the old knuckle. Both transfer to the new one.</p></li>
+    <li class="step" data-k="s2"><p><strong>Jack under the lower control arm.</strong> Nothing ties it to the upper arm now. Raise the jack until the rebound bumper is unloaded and leave it there until the new knuckle is bolted on.</p></li>
+  </ol>
+
+  <h3>Upper control arm</h3>
+  <ol class="steps">
+    <li class="step" data-k="s3"><p><strong>New upper control arm into the frame brackets.</strong> Install both pivot bolts and snug them. If you marked the bolt positions against the slots before pulling the old arm, set them to your marks.</p><p>The manual's install torque for these bolts is <span class="torq">97 ft-lb</span> (LD). Leave final torque until alignment is set, because those slots are the camber and caster adjustment.</p>
+      <figure class="fig"><a class="plate" href="img/dodge-ram-1500-rf-knuckle/upper-arm-install.png"><img src="img/dodge-ram-1500-rf-knuckle/upper-arm-install.png" width="736" height="508" loading="lazy" alt="Upper control arm in the frame brackets with pivot bolts 1 and 2 and the arm labeled 3"></a><figcaption>Manual figure: Upper Control Arm installation. 1 and 2 are the pivot bolts, 3 is the control arm.</figcaption></figure></li>
+  </ol>
+  <div class="callout c-note">
+    <span class="tag">Arm falls inboard</span>
+    <p>With the bolts loose the arm drops toward the frame under the vehicle's weight. That is normal. Tool <code>8876</code> pushes it back outboard during alignment.</p>
+  </div>
+
+  <h3>Knuckle on the bench</h3>
+  <ol class="steps">
+    <li class="step" data-k="s4"><p><strong>Caliper adapter onto the new knuckle, <span class="torq">130 ft-lb</span>.</strong> The manual gives 130 for LD and 250 for HD. This is an LD 1500.</p></li>
+    <li class="step" data-k="s5"><p><strong>Dust shield, then the hub/bearing, <span class="torq">120 ft-lb</span>.</strong> Three bolts (LD; HD 4x2 is 130). On an ABS truck the <strong>speed sensor opening faces the front of the vehicle</strong>.</p>
+      <figure class="fig"><a class="plate" href="img/dodge-ram-1500-rf-knuckle/knuckle-install.png"><img src="img/dodge-ram-1500-rf-knuckle/knuckle-install.png" width="688" height="494" loading="lazy" alt="Steering knuckle with hub, the lower control arm and ball joint, and the ball joint nut"></a><figcaption>Manual figure: Knuckle installation. 1 is the knuckle, 2 the lower control arm, 3 the ball joint nut.</figcaption></figure></li>
+    <li class="step" data-k="s6"><p><strong>Clean both ball joint stud tapers.</strong> Mineral spirits, then dry. The manual cautions that the tapers must be clean and dry before the knuckle goes on.</p></li>
+  </ol>
+
+  <h3>Knuckle on the truck</h3>
+  <ol class="steps">
+    <li class="step" data-k="s7"><p><strong>Knuckle onto the upper and lower ball joints.</strong> Lower nut <span class="torq">38 ft-lb then 90&deg;</span>. Upper nut <span class="torq">40 ft-lb then 90&deg;</span>. The extra turn applies to 1500 series only, which is what you have. See the angle note below.</p></li>
+    <li class="step" data-k="s8"><p><strong>Lower shock bolt, <span class="torq">100 ft-lb</span>,</strong> if it came off. Then lower the jack away from the lower arm.</p></li>
+    <li class="step" data-k="s9"><p><strong>Tie rod end into the knuckle, <span class="torq">45 ft-lb then 90&deg;</span>.</strong></p></li>
+    <li class="step" data-k="s10"><p><strong>Halfshaft into the hub, then the halfshaft nut, <span class="torq">185 ft-lb</span>.</strong> Seat the inner joint on the axle shaft. Never grab the shaft by its boots; the manual warns that puckering or creasing a boot shortens its life. Keep brake fluid, gear oil and gasoline off the boots.</p></li>
+    <li class="step" data-k="s11"><p><strong>ABS sensor, rotor, caliper.</strong> Caliper slide pin bolts <span class="torq">24 ft-lb</span>. If the hose came off, banjo bolt <span class="torq">20 ft-lb</span> with <strong>new copper washers</strong>, hose not twisted or kinked, and bleed the base brake system. Never let the caliper hang from the hose.</p></li>
+    <li class="step" data-k="s12"><p><strong>Wheel on.</strong> Lug nuts <span class="torq">135 ft-lb</span> (9/16 x 18, 60&deg; cone), star pattern.</p></li>
+  </ol>
+
+  <div class="callout c-warn">
+    <span class="tag">Do not hammer on the knuckle</span>
+    <p>Use separator <code>8677</code> on every taper. Be careful not to damage the ball joint seal when you fit it.</p>
+  </div>
+  <div class="callout c-note">
+    <span class="tag">Torque plus 90&deg;</span>
+    <p>Three fasteners here are a two-step spec: reach the torque, then turn the nut a further 90 degrees. A click wrench cannot measure the angle. Use a torque angle gauge, or paint-mark the nut and a point on the knuckle a quarter turn away and turn until they line up.</p>
+  </div>
+</section>
+
+<section id="ground">
+  <h2>On the ground</h2>
+  <div class="rule"></div>
+  <ol class="steps">
+    <li class="step" data-k="g1"><p><strong>Remove the support and lower the truck.</strong> Jounce the front end, check tire pressures first.</p></li>
+    <li class="step" data-k="g2"><p><strong>Measure ride height, both sides.</strong> The manual says height must be measured and adjusted before an alignment, and whenever front suspension parts have been replaced, with the truck on its own weight. Measure ground to the front spindle centerline and ground to the front tip of the rear lower control arm bolt, then subtract. Target <span class="torq">58 mm &plusmn;3</span> (55 to 61 mm).</p>
+      <figure class="fig"><a class="plate" href="img/dodge-ram-1500-rf-knuckle/ride-height.png"><img src="img/dodge-ram-1500-rf-knuckle/ride-height.png" width="736" height="502" loading="lazy" alt="Front suspension with arrows from the ground to the spindle centerline and to the lower control arm bolt"></a><figcaption>Manual figure: Height Measurement, 4WD (LD). 1 is the spindle centerline height, 2 the lower arm bolt front tip, 3 the ground.</figcaption></figure></li>
+    <li class="step" data-k="g3"><p><strong>Adjust with the torsion bar bolt if it is out.</strong> Over 61 mm, tighten the bolt. Under 55 mm, loosen it. Re-measure both sides after any change.</p></li>
+    <li class="step" data-k="g4"><p><strong>Alignment, then final torque on the upper arm pivot bolts, <span class="torq">97 ft-lb</span>.</strong> Set camber and caster first, toe last. The manual says to tighten the upper control arm nuts to spec after the adjustment is made.</p></li>
+  </ol>
+  <div class="callout c-bad">
+    <span class="tag">Arrive from below</span>
+    <p>The manual is explicit: always raise the truck to the correct height, never lower it to reach the spec. If it ends up too high, take it below spec first, then bring it back up. Clockwise on the torsion bar adjuster raises, counterclockwise lowers.</p>
+  </div>
+</section>
+
+<section id="torque">
+  <h2>Torque specs</h2>
+  <div class="rule"></div>
+  <p class="sub">LD 1500 4x4 values from the manual. Shaded rows are what this rebuild touches.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Fastener</th><th>Spec</th></tr></thead>
+      <tbody>
+        <tr class="hit"><td>Upper ball joint nut <em>1500 series</em></td><td>40 ft-lb + 90&deg; <em>54 Nm + 90&deg;</em></td></tr>
+        <tr class="hit"><td>Lower ball joint nut <em>1500 series</em></td><td>38 ft-lb + 90&deg; <em>52 Nm + 90&deg;</em></td></tr>
+        <tr class="hit"><td>Tie rod end nut</td><td>45 ft-lb + 90&deg; <em>61 Nm + 90&deg;</em></td></tr>
+        <tr class="hit"><td>Upper arm pivot bolts <em>LD, final after alignment</em></td><td>97 ft-lb <em>132 Nm</em></td></tr>
+        <tr class="hit"><td>Hub/bearing bolts <em>LD</em></td><td>120 ft-lb <em>163 Nm</em></td></tr>
+        <tr class="hit"><td>Halfshaft nut</td><td>185 ft-lb <em>251 Nm</em></td></tr>
+        <tr class="hit"><td>Caliper adapter bolts <em>front, LD</em></td><td>130 ft-lb <em>176 Nm</em></td></tr>
+        <tr class="hit"><td>Caliper slide pin bolts <em>front</em></td><td>24 ft-lb <em>32 Nm</em></td></tr>
+        <tr class="hit"><td>Caliper banjo bolt <em>front, new copper washers</em></td><td>20 ft-lb <em>27 Nm</em></td></tr>
+        <tr class="hit"><td>Lug nuts <em>1500 LD, 9/16 x 18, 60&deg; cone</em></td><td>135 ft-lb <em>183 Nm</em></td></tr>
+        <tr><td>Shock lower bolt <em>4x4</em></td><td>100 ft-lb <em>135 Nm</em></td></tr>
+        <tr><td>Shock upper nut <em>4x4</em></td><td>40 ft-lb <em>54 Nm</em></td></tr>
+        <tr><td>Lower arm frame nuts <em>LD</em></td><td>150 ft-lb <em>204 Nm</em></td></tr>
+        <tr><td>Stabilizer link to lower arm</td><td>75 ft-lb <em>102 Nm</em></td></tr>
+        <tr><td>Stabilizer link to bar</td><td>20 ft-lb <em>27 Nm</em></td></tr>
+        <tr><td>Stabilizer bar frame bolt</td><td>45 ft-lb <em>61 Nm</em></td></tr>
+        <tr><td>Tie rod jam nut</td><td>55 ft-lb <em>75 Nm</em></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <figure class="fig"><a class="plate" href="img/dodge-ram-1500-rf-knuckle/suspension-torque-table.png"><img src="img/dodge-ram-1500-rf-knuckle/suspension-torque-table.png" width="1536" height="1744" loading="lazy" alt="Manual independent front suspension torque table"></a><figcaption>Manual table: Front, Independent Front Suspension torque specifications</figcaption></figure>
+  <figure class="fig"><a class="plate" href="img/dodge-ram-1500-rf-knuckle/tie-rod-torque.png"><img src="img/dodge-ram-1500-rf-knuckle/tie-rod-torque.png" width="1536" height="184" loading="lazy" alt="Manual table: tie rod end nut 61 Nm then an additional 90 degrees, 45 ft-lb then an additional 90 degrees"></a><figcaption>Manual table: Independent Front Suspension steering torque, tie rod end nut</figcaption></figure>
+
+  <div class="callout c-warn">
+    <span class="tag">A number that does not apply</span>
+    <p>The link/coil steering table lists a different tie rod end value. That table is for the solid axle 2500 and 3500. Your 1500 uses the independent front suspension value above.</p>
+  </div>
+</section>
+
+<section id="pack">
+  <h2>Pack list</h2>
+  <div class="rule"></div>
+  <p class="sub">Tap to check off. The ball joint press is not on the list now that the lower joint is in. You are bringing the 2863, the 2562, an electric ratchet, and 1/2 and 3/8 torque wrenches. This is the rest.</p>
+
+  <ul class="steps">
+    <li class="step" data-k="p1"><p><strong>Torque angle gauge, 1/2 in drive.</strong> Or a paint marker for mark and turn. Needed for three fasteners.</p></li>
+    <li class="step" data-k="p2"><p><strong>Second jack for the lower control arm.</strong> Separate from whatever holds the truck up.</p></li>
+    <li class="step" data-k="p3"><p><strong>Jack stands and wheel chocks.</strong> Two stands minimum.</p></li>
+    <li class="step" data-k="p4"><p><strong>Ball joint and tie rod separator.</strong> Chrysler tool <code>8677</code> or a pickle fork.</p></li>
+    <li class="step" data-k="p5"><p><strong>Sockets for the nuts.</strong> The manual does not list head sizes, so check against the old nuts. Impact-rated only on the 2863.</p></li>
+    <li class="step" data-k="p6"><p><strong>Breaker bar.</strong> Backup for anything the 2863 argues with.</p></li>
+    <li class="step" data-k="p7"><p><strong>Paint marker or scribe, and a tape measure.</strong> UCA bolt positions and the ride height check.</p></li>
+    <li class="step" data-k="p8"><p><strong>Mineral spirits or brake cleaner.</strong> Stud tapers must end up clean and dry.</p></li>
+    <li class="step" data-k="p9"><p><strong>Brake bleeder, fluid, and new copper washers for the banjo bolt.</strong> The manual requires a base brake bleed if the hose comes off. Use the fluid type on the reservoir cap.</p></li>
+    <li class="step" data-k="p10"><p><strong>Tool 8876 or a shop equivalent.</strong> Pushes the upper arm outboard during alignment. The alignment shop normally has it.</p></li>
+    <li class="step" data-k="p11"><p><strong>Penetrating oil, wire brush, rags, gloves.</strong></p></li>
+  </ul>
+
+  <h3>Chrysler tool numbers</h3>
+  <ul class="tools">
+    <li><code>8677</code><span>Ball joint and tie rod separator.</span></li>
+    <li><code>8876</code><span>Pulls the upper control arm outboard during alignment. On 1500 4x4 it goes between the top of the bracket and the arm.</span></li>
+    <li><code>8686</code><span>Torsion bar unloader. Only if the lower control arm comes off.</span></li>
+  </ul>
+</section>
+
+<section id="align">
+  <h2>Alignment</h2>
+  <div class="rule"></div>
+  <p>1500 4x4. Caster 4.0&deg; minimum with +0.75&deg; maximum, camber &plusmn;0.50&deg;, total toe-in &plusmn;0.10&deg;.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Wheelbase</th><th>Caster</th><th>Camber</th><th>Total toe-in</th></tr></thead>
+      <tbody>
+        <tr><td>120.5 in</td><td>4.2&deg;</td><td>0.0&deg;</td><td>0.10&deg;</td></tr>
+        <tr><td>140.5 in</td><td>4.4&deg;</td><td>0.0&deg;</td><td>0.10&deg;</td></tr>
+        <tr><td>160.5 in</td><td>4.6&deg;</td><td>0.0&deg;</td><td>0.10&deg;</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="sub" style="margin-top:10px;">Max right to left difference, 1500 4x4: caster 0.40&deg;, camber 0.60&deg;, toe 0.06&deg;. Rear: camber -0.10&deg; &plusmn;0.35&deg;, total toe-in 0.30&deg; &plusmn;0.35&deg;. Thrust angle 0&deg; &plusmn;0.4&deg;.</p>
+  <figure class="fig"><a class="plate" href="img/dodge-ram-1500-rf-knuckle/alignment-specs.png"><img src="img/dodge-ram-1500-rf-knuckle/alignment-specs.png" width="1440" height="1598" loading="lazy" alt="Manual alignment specification table for 1500 and 2500/3500 trucks, front and rear"></a><figcaption>Manual table: Alignment Specifications. The 1500 4x4 rows are the ones that apply.</figcaption></figure>
+
+  <h3>How the adjustment works</h3>
+  <p>To change caster while holding camber, move one upper arm pivot bolt in and the other out. To raise positive caster, move the rear of the arm inward and the front slightly outward until the original camber returns. To change camber, move both pivot bolts together in or out. Toe is last.</p>
+  <figure class="fig"><a class="plate" href="img/dodge-ram-1500-rf-knuckle/caster-camber-arm.png"><img src="img/dodge-ram-1500-rf-knuckle/caster-camber-arm.png" width="736" height="502" loading="lazy" alt="Upper control arm in its frame brackets with the pivot bolts at the slotted holes"></a><figcaption>Manual figure: Camber and caster adjustment. 1 and 2 are the pivot bolts, 3 the slotted bracket holes, 4 the upper control arm.</figcaption></figure>
+  <figure class="fig"><a class="plate" href="img/dodge-ram-1500-rf-knuckle/toe-jam-nut.png"><img src="img/dodge-ram-1500-rf-knuckle/toe-jam-nut.png" width="688" height="498" loading="lazy" alt="Tie rod end with jam nut 1, inner tie rod 2 and outer tie rod 3"></a><figcaption>Manual figure: Toe adjustment. 1 is the jam nut, 2 the inner tie rod, 3 the tie rod end.</figcaption></figure>
+  <p style="margin-top:12px;">For toe, run the engine, turn the wheels both ways, then secure the steering wheel straight ahead. Each front wheel gets half the total spec. Tighten the jam nut to <span class="torq">55 ft-lb</span>.</p>
+
+  <div class="callout c-warn">
+    <span class="tag">Get a four wheel alignment</span>
+    <p>Thrust angle is specified at 0&deg; &plusmn;0.4&deg;. On a truck that broke a knuckle, that reading is the cheapest evidence you will get about whether anything structural moved. A shop that only sets front toe will not measure it.</p>
+  </div>
+
+  <h3>Brake reference</h3>
+  <div class="tablewrap">
+    <table>
+      <tbody>
+        <tr><td>Minimum front rotor thickness <em>LD</em></td><td>26.4 mm (1.039 in)</td></tr>
+        <tr><td>Front rotor, new <em>LD</em></td><td>336 x 28 mm</td></tr>
+        <tr><td>Rotor max runout</td><td>0.050 mm (0.002 in)</td></tr>
+        <tr><td>Rotor max thickness variation</td><td>0.012 mm (0.0005 in)</td></tr>
+        <tr><td>Ball joint wear limit <em>independent front, upper and lower</em></td><td>0.5 mm (0.02 in)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <button class="reset" id="reset" type="button">Clear all checkmarks</button>
+</section>
+
+<p class="foot">Source: LEMON manual for the 2005 RAM 1500 Truck 4WD V8-4.7L VIN N, Repair and Diagnosis: Upper Control Arm, Lower Control Arm, Lower Ball Joint, Front Steering Knuckle (Independent Front Suspension), Front Disc Brake Caliper, Front Disc Brake Caliper Adapter, Alignment (Height Measurement, Height Adjustment, Camber, Caster and Toe), Axle Shaft Service Precautions, and the Suspension, Steering, Alignment, Ride Height, Brake, Axle Nut and Lug Nut specifications. This is the only 4WD 1500 book published for 2005, so there is no engine variant to pick. All values are the LD 1500 column; the same tables carry HD 2500 and 3500 figures that do not apply. Figures are the manual's own scans; tap one to open it full size.</p>
+
+</div>
+
+<script>
+(function(){
+  var KEY='dodge-ram-1500-rf-knuckle';
+  var steps=[].slice.call(document.querySelectorAll('.step[data-k]'));
+  var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}
+  function render(){
+    var n=steps.filter(function(s){return s.classList.contains('done');}).length;
+    document.getElementById('count').textContent=n+' / '+steps.length;
+    document.getElementById('fill').style.width=(steps.length?100*n/steps.length:0)+'%';
+  }
+  function save(){
+    var o={};steps.forEach(function(s){if(s.classList.contains('done'))o[s.getAttribute('data-k')]=1;});
+    try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}
+  }
+  steps.forEach(function(s){
+    var k=s.getAttribute('data-k');
+    var n=document.createElement('span');n.className='n';n.textContent=[].indexOf.call(s.parentNode.children,s)+1;s.insertBefore(n,s.firstChild);
+    var body=document.createElement('div');
+    while(s.childNodes.length>1)body.appendChild(s.childNodes[1]);
+    s.appendChild(body);
+    s.tabIndex=0;s.setAttribute('role','checkbox');
+    if(saved[k])s.classList.add('done');
+    s.setAttribute('aria-checked',s.classList.contains('done'));
+    function toggle(){s.classList.toggle('done');s.setAttribute('aria-checked',s.classList.contains('done'));save();render();}
+    s.addEventListener('click',function(e){if(!e.target.closest('.fig'))toggle();});
+    s.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'){e.preventDefault();toggle();}});
+  });
+  document.getElementById('reset').addEventListener('click',function(){
+    steps.forEach(function(s){s.classList.remove('done');s.setAttribute('aria-checked','false');});save();render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
