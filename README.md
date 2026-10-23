@@ -14,4 +14,5 @@ Lemon manuals checklists/htmls for procedures
 Other files:
 
 - `index.html`: the guide list GitHub Pages serves at the site root.
+- `research/<guide-name>.json`: what each search for a guide found or failed to find, gaps no source covered, and where outside sources came from.
 - `style-guide.json`: colors, type and components shared by every guide page.
