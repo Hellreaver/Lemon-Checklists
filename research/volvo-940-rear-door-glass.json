@@ -342,6 +342,47 @@
       "query": "LKQ Pick Your Part price list \"door glass\" Tucson OR Phoenix",
       "outcome": "miss",
       "note": "Results were Hyundai Tucson parts."
+    },
+    {
+      "date": "2026-10-23",
+      "source": "web",
+      "tool": "WebSearch (extended)",
+      "query": "Volvo 940 sedan rear left door glass 1991-1995 price",
+      "outcome": "partial",
+      "note": "Search-result snippets, listings not opened: eBay used 940 sedan LH rear QUARTER glass $65 free shipping (body glass, not door); eBay used 940 WAGON rear left door glass $100.76 free shipping; glassrack/turbify aftermarket wagon passenger rear door glass $155.54."
+    },
+    {
+      "date": "2026-10-23",
+      "source": "web",
+      "tool": "curl Shopify product .json",
+      "url": "https://allumsimports.com/products/volvo-940-740-left-rear-door-glass-1325801",
+      "outcome": "used",
+      "note": "Used, $79.99 before shipping, 5443 g; 'Volvo 940 740 left rear door glass', part 1325801; does not say sedan or wagon; may have tint/writing/seals/trim. WebFetch got HTTP 429; the product JSON endpoint worked."
+    },
+    {
+      "date": "2026-10-23",
+      "source": "web",
+      "tool": "WebFetch",
+      "url": "https://www.tascaparts.com/v-1994-volvo-940--t--2-3l-l4-gas/body--glass-rear-door",
+      "outcome": "error_403"
+    },
+    {
+      "date": "2026-10-23",
+      "source": "web",
+      "tool": "WebSearch",
+      "query": "NAGS Volvo 740 940 sedan rear door glass left FD part number Pilkington XYG",
+      "outcome": "miss",
+      "note": "No NAGS/FD number found; listing OE numbers 3538982/9447755 (1992-95 740 LH), 2724300 (1985-91 740 4dr LH rear door), unverified."
+    },
+    {
+      "date": "2026-10-23",
+      "source": "VIDA 2014D",
+      "tool": "find_parts",
+      "model": "940/740",
+      "year": "1990-1994",
+      "query": "glass",
+      "outcome": "inconclusive",
+      "note": "1325801 does not appear in the 'Glass, left' lists for 940 1991/1994 or 740 1990/1992; find_parts gives no location (door vs body), so the sedan rear door glass number is still unknown."
     }
   ],
   "gaps": [
@@ -394,6 +435,10 @@
     {
       "item": "Whether a precut tint kit exists for the 940 sedan rear door",
       "status": "not checked"
+    },
+    {
+      "item": "Whether Allums part 1325801 is sedan or wagon rear door glass",
+      "status": "not stated by the seller; not in VIDA find_parts glass lists; ask the seller"
     }
   ],
   "tool_findings": [
