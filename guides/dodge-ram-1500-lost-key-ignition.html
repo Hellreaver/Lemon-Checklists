@@ -49,6 +49,7 @@ h3{font-size:19px;font-weight:700;color:var(--accent-ink);margin:26px 0 8px;}
 .sub{color:var(--muted);font-size:15px;margin:4px 0 14px;}
 p{margin:0 0 12px;}
 strong{color:var(--text);font-weight:700;}
+a.in{color:var(--accent);}
 
 ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
 .step{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--line);border-radius:10px;
@@ -61,10 +62,6 @@ ol.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;g
 .step.done{border-left-color:var(--good);opacity:.62;}
 .step.done .n{background:var(--good-bg);border-color:var(--good);color:var(--good);}
 .step:focus-visible{outline:2px solid var(--accent);outline-offset:-1px;}
-
-.torq{font:600 .92em "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;
-  color:var(--accent-ink);background:var(--accent-soft);padding:1px 6px;border-radius:6px;white-space:nowrap;}
-code{font:500 .9em "IBM Plex Mono",monospace;background:var(--idle-bg);padding:1px 5px;border-radius:6px;}
 
 .callout{border-radius:8px;padding:10px 12px;margin:14px 0 0;font-size:15px;border-left:4px solid;}
 .callout .tag{display:block;font:700 12px "Barlow Condensed",sans-serif;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;}
@@ -90,16 +87,16 @@ tbody tr:last-child td{border-bottom:none;}
 
 <header class="topbar">
   <div class="topbar-inner">
-    <p class="eyebrow">2002 Ram 1500 4x4 &middot; 4.7L V8 &middot; from the shop manual</p>
+    <p class="eyebrow">2005 Ram 1500 4x4 &middot; 5.7L V8 &middot; from the shop manual</p>
     <h1>Lost key: entry &amp; ignition cylinder</h1>
     <div class="progress" aria-live="polite"><div class="bar"><i id="fill"></i></div><span class="count" id="count">0 / 0</span></div>
   </div>
   <nav class="jump">
     <a href="../index.html">&larr; All guides</a>
     <a href="#reality">Read first</a>
-    <a href="#entry">Getting in</a>
-    <a href="#immobilizer">The immobilizer</a>
-    <a href="#locksmith">The locksmith</a>
+    <a href="#code">Key by code</a>
+    <a href="#immobilizer">Sentry Key</a>
+    <a href="#nocode">No code</a>
     <a href="#cylinder">Cylinder R&amp;R</a>
     <a href="#facts">Facts</a>
   </nav>
@@ -109,128 +106,119 @@ tbody tr:last-child td{border-bottom:none;}
 
 <section id="reality" style="padding-top:18px;">
   <div class="callout c-bad">
-    <span class="tag">One wall for sure, one maybe</span>
-    <p><strong>1. You can't pull the old cylinder the manual way.</strong> Removal starts with "the ignition key must be in the key cylinder," turned to <strong>RUN</strong>, to reach the retaining pin. No key that turns means that method is out. This applies to every truck.</p>
-    <p><strong>2. Maybe: a new key won't start it on its own.</strong> This model can have the <strong>Sentry Key Immobilizer System (SKIS)</strong>. If yours does, the engine stays disabled until the module has <strong>learned</strong> the key's transponder, and the no-tool self-learn needs <strong>two keys that already work</strong>. The manual covers the system for this model but never says whether every truck got it, so check yours first: <a href="#immobilizer" style="color:var(--bad);">The immobilizer</a>.</p>
+    <span class="tag">The wall</span>
+    <p>The manual's cylinder removal starts with "the ignition key (1) must be in the key cylinder (2)," turned to <strong>RUN</strong>, to reach the retaining pin. With no key, the old cylinder can't come out the manual way. A key that fits the old lock solves that and may make the new cylinder unnecessary.</p>
   </div>
   <div class="callout c-note">
-    <span class="tag">What this means in practice</span>
-    <p>Either way, a key cut to the existing lock is the first move, and it may mean you <strong>don't need a new cylinder at all</strong>. Without SKIS, that cut key starts the truck and you're done. With SKIS, the key also has to be programmed, which needs a scan tool and the truck's PIN. Read <a href="#locksmith" style="color:var(--accent);">The locksmith</a> before ordering parts.</p>
+    <span class="tag">Chip or no chip</span>
+    <p>The manual says the Sentry Key Immobilizer System (SKIS) "is available as a factory-installed option on this model." So this truck may or may not have a chip system. A plain key cut by code answers that on the first start; see step 5 below.</p>
   </div>
   <p class="sub" style="margin-top:12px;">Tap a step to check it off. Progress is saved in this browser only.</p>
 </section>
 
-<section id="entry">
-  <h2>Getting in</h2>
+<section id="code">
+  <h2>Cheapest path: a key cut by code</h2>
   <div class="rule"></div>
-  <p class="sub">The shop manual has no forced-entry procedure, so nothing below is an unlock trick. It's what the manual tells you about this door so you don't fight the truck or wreck a $200 part.</p>
+  <p class="sub">One phone call and a cheap key may finish the whole job.</p>
   <ol class="steps">
-    <li class="step"><p>This is a <strong>power-lock</strong> door. Each door has a lock motor and an ajar switch, plus a switch in the key cylinder. There is a mechanical lock knob and an outside key cylinder; the inside manual lock knob is the simplest thing to reach for.</p></li>
-    <li class="step"><p>The alarm will not be armed against you. The manual states the theft system <strong>does not arm when the doors are locked mechanically</strong>, and that mechanical locking overrides the system. So a quiet entry through the lock knob is not going to set off the horn.</p></li>
-    <li class="step"><p>Behind the door panel sit the window regulator, the lock actuator and its wiring, all along the lower edge where a pry tool goes. A slip there is what breaks a regulator or bends the lock rod, and the manual has no map of those rod positions for this truck.</p></li>
-    <li class="step"><p>Best call: have the locksmith who is already handling the keys open it. They do it non-destructively in minutes with an air wedge and a long reach tool, and they are coming out anyway for the immobilizer.</p></li>
+    <li class="step"><p>Call a Dodge/Ram dealer with the VIN. Ask two things: <strong>can they pull the key code</strong> for this VIN, and <strong>does the build sheet show Sentry Key</strong>.</p></li>
+    <li class="step"><p>Bring the title or registration and a photo ID. Dealers ask for proof of ownership before they cut a key to a VIN.</p></li>
+    <li class="step"><p>Have them cut a <strong>plain metal key</strong> by code. It's the cheapest key they sell, and you'll know within a minute whether you need anything more.</p></li>
+    <li class="step"><p>Unlock the <strong>driver door</strong> with it. The manual says unlocking the driver door with the key disarms the factory alarm, if the truck has one.</p></li>
+    <li class="step"><p>Turn the key to <strong>ON</strong> and watch the security indicator in the cluster. On a SKIS truck it lights for about <strong>3 seconds</strong> as a bulb test. Then start it.</p>
+      <p><strong>Keeps running:</strong> no immobilizer. You're done. The new cylinder isn't needed; return it unopened.</p>
+      <p><strong>Starts, then dies after about 2 seconds:</strong> the truck has SKIS. The manual says it disables the engine "after about two seconds of running" when the key isn't a valid Sentry Key. The dealer can program a chip key.</p></li>
   </ol>
   <div class="callout c-warn">
-    <span class="tag">Why not just force it</span>
-    <p>Even a clean break-in leaves you with a truck that opens but will not turn (no key to RUN), and on a SKIS truck will not start either (no learned transponder). Entry on its own doesn't move the job forward; the key does.</p>
+    <span class="tag">When the code won't work</span>
+    <p>If anyone ever replaced the ignition cylinder or door locks, the factory code won't match them. And some makers don't keep codes for older vehicles; whether Chrysler still has them for a 2005 is a question for the dealer.</p>
   </div>
 </section>
 
 <section id="immobilizer">
-  <h2>The immobilizer (SKIS)</h2>
+  <h2>Sentry Key on the 2005</h2>
   <div class="rule"></div>
-  <p class="sub">First find out whether this truck has it. Everything after that only applies if it does.</p>
-  <h3>Does this truck have it</h3>
+  <p class="sub">From the 2005 manual's SKIS description.</p>
+  <h3>How to tell if it has it</h3>
   <ol class="steps">
-    <li class="step"><p><strong>Ask whether a chipless key ever started it.</strong> The manual says a blank cut to the lock "will not start" a SKIS truck until its transponder is programmed. So a plain metal key that actually ran the engine means no SKIS. A plain key that only opened the doors proves nothing; hardware-store copies do that.</p></li>
-    <li class="step"><p><strong>Look at what the original key looked like.</strong> On a SKIS truck the transponder sits "under the molded rubber cap on the head of the ignition key." An all-metal key with no rubber head was not a transponder key.</p></li>
-    <li class="step"><p><strong>Look at the column.</strong> With the column shrouds off, the SKIM sits on the steering column right at the ignition lock, with its antenna ring around the lock cylinder housing. A plastic ring module wrapped around the cylinder means SKIS; no module there means no SKIS.</p></li>
+    <li class="step"><p><strong>Dealer build sheet.</strong> The definite answer, from the VIN.</p></li>
+    <li class="step"><p><strong>Security light at key-on.</strong> SKIS trucks light the security indicator for about 3 seconds when the ignition goes to ON. Needs a key that turns.</p></li>
+    <li class="step"><p><strong>Under the column shrouds.</strong> The module sits on the right side of the steering column, and its molded plastic antenna ring "circles the ignition lock cylinder like a halo." No ring, no SKIS.</p></li>
+    <li class="step"><p><strong>The key itself.</strong> A Sentry Key's transponder is molded into the head, under the rubber cap. You can't see it from outside, so a key's looks don't settle it.</p></li>
   </ol>
-  <h3>If it has SKIS</h3>
+  <h3>If it has it</h3>
   <ol class="steps">
-    <li class="step"><p>A transponder lives in the head of the key. On every start the Sentry Key Immobilizer Module (SKIM) reads it over RF; if it isn't a <strong>valid, learned</strong> transponder, the PCM keeps the engine disabled. A blank cut to the locks will crank but not run.</p></li>
-    <li class="step"><p>The module holds up to <strong>8</strong> keys and the factory programs <strong>2</strong>. The two factory keys exist precisely so the owner can self-program more if one is lost.</p></li>
-    <li class="step"><p>Self-program (Customer Learn) needs <strong>two keys that already start the truck</strong>. You have none, so that door is closed. Programming now takes a scan tool that does Chrysler SKIM plus the truck's <strong>4-digit PIN</strong>, which is a dealer or a locksmith with the right gear.</p></li>
-    <li class="step"><p>Replacing the SKIM or the PCM is worse, not better: both carry a rolling code and a new one forces a full initialization. Keep the original SKIM; it already holds the VIN and secret key.</p></li>
+    <li class="step"><p>The module holds up to <strong>8</strong> keys. New keys are programmed by the dealer with a scan tool.</p></li>
+    <li class="step"><p>The free owner self-program (Customer Learn) needs <strong>at least two valid Sentry Keys</strong> already working. With none, it's the dealer, or a locksmith with the right scan tool.</p></li>
+    <li class="step"><p>Get <strong>two</strong> keys programmed, not one, so a lost key never puts the truck back in this spot.</p></li>
   </ol>
-  <div class="callout c-note">
-    <span class="tag">If you ever get two working keys</span>
-    <p>With two already-valid keys in hand, the system can learn more keys with no scan tool, by cycling the ignition between them within the system's timing windows. It is not usable here because it needs those two keys to start from. Don't buy parts planning on it.</p>
-  </div>
 </section>
 
-<section id="locksmith">
-  <h2>The locksmith visit</h2>
+<section id="nocode">
+  <h2>If the dealer can't pull a code</h2>
   <div class="rule"></div>
-  <p class="sub">What to have ready and what to ask for, so one trip covers entry, keys and programming.</p>
   <ol class="steps">
-    <li class="step"><p>Have the <strong>VIN</strong> and <strong>proof of ownership</strong> ready. A locksmith will ask to see that the truck is the owner's before cutting a key to it, and on a SKIS truck before pulling the PIN.</p></li>
-    <li class="step"><p>Tell them what you found under <a href="#immobilizer" style="color:var(--accent);">Does this truck have it</a>. No SKIS turns this into a plain key-cutting job, which is cheaper and quicker.</p></li>
-    <li class="step"><p>Ask whether they can <strong>originate a key to the existing lock</strong>. If the cylinder turns fine and is just keyless, a new key to it skips buying and swapping a cylinder entirely.</p></li>
-    <li class="step"><p>SKIS only: have them get the <strong>PIN</strong> and program the keys to the truck. Confirm the transponder is learned, not just a cut blank.</p></li>
-    <li class="step"><p>Get <strong>two</strong> keys, not one. On a SKIS truck, two working keys is what puts the free self-learn back on the table; on any truck, it keeps you out of this exact spot next time.</p></li>
+    <li class="step"><p>A locksmith can usually make a key that fits the existing locks without the code, working from the door lock. Ask for that first; it keeps the original cylinder in service.</p></li>
+    <li class="step"><p>If the old cylinder has to come out without a key, it has to be drilled or extracted. The shop manual doesn't cover that, so it's a locksmith job. Then the new Dorman cylinder goes in with its own two keys.</p></li>
+    <li class="step"><p>A new cylinder comes with its own key code, so the door locks still won't match it. Have the locksmith cut a door key at the same visit.</p></li>
   </ol>
-  <div class="callout c-warn">
-    <span class="tag">When you actually need a new cylinder</span>
-    <p>Replace the ignition cylinder if it is seized, worn so a new key won't turn it cleanly, or if the lock had to be drilled to get in. If it still turns, a key cut to it is the cheaper fix. Decide this with the locksmith before ordering the part. On a SKIS truck, a new cylinder doesn't change the programming; the lock and the transponder are separate problems.</p>
-  </div>
 </section>
 
 <section id="cylinder">
   <h2>Cylinder R&amp;R, once a key turns</h2>
   <div class="rule"></div>
-  <p class="sub">The manual's own removal and install. Every step below assumes a key that turns to RUN, so this is the stage after the locksmith, not before.</p>
+  <p class="sub">The 2005 manual's procedure. Every step assumes a key that turns to RUN.</p>
   <div class="callout c-bad">
-    <span class="tag">Gate</span>
-    <p>Step 4 cannot be done without a working key. There is no retaining-pin release without turning the cylinder to <strong>RUN</strong>. If you have no key, this is a drill-out, which the shop manual does not cover; leave it to the locksmith.</p>
+    <span class="tag">Airbag warning, from the manual</span>
+    <p>Before steering column service, disconnect and isolate the battery negative cable, then <strong>wait two minutes</strong> for the airbag system capacitor to discharge.</p>
   </div>
   <h3>Remove</h3>
   <ol class="steps">
-    <li class="step"><p>Disconnect the <strong>negative battery cable</strong>.</p></li>
+    <li class="step"><p>Disconnect the <strong>negative battery cable</strong> and wait two minutes.</p></li>
     <li class="step"><p>Remove the upper and lower covers (shrouds) from the steering column.</p></li>
     <li class="step"><p>Put the shifter in <strong>PARK</strong>.</p></li>
-    <li class="step"><p>With the key in the cylinder, turn it to <strong>RUN</strong>. A retaining pin sits in the hole on the side of the cylinder. Press the pin in while you pull the cylinder out of the ignition switch.</p></li>
+    <li class="step"><p>With the key in the cylinder, turn it to <strong>RUN</strong>. Press in the retaining pin on the side of the cylinder while you pull the cylinder out of the ignition switch.</p></li>
   </ol>
-  <div class="callout c-note">
-    <span class="tag">Manual figure</span>
-    <p>The book's Fig. 12 "Key Cylinder" labels the three things you're working with: <strong>1</strong> key, <strong>2</strong> key lock cylinder, <strong>3</strong> retaining pin hole. The pin hole is on the side of the cylinder body near the key end.</p>
-  </div>
   <h3>Install</h3>
   <ol class="steps">
-    <li class="step"><p>With the key in the new cylinder, line the end of the cylinder up with the ignition switch and slide it in.</p></li>
+    <li class="step"><p>With the key in the new cylinder, line the end of the cylinder up with the ignition switch and slide it into the housing.</p></li>
     <li class="step"><p>Push it in until it <strong>clicks</strong>.</p></li>
     <li class="step"><p>Refit the upper and lower shrouds.</p></li>
-    <li class="step"><p>Reconnect the battery. On a SKIS truck, have the new key's transponder programmed (see <a href="#immobilizer" style="color:var(--accent);">The immobilizer</a>) before you expect it to start.</p></li>
+    <li class="step"><p>Reconnect the battery. On a SKIS truck, the key also has to be programmed before the engine will keep running.</p></li>
   </ol>
+  <div class="callout c-note">
+    <span class="tag">The Dorman 924-709</span>
+    <p>Dorman lists it for the 2005 Ram 1500 5.7L. It comes coded with its own 2 keys, and Dorman's spec says "Key Programmable: No," so those keys have no chip.</p>
+  </div>
 </section>
 
 <section id="facts">
-  <h2>SKIS facts</h2>
+  <h2>Facts</h2>
   <div class="rule"></div>
   <div class="tablewrap">
     <table>
       <thead><tr><th>Item</th><th>Value</th></tr></thead>
       <tbody>
-        <tr><td>Keys the module can hold</td><td>8</td></tr>
-        <tr><td>Keys programmed at the factory</td><td>2</td></tr>
-        <tr><td>Keys needed for no-tool self-learn</td><td>2 working</td></tr>
-        <tr><td>Programming with fewer than 2 keys <em>scan tool + vehicle PIN</em></td><td>dealer / locksmith</td></tr>
-        <tr><td>Antenna ring to key, max gap <em>for the module to read the transponder</em></td><td>8 mm (0.31 in)</td></tr>
-        <tr><td>Cylinder removal prerequisite</td><td>key at RUN</td></tr>
+        <tr><td>Sentry Key on this model</td><td>factory option</td></tr>
+        <tr><td>Security light at key-on <em>SKIS trucks only</em></td><td>about 3 s</td></tr>
+        <tr><td>Engine runs on an invalid key</td><td>about 2 s, then off</td></tr>
+        <tr><td>Keys the module holds</td><td>8 max</td></tr>
+        <tr><td>Customer Learn needs</td><td>2 valid keys</td></tr>
+        <tr><td>Wait after battery disconnect <em>before column work</em></td><td>2 min</td></tr>
+        <tr><td>Cylinder removal needs</td><td>key at RUN</td></tr>
       </tbody>
     </table>
   </div>
-  <p class="sub" style="margin-top:10px;">A key programmed to one vehicle cannot be moved to another, so a replacement starts from a new blank.</p>
   <button class="reset" id="reset" type="button">Clear all checkmarks</button>
 </section>
 
-<p class="foot">Source: LEMON manual for the 2002 Dodge Ram 1500 Truck 4WD V8-4.7L VIN N. Repair and Diagnosis: Starting System &gt; Ignition Switch Lock Cylinder (Service and Repair); Steering Column &gt; Service and Repair &gt; Key/Lock Cylinder; Accessories and Optional Equipment &gt; Antitheft and Alarm Systems (Description and Operation); Vehicle Theft Security System component index (Group 8W-39). This is a lost-key routing checklist, not a bypass. The manual documents SKIS for this model but does not say whether every truck has it; check the truck itself.</p>
+<p class="foot">Source: LEMON manual for the 2005 Dodge Ram 1500 Truck 4WD V8-5.7L VIN D. Repair and Diagnosis: Steering Column &gt; Service and Repair &gt; Key Cylinder; Antitheft and Alarm Systems &gt; Description and Operation; Keyless Entry &gt; Description and Operation (Sentry Key Immobilizer System); Keyless Entry &gt; Testing and Inspection &gt; Sentry Key Immobilizer System (airbag warning). Dorman 924-709 specs from Dorman's product page; fitment from RockAuto's 2005 Ram 1500 5.7L catalog. This is a lost-key routing checklist, not a bypass.</p>
 
 </div>
 
 <script>
 (function(){
-  var KEY='dodge-ram-1500-lost-key-ignition';
+  var KEY='dodge-ram-1500-lost-key-ignition-2005';
   var steps=[].slice.call(document.querySelectorAll('.step'));
   var saved={};
   try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){}

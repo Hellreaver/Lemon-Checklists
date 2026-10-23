@@ -9,7 +9,7 @@ Lemon manuals checklists/htmls for procedures
 - [1994 Volvo 940 automatic gear selector check and adjustment](https://hellreaver.github.io/Lemon-Checklists/guides/volvo-940-shift-selector-adjust.html) (`guides/volvo-940-shift-selector-adjust.html`)
 - [1994 Volvo 940 B230FD head gasket replacement](https://hellreaver.github.io/Lemon-Checklists/guides/volvo-940-b230fd-head-gasket.html) (`guides/volvo-940-b230fd-head-gasket.html`)
 - [2005 Dodge Ram 1500 4x4 right front knuckle rebuild](https://hellreaver.github.io/Lemon-Checklists/guides/dodge-ram-1500-rf-knuckle.html) (`guides/dodge-ram-1500-rf-knuckle.html`)
-- [2002 Dodge Ram 1500 4x4 lost-key entry and ignition cylinder](https://hellreaver.github.io/Lemon-Checklists/guides/dodge-ram-1500-lost-key-ignition.html) (`guides/dodge-ram-1500-lost-key-ignition.html`)
+- [2005 Dodge Ram 1500 4x4 5.7L lost-key entry and ignition cylinder](https://hellreaver.github.io/Lemon-Checklists/guides/dodge-ram-1500-lost-key-ignition.html) (`guides/dodge-ram-1500-lost-key-ignition.html`)
 - [1997 Toyota 4Runner 5VZ-FE 3.4L V6 head gasket replacement](https://hellreaver.github.io/Lemon-Checklists/guides/toyota-4runner-5vzfe-head-gasket.html) (`guides/toyota-4runner-5vzfe-head-gasket.html`)
 
 Other files:
