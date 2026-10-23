@@ -5,6 +5,7 @@ Lemon manuals checklists/htmls for procedures
 
 - [1994 Volvo 940 B230FD manifold-to-downpipe studs, nuts and gasket](https://hellreaver.github.io/Lemon-Checklists/guides/volvo-940-b230fd-downpipe-flange.html) (`guides/volvo-940-b230fd-downpipe-flange.html`)
 - [1994 Volvo 940 B230FD AW70/AW71 automatic transmission teardown and rebuild](https://hellreaver.github.io/Lemon-Checklists/guides/volvo-940-b230fd-aw71-rebuild.html) (`guides/volvo-940-b230fd-aw71-rebuild.html`)
+- [1994 Volvo 940 sedan rear door glass replacement](https://hellreaver.github.io/Lemon-Checklists/guides/volvo-940-rear-door-glass.html) (`guides/volvo-940-rear-door-glass.html`)
 - [1994 Volvo 940 automatic gear selector check and adjustment](https://hellreaver.github.io/Lemon-Checklists/guides/volvo-940-shift-selector-adjust.html) (`guides/volvo-940-shift-selector-adjust.html`)
 - [1994 Volvo 940 B230FD head gasket replacement](https://hellreaver.github.io/Lemon-Checklists/guides/volvo-940-b230fd-head-gasket.html) (`guides/volvo-940-b230fd-head-gasket.html`)
 - [2005 Dodge Ram 1500 4x4 right front knuckle rebuild](https://hellreaver.github.io/Lemon-Checklists/guides/dodge-ram-1500-rf-knuckle.html) (`guides/dodge-ram-1500-rf-knuckle.html`)
