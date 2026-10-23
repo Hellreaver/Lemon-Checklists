@@ -109,14 +109,13 @@ tbody tr:last-child td{border-bottom:none;}
 
 <section id="reality" style="padding-top:18px;">
   <div class="callout c-bad">
-    <span class="tag">Two walls before you buy a part</span>
-    <p>This truck has the <strong>Sentry Key Immobilizer System (SKIS)</strong>, and the key is lost with no spare. That blocks the job in two places, both confirmed in the manual:</p>
-    <p><strong>1. You can't pull the old cylinder the manual way.</strong> Removal starts with "the ignition key must be in the key cylinder," turned to <strong>RUN</strong>, to reach the retaining pin. No key that turns means that method is out.</p>
-    <p><strong>2. A new key won't start it on its own.</strong> The engine stays disabled until the immobilizer module has <strong>learned</strong> the key's transponder. The no-tool self-learn needs <strong>two keys that already work</strong>. With none, programming needs a scan tool and the truck's PIN.</p>
+    <span class="tag">One wall for sure, one maybe</span>
+    <p><strong>1. You can't pull the old cylinder the manual way.</strong> Removal starts with "the ignition key must be in the key cylinder," turned to <strong>RUN</strong>, to reach the retaining pin. No key that turns means that method is out. This applies to every truck.</p>
+    <p><strong>2. Maybe: a new key won't start it on its own.</strong> This model can have the <strong>Sentry Key Immobilizer System (SKIS)</strong>. If yours does, the engine stays disabled until the module has <strong>learned</strong> the key's transponder, and the no-tool self-learn needs <strong>two keys that already work</strong>. The manual covers the system for this model but never says whether every truck got it, so check yours first: <a href="#immobilizer" style="color:var(--bad);">The immobilizer</a>.</p>
   </div>
   <div class="callout c-note">
     <span class="tag">What this means in practice</span>
-    <p>For an all-keys-lost SKIS truck, an automotive locksmith is the realistic path: they open it, cut a key, pull the PIN, and program keys. That same visit may mean you <strong>don't need a new cylinder at all</strong>, since a key cut to the existing lock is cheaper than replacing it. Read <a href="#locksmith" style="color:var(--accent);">The locksmith</a> before ordering parts.</p>
+    <p>Either way, a key cut to the existing lock is the first move, and it may mean you <strong>don't need a new cylinder at all</strong>. Without SKIS, that cut key starts the truck and you're done. With SKIS, the key also has to be programmed, which needs a scan tool and the truck's PIN. Read <a href="#locksmith" style="color:var(--accent);">The locksmith</a> before ordering parts.</p>
   </div>
   <p class="sub" style="margin-top:12px;">Tap a step to check it off. Progress is saved in this browser only.</p>
 </section>
@@ -133,14 +132,21 @@ tbody tr:last-child td{border-bottom:none;}
   </ol>
   <div class="callout c-warn">
     <span class="tag">Why not just force it</span>
-    <p>Even a clean break-in leaves you with a truck that opens but will not turn (no key to RUN) and will not start (no learned transponder). Entry on its own doesn't move the job forward; the locksmith trip does all three.</p>
+    <p>Even a clean break-in leaves you with a truck that opens but will not turn (no key to RUN), and on a SKIS truck will not start either (no learned transponder). Entry on its own doesn't move the job forward; the key does.</p>
   </div>
 </section>
 
 <section id="immobilizer">
   <h2>The immobilizer (SKIS)</h2>
   <div class="rule"></div>
-  <p class="sub">Why a cut key isn't enough, straight from the manual's Antitheft description.</p>
+  <p class="sub">First find out whether this truck has it. Everything after that only applies if it does.</p>
+  <h3>Does this truck have it</h3>
+  <ol class="steps">
+    <li class="step"><p><strong>Ask whether a chipless key ever started it.</strong> The manual says a blank cut to the lock "will not start" a SKIS truck until its transponder is programmed. So a plain metal key that actually ran the engine means no SKIS. A plain key that only opened the doors proves nothing; hardware-store copies do that.</p></li>
+    <li class="step"><p><strong>Look at what the original key looked like.</strong> On a SKIS truck the transponder sits "under the molded rubber cap on the head of the ignition key." An all-metal key with no rubber head was not a transponder key.</p></li>
+    <li class="step"><p><strong>Look at the column.</strong> With the column shrouds off, the SKIM sits on the steering column right at the ignition lock, with its antenna ring around the lock cylinder housing. A plastic ring module wrapped around the cylinder means SKIS; no module there means no SKIS.</p></li>
+  </ol>
+  <h3>If it has SKIS</h3>
   <ol class="steps">
     <li class="step"><p>A transponder lives in the head of the key. On every start the Sentry Key Immobilizer Module (SKIM) reads it over RF; if it isn't a <strong>valid, learned</strong> transponder, the PCM keeps the engine disabled. A blank cut to the locks will crank but not run.</p></li>
     <li class="step"><p>The module holds up to <strong>8</strong> keys and the factory programs <strong>2</strong>. The two factory keys exist precisely so the owner can self-program more if one is lost.</p></li>
@@ -158,14 +164,15 @@ tbody tr:last-child td{border-bottom:none;}
   <div class="rule"></div>
   <p class="sub">What to have ready and what to ask for, so one trip covers entry, keys and programming.</p>
   <ol class="steps">
-    <li class="step"><p>Have the <strong>VIN</strong> and <strong>proof of ownership</strong> ready. An all-keys-lost job on an immobilizer vehicle needs the PIN, and a legitimate locksmith will ask you to show the truck is the owner's before they pull it.</p></li>
+    <li class="step"><p>Have the <strong>VIN</strong> and <strong>proof of ownership</strong> ready. A locksmith will ask to see that the truck is the owner's before cutting a key to it, and on a SKIS truck before pulling the PIN.</p></li>
+    <li class="step"><p>Tell them what you found under <a href="#immobilizer" style="color:var(--accent);">Does this truck have it</a>. No SKIS turns this into a plain key-cutting job, which is cheaper and quicker.</p></li>
     <li class="step"><p>Ask whether they can <strong>originate a key to the existing lock</strong>. If the cylinder turns fine and is just keyless, a new key to it skips buying and swapping a cylinder entirely.</p></li>
-    <li class="step"><p>Have them read the <strong>PIN</strong> (by key code or off the SKIM) and program the keys to the truck. Confirm the transponder is learned, not just a cut blank.</p></li>
-    <li class="step"><p>Get <strong>two</strong> keys cut and programmed, not one. Two working keys is what puts the free self-learn back on the table and keeps you out of this exact spot next time.</p></li>
+    <li class="step"><p>SKIS only: have them get the <strong>PIN</strong> and program the keys to the truck. Confirm the transponder is learned, not just a cut blank.</p></li>
+    <li class="step"><p>Get <strong>two</strong> keys, not one. On a SKIS truck, two working keys is what puts the free self-learn back on the table; on any truck, it keeps you out of this exact spot next time.</p></li>
   </ol>
   <div class="callout c-warn">
     <span class="tag">When you actually need a new cylinder</span>
-    <p>Replace the ignition cylinder if it is seized, worn so a new key won't turn it cleanly, or if the lock had to be drilled to get in. If it still turns, a key cut to it is the cheaper fix. Decide this with the locksmith before ordering the part. A new cylinder still has to be programmed the same way; the lock and the transponder are separate problems.</p>
+    <p>Replace the ignition cylinder if it is seized, worn so a new key won't turn it cleanly, or if the lock had to be drilled to get in. If it still turns, a key cut to it is the cheaper fix. Decide this with the locksmith before ordering the part. On a SKIS truck, a new cylinder doesn't change the programming; the lock and the transponder are separate problems.</p>
   </div>
 </section>
 
@@ -193,7 +200,7 @@ tbody tr:last-child td{border-bottom:none;}
     <li class="step"><p>With the key in the new cylinder, line the end of the cylinder up with the ignition switch and slide it in.</p></li>
     <li class="step"><p>Push it in until it <strong>clicks</strong>.</p></li>
     <li class="step"><p>Refit the upper and lower shrouds.</p></li>
-    <li class="step"><p>Reconnect the battery. Then have the new key's transponder programmed (see <a href="#immobilizer" style="color:var(--accent);">The immobilizer</a>) before you expect it to start.</p></li>
+    <li class="step"><p>Reconnect the battery. On a SKIS truck, have the new key's transponder programmed (see <a href="#immobilizer" style="color:var(--accent);">The immobilizer</a>) before you expect it to start.</p></li>
   </ol>
 </section>
 
@@ -217,7 +224,7 @@ tbody tr:last-child td{border-bottom:none;}
   <button class="reset" id="reset" type="button">Clear all checkmarks</button>
 </section>
 
-<p class="foot">Source: LEMON manual for the 2002 Dodge Ram 1500 Truck 4WD V8-4.7L VIN N. Repair and Diagnosis: Starting System &gt; Ignition Switch Lock Cylinder (Service and Repair); Steering Column &gt; Service and Repair &gt; Key/Lock Cylinder; Accessories and Optional Equipment &gt; Antitheft and Alarm Systems (Description and Operation); Vehicle Theft Security System component index (Group 8W-39). This is a lost-key routing checklist, not a bypass; an all-keys-lost SKIS truck needs a locksmith or dealer for keys and programming.</p>
+<p class="foot">Source: LEMON manual for the 2002 Dodge Ram 1500 Truck 4WD V8-4.7L VIN N. Repair and Diagnosis: Starting System &gt; Ignition Switch Lock Cylinder (Service and Repair); Steering Column &gt; Service and Repair &gt; Key/Lock Cylinder; Accessories and Optional Equipment &gt; Antitheft and Alarm Systems (Description and Operation); Vehicle Theft Security System component index (Group 8W-39). This is a lost-key routing checklist, not a bypass. The manual documents SKIS for this model but does not say whether every truck has it; check the truck itself.</p>
 
 </div>
 
