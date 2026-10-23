@@ -4,59 +4,420 @@
   "vehicle": "1994 Volvo 940 4-door sedan, B230FD, AW71",
   "job": "Replace broken left rear door roll-up glass",
   "result_summary": "No manual source covers removing or installing the rear door roll-up glass. LEMON 940 books cover the door panel, condensation trap and window motor; a LEMON 740 book covers the rear door lift mechanism; VIDA 2014D has one 700/900 bulletin (guide mouldings). The glass steps came from the Volvo Club UK 700/900 FAQ.",
-
   "searches": [
-    {"source": "LEMON", "tool": "find", "vehicle_path": "/Volvo/1994/940 Base, 4D Sedan, AW71", "query": "rear door glass", "hits": 62, "outcome": "miss", "note": "No page title in this book contains 'glass'; hits were wiring, locks, labor times."},
-    {"source": "LEMON", "tool": "find", "vehicle_path": "/Volvo/1994/940 Base, 4D Sedan, AW71", "query": "window regulator", "hits": 44, "outcome": "partial", "used": ["Body & Frame/Power Windows/Removal & Installation/Power Window Motor/Removal & Installation (Fig 1 door panel, 93D82746)", "Labor Times/.../Window Regulator/Remove & Replace (0.9 h electric)"]},
-    {"source": "LEMON", "tool": "find", "vehicle_path": "/Volvo/1994/940 Base, 4D Sedan, AW71", "query": "door trim panel", "outcome": "miss", "note": "Labor time entry only, no procedure."},
-    {"source": "LEMON", "tool": "read_page", "path": "/Volvo/1994/940 Base, 4D Sedan, AW71/Repair and Diagnosis/Body & Frame/Door Locks/Central Locking System/Removal & Installation/Window Motor (Right Front & Both Rear Doors)/Remove/", "outcome": "used", "note": "Condensation trap step; Fig 2 Rear Door G00049779."},
-    {"source": "LEMON", "tool": "browse", "path": "/Volvo/1994/940 Base, 4D Sedan, AW71/Repair and Diagnosis/", "outcome": "miss", "note": "Base sedan book has no Windows and Glass or Doors section."},
-    {"source": "LEMON", "tool": "find", "vehicle_path": "/Volvo/1994/940 L4-2320cc 2.3L SOHC VIN 83 B230FD", "query": "door glass", "hits": 86, "outcome": "miss", "note": "Repair and Diagnosis/Windows and Glass/Windows/Window Glass holds only TSBs: windshield, PUR-bonded windows, 945 fixed side windows (TSB 84-904), rear side window sealant, window replacement manual supplement (84-908, PUR-bonded glass). None covers door roll-up glass."},
-    {"source": "LEMON", "tool": "browse", "path": "/Volvo/1994/940 L4-2320cc 2.3L SOHC VIN 83 B230FD/Parts and Labor/Windows and Glass/Rear Door Window Regulator/", "outcome": "not_read", "note": "Only child is 'Parts Information'; not opened."},
-    {"source": "LEMON", "tool": "find", "vehicle_path": "/Volvo/1991/940 GLE, 4D Sedan", "query": "door glass; window lift mechanism", "outcome": "miss"},
-    {"source": "LEMON", "tool": "find", "vehicle_path": "/Volvo/1991/940 L4-2320cc 2.3L SOHC Turbo VIN 87 B230FT", "query": "window glass", "outcome": "miss", "note": "Same layout as the 1994 B230FD book."},
-    {"source": "LEMON", "tool": "find", "vehicle_path": "/Volvo/1987/740 GLE, 4D Sedan, Automatic", "query": "door glass", "outcome": "used", "used": ["Repair and Diagnosis/Body & Frame/Power Windows/Removal & Installation/Window Lift Mechanism/Rear Doors (figure-only page, G00049760, BE8/BE9)"], "caveat": "700-series article; its figure puts the regulator mechanism mid-door while the 1994 940 motor figure puts the motor lower right. Applicability to a 1994 940 rear door unconfirmed."},
-    {"source": "LEMON", "tool": "browse", "path": "/Volvo/1994/940 Base, 4D Sedan, AW71/Repair and Diagnosis/Accessories & Equipment/Window Motors & Regulators/Power Windows/Removal & Installation/", "outcome": "error_404"},
-    {"source": "LEMON", "tool": "browse", "path": "/Volvo/1991/940 GLE, 4D Sedan/Repair and Diagnosis/Body & Frame/Power Windows/Removal & Installation/", "outcome": "error_404"},
-
-    {"source": "VIDA 2014D", "tool": "find_docs", "model": "940", "year": 1994, "query": "door window", "hits": 16, "outcome": "rejected", "docs": ["VCC-131593-1 Window, rear side door, replacing", "VCC-131594-1 Window lift mechanism, rear side door, replacing (rivet P/N 982565)", "VCC-131590-1 / VCC-120960-1 Panel, rear side door, replacing"], "reason": "Figures show a later car's curved door frame and molded panel, not a 940 door."},
-    {"source": "VIDA 2014D", "tool": "read_doc", "docs": ["VCC-092148-1 Doors and side windows", "VCC-125868-1 Adjusting the doors and side windows", "VCC-125870-1 Adjusting the doors and window lift mechanisms", "VCC-081550-1 Doors"], "outcome": "rejected", "reason": "C70 procedures: lift-mechanism cassette, SIPS block, cross-references to C70 section 3."},
-    {"source": "VIDA 2014D", "tool": "read_doc", "docs": ["VCC-130772-1 Doors", "VCC-131939-1 Side doors"], "outcome": "rejected", "reason": "Body gap specs for later cars."},
-    {"source": "VIDA 2014D", "tool": "read_doc", "docs": ["VCC-075580-1 Rear side window 960/940, 4-door models"], "outcome": "not_applicable", "reason": "940 sedan fixed rear side window in the body (butyl tape), not the door glass."},
-    {"source": "VIDA 2014D", "tool": "read_doc", "docs": ["VCC-080373-1 Removing glass splinters from defroster and ventilation ducts"], "outcome": "not_used", "reason": "Generic, later-car document; VOC FAQ cleanup advice used instead."},
-    {"source": "VIDA 2014D", "tool": "read_doc", "docs": ["VCC-054359-1 700/900 Series Window Guide Mouldings 6848266-0 and 3518556-0 (bulletin 83007, 06/95)"], "outcome": "used"},
-    {"source": "VIDA 2014D", "tool": "read_doc", "docs": ["VCC-054908-1 Power Windows"], "outcome": "miss", "reason": "Maintenance function check only."},
-    {"source": "VIDA 2014D", "tool": "find_docs", "model": "940", "year": 1994, "query": "run-off; anti-drip; popnit; plastic film; profile and bracket", "outcome": "miss", "note": "VCC-122087-1 (Run-off profile and bracket), linked from the rejected later-car docs, is not findable by title for 940."},
-    {"source": "VIDA 2014D", "tool": "browse_tree", "model": "940", "year": 1994, "group": "83, 84", "outcome": "miss", "note": "Group 83 lists 'Doors' and 'Power windows'; opening them by title returns only the later-car docs above. Group 84 has no door glass item."},
-    {"source": "VIDA 2014D", "tool": "find_docs", "model": "740 and 940", "year": 1990, "query": "window; door; lift arm", "outcome": "miss", "note": "Same later-car docs as for 1994."},
-    {"source": "VIDA 2014D", "tool": "find_parts", "model": "940", "year": 1994, "query": "door glass; door window; window pane; glass rear door", "outcome": "miss"},
-    {"source": "VIDA 2014D", "tool": "find_parts", "model": "940", "year": 1994, "query": "glass", "outcome": "inconclusive", "note": "25+ 'Glass, left' / 'Glass, right' part numbers with no location; cannot tell which is the rear door glass."},
-
-    {"source": "web", "tool": "WebSearch", "query": "Volvo 940 740 rear door window glass replacement procedure lift channel", "outcome": "miss", "note": "Saab WIS, parts listings, a volvoforums.org.uk thread pointing back to the FAQ."},
-    {"source": "web", "tool": "WebSearch", "query": "brickboard 740 940 rear door glass replace remove division bar vent window", "outcome": "miss", "note": "Other makes only."},
-    {"source": "web", "tool": "WebSearch (extended)", "query": "\"740\" OR \"940\" volvo rear door window glass removal how-to \"lift channel\" OR \"lifting channel\" OR \"glass channel\"", "outcome": "used", "url": "https://www.volvoclub.org.uk/faq/BodyGlass.html"},
-    {"source": "web", "tool": "WebFetch", "url": "https://volvo.oempartsonline.com/v-1991-volvo-940--t--2-3l-l4-gas/body--glass-rear-door", "outcome": "error_403", "note": "Would have given rear door glass part numbers."},
-    {"source": "web", "tool": "WebFetch", "url": "https://www.volvoclub.org.uk/faq/", "outcome": "error_access_denied", "note": "Directory index blocked; FAQSummary1.html works."}
+    {
+      "source": "LEMON",
+      "tool": "find",
+      "vehicle_path": "/Volvo/1994/940 Base, 4D Sedan, AW71",
+      "query": "rear door glass",
+      "hits": 62,
+      "outcome": "miss",
+      "note": "No page title in this book contains 'glass'; hits were wiring, locks, labor times."
+    },
+    {
+      "source": "LEMON",
+      "tool": "find",
+      "vehicle_path": "/Volvo/1994/940 Base, 4D Sedan, AW71",
+      "query": "window regulator",
+      "hits": 44,
+      "outcome": "partial",
+      "used": [
+        "Body & Frame/Power Windows/Removal & Installation/Power Window Motor/Removal & Installation (Fig 1 door panel, 93D82746)",
+        "Labor Times/.../Window Regulator/Remove & Replace (0.9 h electric)"
+      ]
+    },
+    {
+      "source": "LEMON",
+      "tool": "find",
+      "vehicle_path": "/Volvo/1994/940 Base, 4D Sedan, AW71",
+      "query": "door trim panel",
+      "outcome": "miss",
+      "note": "Labor time entry only, no procedure."
+    },
+    {
+      "source": "LEMON",
+      "tool": "read_page",
+      "path": "/Volvo/1994/940 Base, 4D Sedan, AW71/Repair and Diagnosis/Body & Frame/Door Locks/Central Locking System/Removal & Installation/Window Motor (Right Front & Both Rear Doors)/Remove/",
+      "outcome": "used",
+      "note": "Condensation trap step; Fig 2 Rear Door G00049779."
+    },
+    {
+      "source": "LEMON",
+      "tool": "browse",
+      "path": "/Volvo/1994/940 Base, 4D Sedan, AW71/Repair and Diagnosis/",
+      "outcome": "miss",
+      "note": "Base sedan book has no Windows and Glass or Doors section."
+    },
+    {
+      "source": "LEMON",
+      "tool": "find",
+      "vehicle_path": "/Volvo/1994/940 L4-2320cc 2.3L SOHC VIN 83 B230FD",
+      "query": "door glass",
+      "hits": 86,
+      "outcome": "miss",
+      "note": "Repair and Diagnosis/Windows and Glass/Windows/Window Glass holds only TSBs: windshield, PUR-bonded windows, 945 fixed side windows (TSB 84-904), rear side window sealant, window replacement manual supplement (84-908, PUR-bonded glass). None covers door roll-up glass."
+    },
+    {
+      "source": "LEMON",
+      "tool": "browse",
+      "path": "/Volvo/1994/940 L4-2320cc 2.3L SOHC VIN 83 B230FD/Parts and Labor/Windows and Glass/Rear Door Window Regulator/",
+      "outcome": "not_read",
+      "note": "Only child is 'Parts Information'; not opened."
+    },
+    {
+      "source": "LEMON",
+      "tool": "find",
+      "vehicle_path": "/Volvo/1991/940 GLE, 4D Sedan",
+      "query": "door glass; window lift mechanism",
+      "outcome": "miss"
+    },
+    {
+      "source": "LEMON",
+      "tool": "find",
+      "vehicle_path": "/Volvo/1991/940 L4-2320cc 2.3L SOHC Turbo VIN 87 B230FT",
+      "query": "window glass",
+      "outcome": "miss",
+      "note": "Same layout as the 1994 B230FD book."
+    },
+    {
+      "source": "LEMON",
+      "tool": "find",
+      "vehicle_path": "/Volvo/1987/740 GLE, 4D Sedan, Automatic",
+      "query": "door glass",
+      "outcome": "used",
+      "used": [
+        "Repair and Diagnosis/Body & Frame/Power Windows/Removal & Installation/Window Lift Mechanism/Rear Doors (figure-only page, G00049760, BE8/BE9)"
+      ],
+      "caveat": "700-series article; its figure puts the regulator mechanism mid-door while the 1994 940 motor figure puts the motor lower right. Applicability to a 1994 940 rear door unconfirmed."
+    },
+    {
+      "source": "LEMON",
+      "tool": "browse",
+      "path": "/Volvo/1994/940 Base, 4D Sedan, AW71/Repair and Diagnosis/Accessories & Equipment/Window Motors & Regulators/Power Windows/Removal & Installation/",
+      "outcome": "error_404"
+    },
+    {
+      "source": "LEMON",
+      "tool": "browse",
+      "path": "/Volvo/1991/940 GLE, 4D Sedan/Repair and Diagnosis/Body & Frame/Power Windows/Removal & Installation/",
+      "outcome": "error_404"
+    },
+    {
+      "source": "VIDA 2014D",
+      "tool": "find_docs",
+      "model": "940",
+      "year": 1994,
+      "query": "door window",
+      "hits": 16,
+      "outcome": "rejected",
+      "docs": [
+        "VCC-131593-1 Window, rear side door, replacing",
+        "VCC-131594-1 Window lift mechanism, rear side door, replacing (rivet P/N 982565)",
+        "VCC-131590-1 / VCC-120960-1 Panel, rear side door, replacing"
+      ],
+      "reason": "Figures show a later car's curved door frame and molded panel, not a 940 door."
+    },
+    {
+      "source": "VIDA 2014D",
+      "tool": "read_doc",
+      "docs": [
+        "VCC-092148-1 Doors and side windows",
+        "VCC-125868-1 Adjusting the doors and side windows",
+        "VCC-125870-1 Adjusting the doors and window lift mechanisms",
+        "VCC-081550-1 Doors"
+      ],
+      "outcome": "rejected",
+      "reason": "C70 procedures: lift-mechanism cassette, SIPS block, cross-references to C70 section 3."
+    },
+    {
+      "source": "VIDA 2014D",
+      "tool": "read_doc",
+      "docs": [
+        "VCC-130772-1 Doors",
+        "VCC-131939-1 Side doors"
+      ],
+      "outcome": "rejected",
+      "reason": "Body gap specs for later cars."
+    },
+    {
+      "source": "VIDA 2014D",
+      "tool": "read_doc",
+      "docs": [
+        "VCC-075580-1 Rear side window 960/940, 4-door models"
+      ],
+      "outcome": "not_applicable",
+      "reason": "940 sedan fixed rear side window in the body (butyl tape), not the door glass."
+    },
+    {
+      "source": "VIDA 2014D",
+      "tool": "read_doc",
+      "docs": [
+        "VCC-080373-1 Removing glass splinters from defroster and ventilation ducts"
+      ],
+      "outcome": "not_used",
+      "reason": "Generic, later-car document; VOC FAQ cleanup advice used instead."
+    },
+    {
+      "source": "VIDA 2014D",
+      "tool": "read_doc",
+      "docs": [
+        "VCC-054359-1 700/900 Series Window Guide Mouldings 6848266-0 and 3518556-0 (bulletin 83007, 06/95)"
+      ],
+      "outcome": "used"
+    },
+    {
+      "source": "VIDA 2014D",
+      "tool": "read_doc",
+      "docs": [
+        "VCC-054908-1 Power Windows"
+      ],
+      "outcome": "miss",
+      "reason": "Maintenance function check only."
+    },
+    {
+      "source": "VIDA 2014D",
+      "tool": "find_docs",
+      "model": "940",
+      "year": 1994,
+      "query": "run-off; anti-drip; popnit; plastic film; profile and bracket",
+      "outcome": "miss",
+      "note": "VCC-122087-1 (Run-off profile and bracket), linked from the rejected later-car docs, is not findable by title for 940."
+    },
+    {
+      "source": "VIDA 2014D",
+      "tool": "browse_tree",
+      "model": "940",
+      "year": 1994,
+      "group": "83, 84",
+      "outcome": "miss",
+      "note": "Group 83 lists 'Doors' and 'Power windows'; opening them by title returns only the later-car docs above. Group 84 has no door glass item."
+    },
+    {
+      "source": "VIDA 2014D",
+      "tool": "find_docs",
+      "model": "740 and 940",
+      "year": 1990,
+      "query": "window; door; lift arm",
+      "outcome": "miss",
+      "note": "Same later-car docs as for 1994."
+    },
+    {
+      "source": "VIDA 2014D",
+      "tool": "find_parts",
+      "model": "940",
+      "year": 1994,
+      "query": "door glass; door window; window pane; glass rear door",
+      "outcome": "miss"
+    },
+    {
+      "source": "VIDA 2014D",
+      "tool": "find_parts",
+      "model": "940",
+      "year": 1994,
+      "query": "glass",
+      "outcome": "inconclusive",
+      "note": "25+ 'Glass, left' / 'Glass, right' part numbers with no location; cannot tell which is the rear door glass."
+    },
+    {
+      "source": "web",
+      "tool": "WebSearch",
+      "query": "Volvo 940 740 rear door window glass replacement procedure lift channel",
+      "outcome": "miss",
+      "note": "Saab WIS, parts listings, a volvoforums.org.uk thread pointing back to the FAQ."
+    },
+    {
+      "source": "web",
+      "tool": "WebSearch",
+      "query": "brickboard 740 940 rear door glass replace remove division bar vent window",
+      "outcome": "miss",
+      "note": "Other makes only."
+    },
+    {
+      "source": "web",
+      "tool": "WebSearch (extended)",
+      "query": "\"740\" OR \"940\" volvo rear door window glass removal how-to \"lift channel\" OR \"lifting channel\" OR \"glass channel\"",
+      "outcome": "used",
+      "url": "https://www.volvoclub.org.uk/faq/BodyGlass.html"
+    },
+    {
+      "source": "web",
+      "tool": "WebFetch",
+      "url": "https://volvo.oempartsonline.com/v-1991-volvo-940--t--2-3l-l4-gas/body--glass-rear-door",
+      "outcome": "error_403",
+      "note": "Would have given rear door glass part numbers."
+    },
+    {
+      "source": "web",
+      "tool": "WebFetch",
+      "url": "https://www.volvoclub.org.uk/faq/",
+      "outcome": "error_access_denied",
+      "note": "Directory index blocked; FAQSummary1.html works."
+    },
+    {
+      "date": "2026-10-23",
+      "source": "web",
+      "tool": "WebFetch",
+      "url": "https://www.volvoclub.org.uk/faq/BodyGlass.html",
+      "outcome": "used",
+      "note": "Replacing Fixed Rear Door Glass (Jay Simkin) gives the intact roll-up glass removal from a rear door: mask paint, door panel, outside trim bottom/sides/top with bent putty knife, unclip window holders from lift mechanism, rubber moulding, glass out. Direction the glass leaves the door not stated. Window Stuck at the Top (Jerry Casey): tape glass over the frame. No entry mentions used/junkyard glass."
+    },
+    {
+      "date": "2026-10-23",
+      "source": "web",
+      "tool": "WebSearch",
+      "query": "best cheap DIY window tint film reddit ceramic heat rejection MotoShield Pro vs Gila vs Lexen",
+      "outcome": "partial",
+      "note": "Review sites only (The Drive, Autoblog, Yahoo); no community threads."
+    },
+    {
+      "date": "2026-10-23",
+      "source": "web",
+      "tool": "WebSearch",
+      "allowed_domains": [
+        "reddit.com"
+      ],
+      "query": "DIY window tint first time which film brand ceramic cheap",
+      "outcome": "error",
+      "note": "reddit.com not accessible to the search tool's user agent; no Reddit consensus available."
+    },
+    {
+      "date": "2026-10-23",
+      "source": "web",
+      "tool": "WebSearch (extended)",
+      "query": "reddit r/AutoDetailing DIY tint ceramic film amazon recommendation first time cheap roll which brand",
+      "outcome": "miss",
+      "note": "Seller listings only (eBay, Walmart)."
+    },
+    {
+      "date": "2026-10-23",
+      "source": "web",
+      "tool": "WebSearch",
+      "query": "Lexen precut window tint kit review DIY beginner ceramic vs carbon heat difference forum",
+      "outcome": "partial",
+      "note": "One Jeep Gladiator forum thread with Lexen precut experiences; no Volvo 940 precut kit confirmed."
+    },
+    {
+      "date": "2026-10-23",
+      "source": "web",
+      "tool": "WebFetch",
+      "url": "https://www.azleg.gov/ars/28/00959-01.htm",
+      "outcome": "used",
+      "note": "A.6 exempts side windows to the rear of the driver; front side 33% +/-3% transmission; 35% +/-3% reflectance; A.10 dual outside mirrors."
+    },
+    {
+      "date": "2026-10-23",
+      "source": "web",
+      "tool": "WebFetch and curl",
+      "url": "https://images.oreillyauto.com/parts/img/documents/gil/gila_automotive_staticcling_install_instructions.pdf",
+      "outcome": "error_403",
+      "note": "Search summary attributed '1/4-1/2 in below the inside gasket' to it; could not confirm, so the figure was left out of the guide."
+    },
+    {
+      "date": "2026-10-23",
+      "source": "web",
+      "tool": "WebFetch",
+      "url": "https://www.oreillyauto.com/how-to-hub/diy-install-window-tint",
+      "outcome": "error_403"
+    },
+    {
+      "date": "2026-10-23",
+      "source": "web",
+      "tool": "WebSearch",
+      "query": "tint side window glass off the car on a bench before installing vs after installed DIY roll-down window film bottom edge",
+      "outcome": "partial",
+      "note": "Every source describes tinting in the car; none covers tinting loose glass on a bench."
+    },
+    {
+      "date": "2026-10-23",
+      "source": "web",
+      "tool": "WebSearch",
+      "query": "Volvo 940 rear door glass price aftermarket OR used junkyard LKQ pick your part door glass price list",
+      "outcome": "miss",
+      "note": "Single listings only (a used 740/940 WAGON rear door glass on eBay at $179.99); no sedan door glass price, no yard price list."
+    },
+    {
+      "date": "2026-10-23",
+      "source": "web",
+      "tool": "WebSearch",
+      "query": "LKQ Pick Your Part price list \"door glass\" Tucson OR Phoenix",
+      "outcome": "miss",
+      "note": "Results were Hyundai Tucson parts."
+    }
   ],
-
   "gaps": [
-    {"item": "Rear door roll-up glass removal and installation procedure", "status": "not in LEMON or VIDA 2014D", "where_it_probably_is": "Volvo TP 31298/1, Bodywork repairs, sheet metal and glass (cited by LEMON TSBs 84-904 and 84-908)", "filled_with": "VOC FAQ"},
-    {"item": "Lift channel position along the glass bottom edge", "status": "no source"},
-    {"item": "Left rear door glass part number", "status": "no source; oempartsonline page returned 403"},
-    {"item": "Regulator nut torque", "status": "no source"},
-    {"item": "Whether replacement glass ships with the lift channel bonded on", "status": "no source"},
-    {"item": "Whether the 1987 740 rear door lift mechanism article matches a 1994 940 rear door", "status": "unconfirmed; figures differ in motor position"},
-    {"item": "Trim clip part number 1342004-7", "status": "seen only in tool summaries of the VOC FAQ, not verbatim; left out of the guide"}
+    {
+      "item": "Rear door roll-up glass removal and installation procedure",
+      "status": "not in LEMON or VIDA 2014D",
+      "where_it_probably_is": "Volvo TP 31298/1, Bodywork repairs, sheet metal and glass (cited by LEMON TSBs 84-904 and 84-908)",
+      "filled_with": "VOC FAQ"
+    },
+    {
+      "item": "Lift channel position along the glass bottom edge",
+      "status": "no source"
+    },
+    {
+      "item": "Left rear door glass part number",
+      "status": "no source; oempartsonline page returned 403"
+    },
+    {
+      "item": "Regulator nut torque",
+      "status": "no source"
+    },
+    {
+      "item": "Whether replacement glass ships with the lift channel bonded on",
+      "status": "no source"
+    },
+    {
+      "item": "Whether the 1987 740 rear door lift mechanism article matches a 1994 940 rear door",
+      "status": "unconfirmed; figures differ in motor position"
+    },
+    {
+      "item": "Trim clip part number 1342004-7",
+      "status": "seen only in tool summaries of the VOC FAQ, not verbatim; left out of the guide"
+    },
+    {
+      "item": "Direction the roll-up glass leaves a 940 rear door (up through the top vs down)",
+      "status": "not stated in the VOC FAQ; guide says to try the install tilt in reverse"
+    },
+    {
+      "item": "Scrapyard price for 940 rear door glass",
+      "status": "no published price; call the yard"
+    },
+    {
+      "item": "Community consensus on cheap DIY tint brands",
+      "status": "Reddit not reachable by the search tool; review sites only"
+    },
+    {
+      "item": "DIY tint film measurements for roll-down windows",
+      "status": "manufacturer instructions blocked (403); left out"
+    },
+    {
+      "item": "Whether a precut tint kit exists for the 940 sedan rear door",
+      "status": "not checked"
+    }
   ],
-
   "tool_findings": [
-    {"tool": "VIDA find_docs", "finding": "The model/year filter is approximate. For 940 it returns P2-era and C70 documents. Check each document's figures or cross-references before using it."},
-    {"tool": "VIDA find_docs", "finding": "model and year are required; there is no unfiltered title search."},
-    {"tool": "VIDA MCP over HTTP", "finding": "Calls need an MCP session: initialize, then send mcp-session-id on each request, or the server answers 400 'Missing session ID'."},
-    {"tool": "LEMON find", "finding": "Matches page titles only. The 1994 940 base sedan book has no body-glass titles; the engine-coded B230FD book has a Windows and Glass section with TSBs only."},
-    {"tool": "LEMON browse", "finding": "Intermediate folders such as .../Repair and Diagnosis/Body & Frame/ return 404; use find, or browse a path find returned."}
+    {
+      "tool": "VIDA find_docs",
+      "finding": "The model/year filter is approximate. For 940 it returns P2-era and C70 documents. Check each document's figures or cross-references before using it."
+    },
+    {
+      "tool": "VIDA find_docs",
+      "finding": "model and year are required; there is no unfiltered title search."
+    },
+    {
+      "tool": "VIDA MCP over HTTP",
+      "finding": "Calls need an MCP session: initialize, then send mcp-session-id on each request, or the server answers 400 'Missing session ID'."
+    },
+    {
+      "tool": "LEMON find",
+      "finding": "Matches page titles only. The 1994 940 base sedan book has no body-glass titles; the engine-coded B230FD book has a Windows and Glass section with TSBs only."
+    },
+    {
+      "tool": "LEMON browse",
+      "finding": "Intermediate folders such as .../Repair and Diagnosis/Body & Frame/ return 404; use find, or browse a path find returned."
+    }
   ],
-
   "faq_provenance": {
     "url": "https://www.volvoclub.org.uk/faq/FAQSummary1.html",
     "compiler": "Steve Ringlee, described on the summary page as 'NOT a consulting mechanic but only recording secretary'",
